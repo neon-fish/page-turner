@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>URL Store</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              lighter: "#008bb7",
+              DEFAULT: "#007ba7",
+              darker: "#006b87",
+            },
+          }
+        }
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @tailwind base;
+
+    @layer base {
+      h1 { @apply text-2xl font-semibold; }
+      h2 { @apply text-xl font-semibold; }
+      h3 { @apply text-lg font-semibold; }
+      a { @apply text-blue-600 underline; }
+
+      input, select, textarea { @apply px-2 border border-gray-400 rounded; }
+
+      button { @apply px-4 py-1 rounded bg-primary text-white; }
+      button:hover { @apply bg-primary-lighter; }
+      button:active { @apply bg-primary-darker; }
+    }
+
+    @tailwind components;
+
+    @tailwind utilities;
+    </style>
+</head>
+
+<body class="p-4">
+  <div id="app"></div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
