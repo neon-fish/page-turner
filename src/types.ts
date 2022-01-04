@@ -1,13 +1,13 @@
 
 export type PageType =
-  | "title"
-  | "text"
-  | "image"
-  | "video"
-  | "dialogue"
-  | "choice"
-  | "mainmenu"
-  | "settings"
+  | "title" // use image for formatting?
+  | "text" // text
+  | "image" // <- positioned image
+  | "video" // <- type of image?
+  | "dialogue" // text?
+  | "choice" // text with options?
+  | "mainmenu" // made out of choice page?
+  | "settings" // made out of choice page?
   ;
 
 export type PageImagePos =
@@ -16,8 +16,7 @@ export type PageImagePos =
   | "left"
   | "right"
   | "centre"
-  | "coords"
-  ;
+  | "coords";
 
 export interface ImageDef {
   url: string,
@@ -40,8 +39,7 @@ export interface AudioDef {
 
 export type PageAnimation =
   | "dissolve"
-  | "fade"
-  ;
+  | "fade";
 
 export type PageHook = () => PromiseLike<void | { redirect: string }>;
 
@@ -50,10 +48,10 @@ export interface Page {
 
   id?: string,
 
-  bgImage?: ImageDef,
-  otherImages?: ImageDef[],
+  // bgImage?: ImageDef,
+  images?: ImageDef[],
 
-  bgMusic?: AudioDef,
+  music?: AudioDef,
   soundStart?: AudioDef,
   soundEnd?: AudioDef,
 
