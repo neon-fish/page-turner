@@ -1,4 +1,4 @@
-import { Page } from "./types";
+import { Page } from "./engine/types";
 
 const pages: Page[] = [
   {

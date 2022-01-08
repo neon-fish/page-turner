@@ -1,14 +1,14 @@
 
-export type PageType =
-  | "title" // use image for formatting?
-  | "text" // text
-  | "image" // <- positioned image
-  | "video" // <- type of image?
-  | "dialogue" // text?
-  | "choice" // text with options?
-  | "mainmenu" // made out of choice page?
-  | "settings" // made out of choice page?
-  ;
+// export type PageType =
+//   | "title" // use image for formatting?
+//   | "text" // text
+//   | "image" // <- positioned image
+//   | "video" // <- type of image?
+//   | "dialogue" // text?
+//   | "choice" // text with options?
+//   | "mainmenu" // made out of choice page?
+//   | "settings" // made out of choice page?
+//   ;
 
 export type PageImagePos =
   | "bg"
@@ -44,7 +44,7 @@ export type PageAnimation =
 export type PageHook = () => PromiseLike<void | { redirect: string }>;
 
 export interface Page {
-  type: PageType,
+  // type: PageType,
 
   id?: string,
 
