@@ -34,9 +34,9 @@
 
       input, select, textarea { @apply px-2 border border-gray-400 rounded; }
 
-      button { @apply px-4 py-1 rounded bg-primary text-white; }
+      /* button { @apply px-4 py-1 rounded bg-primary text-white; }
       button:hover { @apply bg-primary-lighter; }
-      button:active { @apply bg-primary-darker; }
+      button:active { @apply bg-primary-darker; } */
     }
 
     @tailwind components;
@@ -46,7 +46,15 @@
 </head>
 
 <body class="p-4">
-  <div id="app"></div>
+
+  <div class="space-y-2">
+
+    <h1>Game!</h1>
+    <p>800 x 600 for now.</p>
+    <p>The meat stretches to fill the container.</p>
+    <div id="app" style="width: 800px; height: 600px;" class="border border-gray-400"></div>
+  </div>
+
   <script type="module" src="/src/index.ts"></script>
 </body>
 

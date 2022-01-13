@@ -10,6 +10,16 @@
 //   | "settings" // made out of choice page?
 //   ;
 
+export type PageContent =
+  | string
+  | (() => string | void)
+  | { [speaker: string]: string }
+  ;
+
+export type PageChoice = {
+  text: string | (() => string),
+};
+
 export type PageImagePos =
   | "bg"
   | "fg"
@@ -35,6 +45,8 @@ export interface AudioDef {
   volume?: number,
   /** Music is looped by default, sounds are not */
   loop?: boolean,
+  /**  */
+  mode?: "once" | "?",
 }
 
 export type PageAnimation =
@@ -43,10 +55,20 @@ export type PageAnimation =
 
 export type PageHook = () => PromiseLike<void | { redirect: string }>;
 
+export type NextPageDef =
+  | string
+  | Page
+  | (() => PromiseLike<string | Page>)
+  ;
+
 export interface Page {
   // type: PageType,
 
   id?: string,
+
+  content: PageContent[],
+
+  choices?: PageChoice[],
 
   // bgImage?: ImageDef,
   images?: ImageDef[],
@@ -62,12 +84,12 @@ export interface Page {
   hookEnd?: PageHook,
 
   /**
-   * The next page to display. Defined as:
+   * The next page to display. One of:
    * - the ID of the page
-   * - the page object itself
+   * - the next page object itself
    * - a function returning the page ID or object
-   * - `undefined` to advance to the next defined page
+   * - `undefined` to advance to the next defined page in the list
    */
-  nextPage: undefined | string | Page | (() => PromiseLike<string | Page>),
+  next?: NextPageDef,
 
 }

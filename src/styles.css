@@ -1,0 +1,15 @@
+
+.scroller {
+  scrollbar-color: #1470d8 #C2D2E4;
+}
+.scroller::-webkit-scrollbar {
+  width: 15px;
+  height: 15px;
+}
+.scroller::-webkit-scrollbar-track  {
+  background-color: #C2D2E4;
+}
+.scroller::-webkit-scrollbar-thumb {
+  height: 30px;
+  background-color: #1470d8;
+}
