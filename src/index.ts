@@ -1,7 +1,8 @@
+import { MCGE } from './engine/main';
 import './styles.css';
-import m from "mithril";
-import { Layout } from './engine/components/Layout';
 
-const app = document.querySelector<HTMLDivElement>('#app')!;
+// Entry point into the app from index.html
 
-m.mount(app, Layout);
+const game = new MCGE({
+  containerEl: "#app",
+});
