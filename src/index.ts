@@ -6,7 +6,7 @@ import './styles.css';
 
 const game = new MCGE({
   settings: {
-    containerEl: "#app",
+    containerEl: "#mcge",
   },
   pages: pages,
 });

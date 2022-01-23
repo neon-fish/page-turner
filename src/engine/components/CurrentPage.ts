@@ -28,9 +28,9 @@ export const CurrentPage: m.Component<{
   bgImage?: PageImageDef,
   next: () => any,
   selectChoice: (index: number) => any,
-}> = {
+}, {}> = {
 
-  oninit() {},
+  oninit() { },
 
   view({ attrs }) {
     const { page, contentLine } = attrs;
@@ -40,13 +40,14 @@ export const CurrentPage: m.Component<{
     const allContent = PageUtils.pageContent(page);
     const currContent = allContent[contentLine];
     const prevContent = allContent.slice(0, contentLine);
+    const contentFinished = prevContent.length === allContent.length;
 
     // console.log(`drawing page, curr content: ${currContent}`);
 
     return m(".h-full.w-full.relative", {
       id: "current-page",
       style: ``,
-      class: ``,
+      class: `noselect`,
       tabindex: 0,
       onclick: (ev: MouseEvent) => attrs.next(),
       onkeydown: (ev: KeyboardEvent) => {
@@ -79,14 +80,14 @@ export const CurrentPage: m.Component<{
           prevContent.map(c => {
             return m("p", c);
           }),
-          m(TypeText, {
+          currContent ? m(TypeText, {
             class: "block",
             text: currContent,
             delay: 0,
-          }),
+          }) : [],
         ]),
 
-        page.choices ? m(".p-4.flex.flex-col.space-y-4.overflow-y-auto.scroller", {
+        (page.choices && contentFinished) ? m(".p-4.flex.flex-col.space-y-4.overflow-y-auto.scroller", {
           id: "content-bottom",
           style: `height: 40%;`,
           class: `backdrop-blur-sm`,

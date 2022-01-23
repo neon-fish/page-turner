@@ -66,8 +66,8 @@ export class MCGE {
             bgImage: this.lastBgImage,
 
             next: async () => {
-              const didAdvance = this.advanceContent();
-              if (!didAdvance && Utils.isEmptyOrUndefined(this.currPage.choices)) {
+              const isFinished = this.advanceContent();
+              if (isFinished && Utils.isEmptyOrUndefined(this.currPage.choices)) {
                 await this.gotoPage(this.currPage.next);
               }
               m.redraw();
@@ -87,11 +87,10 @@ export class MCGE {
 
   advanceContent(): boolean {
     const prevIndex = this.contentIndex;
-    this.contentIndex = Math.min(this.contentIndex + 1, this.currPage.content.length - 1);
+    this.contentIndex = Math.min(this.contentIndex + 1, this.currPage.content.length);
 
-    // Return whether the content index advanced or not
-    const didAdvance = prevIndex !== this.contentIndex
-    return didAdvance;
+    // Return whether the content index has reached the end of the content list
+    return this.contentIndex === this.currPage.content.length;
   }
 
   async gotoPage(nextPage?: NextPageDef) {
