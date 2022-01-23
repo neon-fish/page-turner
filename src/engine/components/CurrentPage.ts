@@ -1,4 +1,7 @@
 import m from "mithril";
+import { PageUtils } from "../page-utils";
+import { Page, PageImageDef } from "../types";
+import { TypeText } from "./TypeText";
 
 const content: string[] = [
   "",
@@ -19,12 +22,36 @@ const cyberpunkStreet = "https://external-content.duckduckgo.com/iu/?u=https%3A%
 /**
  * The story page currently being displayed
  */
-export const CurrentPage: m.Component<{}> = {
-  view() {
+export const CurrentPage: m.Component<{
+  page: Page,
+  contentLine: number,
+  bgImage?: PageImageDef,
+  next: () => any,
+  selectChoice: (index: number) => any,
+}> = {
+
+  oninit() {},
+
+  view({ attrs }) {
+    const { page, contentLine } = attrs;
+
+    const bgImage = PageUtils.findBgImage(page) ?? attrs.bgImage;
+
+    const allContent = PageUtils.pageContent(page);
+    const currContent = allContent[contentLine];
+    const prevContent = allContent.slice(0, contentLine);
+
+    // console.log(`drawing page, curr content: ${currContent}`);
+
     return m(".h-full.w-full.relative", {
       id: "current-page",
       style: ``,
       class: ``,
+      tabindex: 0,
+      onclick: (ev: MouseEvent) => attrs.next(),
+      onkeydown: (ev: KeyboardEvent) => {
+        if (ev.code === "Space" || ev.code === "Enter") attrs.next();
+      },
     }, [
 
       // Images
@@ -32,10 +59,10 @@ export const CurrentPage: m.Component<{}> = {
         id: "page-images",
         style: `inset: 0px;`,
       }, [
-        m("img.w-full.h-full", {
+        bgImage ? m("img.w-full.h-full", {
           style: `object-fit: cover;`,
-          src: cyberpunkStreet,
-        }),
+          src: bgImage.url,
+        }) : [],
       ]),
 
       // Content
@@ -46,26 +73,40 @@ export const CurrentPage: m.Component<{}> = {
 
         m(".p-4", {
           id: "content-top",
+          class: `space-y-2 text-white`,
           style: `height: 60%;`,
-        }, []),
+        }, [
+          prevContent.map(c => {
+            return m("p", c);
+          }),
+          m(TypeText, {
+            class: "block",
+            text: currContent,
+            delay: 0,
+          }),
+        ]),
 
-        m(".p-4.flex.flex-col.space-y-4.overflow-y-auto.scroller", {
+        page.choices ? m(".p-4.flex.flex-col.space-y-4.overflow-y-auto.scroller", {
           id: "content-bottom",
           style: `height: 40%;`,
           class: `backdrop-blur-sm`,
         }, [
-          testChoices.map(c => {
+          (page.choices ?? []).map(c => {
+            const text = PageUtils.choiceText(c);
+
             return m("button.px-2.py-1.text-left.bg-white.border.rounded.shadow", {
               // class: `shadow-blue-300 hover:border-blue-300 hover:shadow-md hover:shadow-blue-300`,
               // class: `hover:ring hover:shadow-lg`,
               class: `hover:shadow-lg hover:shadow-blue-500 hover:border-blue-500`,
-              onclick: () => {}
-            }, c);
+              onclick: () => { },
+            }, text);
           }),
-        ]),
+        ]) : [],
 
       ]),
 
     ]);
+
   }
+
 };

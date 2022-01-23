@@ -12,12 +12,23 @@
 
 export type PageContent =
   | string
-  | (() => string | void)
+  | (() => string)
   | { [speaker: string]: string }
+  | { [speaker: string]: () => string }
   ;
 
+/**
+ * The definition of a choice
+ */
 export type PageChoice = {
+  /** The text to display in the choice */
   text: string | (() => string),
+  /** Call a hook on hovering over the choice */
+  onHover?: PageHook,
+  /** Call a hook after selecting the choice */
+  onSelect?: PageHook,
+  /** The choice can navigate directly to another page */
+  nextPage?: NextPageDef,
 };
 
 export type PageImagePos =
@@ -28,7 +39,7 @@ export type PageImagePos =
   | "centre"
   | "coords";
 
-export interface ImageDef {
+export interface PageImageDef {
   url: string,
   pos: PageImagePos,
   coords?: {
@@ -39,7 +50,7 @@ export interface ImageDef {
   },
 }
 
-export interface AudioDef {
+export interface PageAudioDef {
   url: string,
   /** Optional volume multiplier, 1 = no change, 0.5 = half volume */
   volume?: number,
@@ -49,12 +60,25 @@ export interface AudioDef {
   mode?: "once" | "?",
 }
 
+/**
+ * The built-in types of page animation
+ */
 export type PageAnimation =
   | "dissolve"
   | "fade";
 
+/**
+ * A function to be called at various points throughout the application,
+ * to execute arbitrary logic at particular times
+ */
 export type PageHook = () => PromiseLike<void | { redirect: string }>;
 
+/**
+ * A definition of the next page to display. One of:
+ * - The ID of the next Page as a string
+ * - The target page object itself
+ * - A function that resolves to either a page ID or a Page object
+ */
 export type NextPageDef =
   | string
   | Page
@@ -71,11 +95,11 @@ export interface Page {
   choices?: PageChoice[],
 
   // bgImage?: ImageDef,
-  images?: ImageDef[],
+  images?: PageImageDef[],
 
-  music?: AudioDef,
-  soundStart?: AudioDef,
-  soundEnd?: AudioDef,
+  music?: PageAudioDef,
+  soundStart?: PageAudioDef,
+  soundEnd?: PageAudioDef,
 
   animStart?: PageAnimation,
   animEnd?: PageAnimation,
