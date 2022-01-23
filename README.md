@@ -20,3 +20,11 @@ Requirements
 Install dependencies with `npm i`
 
 Run a hot-reloading dev server with `npm run dev`
+
+### TODO
+
+- [ ] Positioning content and choices
+- [ ] Styling choices
+- [ ] Selecting choices with keyboard
+- [ ] Playing music & sounds
+- [ ] Displaying images in other image slots
