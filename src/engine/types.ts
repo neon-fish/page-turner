@@ -75,14 +75,16 @@ export type PageHook = () => PromiseLike<void | { redirect: string }>;
 
 /**
  * A definition of the next page to display. One of:
+ * - The index of the page in the list of all pages
  * - The ID of the next Page as a string
  * - The target page object itself
- * - A function that resolves to either a page ID or a Page object
+ * - A function that returns one of the other types
  */
 export type NextPageDef =
+  | number
   | string
   | Page
-  | (() => PromiseLike<string | Page>)
+  | (() => number | string | Page)
   ;
 
 export interface Page {
@@ -90,11 +92,13 @@ export interface Page {
 
   id?: string,
 
+  /** The content to display in the page. The only required value. */
   content: PageContent[],
+  /** If all content should be drawn immediately on opening the page */
+  showAllContent?: boolean,
 
   choices?: PageChoice[],
 
-  // bgImage?: ImageDef,
   images?: PageImageDef[],
 
   music?: PageAudioDef,

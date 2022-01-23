@@ -1,5 +1,5 @@
 import m from "mithril";
-import { CurrentPage } from "./components/CurrentPage";
+import { CurrentPage, CURRENT_PAGE_ID } from "./components/CurrentPage";
 import { PageUtils } from "./page-utils";
 // import { Layout } from "./components/Layout";
 import { NextPageDef, Page, PageChoice, PageImageDef } from "./types";
@@ -8,12 +8,15 @@ import { Utils } from "./utils";
 export interface Settings {
   /** Element containing the game, as an element or selector */
   containerEl: string | HTMLElement,
+  startAt: NextPageDef,
   holdBgImage: boolean,
+  defaultBgImage?: string,
 }
 
 export const DEFAULT_SETTINGS: Settings = {
   containerEl: "#app",
   holdBgImage: true,
+  startAt: 0,
 };
 
 export class MCGE {
@@ -39,7 +42,8 @@ export class MCGE {
 
     this.pages = params.pages;
 
-    this.gotoPage(this.pages[0]);
+    this.currPageIndex = PageUtils.targetPageIndex(this.pages, this.settings.startAt);
+    this.gotoPage(this.currPageIndex);
 
     this.init();
   }
@@ -63,18 +67,19 @@ export class MCGE {
 
             page: this.currPage,
             contentLine: this.contentIndex,
-            bgImage: this.lastBgImage,
+            bgImage: this.lastBgImage ?? this.getDefaultBgImage(),
 
             next: async () => {
+              console.log("calling next()...");
               const isFinished = this.advanceContent();
               if (isFinished && Utils.isEmptyOrUndefined(this.currPage.choices)) {
-                await this.gotoPage(this.currPage.next);
+                this.gotoPage(this.currPage.next);
               }
               m.redraw();
             },
 
-            selectChoice: (index) => {
-              this.selectChoice(this.currPage, index);
+            selectChoice: (choice, index) => {
+              this.selectChoice(this.currPage, choice, index);
             },
 
           }),
@@ -93,9 +98,9 @@ export class MCGE {
     return this.contentIndex === this.currPage.content.length;
   }
 
-  async gotoPage(nextPage?: NextPageDef) {
+  gotoPage(nextPage?: NextPageDef) {
 
-    const targetIndex = await PageUtils.targetPageIndex(this.pages, nextPage);
+    const targetIndex = PageUtils.targetPageIndex(this.pages, nextPage);
 
     if (targetIndex > -1) {
       this.currPageIndex = targetIndex;
@@ -124,28 +129,44 @@ export class MCGE {
    * the new current page
    */
   initCurrPage() {
-    // Reset the
+
+    // Reset the index of the current line of content to display
     this.contentIndex = 0;
+    if (this.currPage.showAllContent) {
+      this.contentIndex = this.currPage.content.length;
+    }
 
     // If the background image should be held, update it if a new one is defined
     if (this.settings.holdBgImage) {
       const pageBgImage = PageUtils.findBgImage(this.currPage);
       if (pageBgImage) this.lastBgImage = pageBgImage;
     }
+
+    const pageEl = document.querySelector(`#${CURRENT_PAGE_ID}`) as HTMLElement | null;
+    if (pageEl) pageEl.focus();
   }
 
-  selectChoice(page: Page, index: number) {
-    const selected: PageChoice | undefined = (page.choices ?? [])[index];
+  selectChoice(page: Page, choice: PageChoice, index: number) {
 
-    if (!selected) {
+    if (!choice) {
       this.gotoPage();
       return;
     }
 
-    const r = selected.onSelect?.();
-    if (selected.nextPage) {
-      this.gotoPage(selected.nextPage);
+    const r = choice.onSelect?.();
+    if (choice.nextPage) {
+      this.gotoPage(choice.nextPage);
+    } else {
+      this.gotoNextPage();
     }
+
+  }
+
+  getDefaultBgImage(): PageImageDef | undefined {
+    const bgImageDef: PageImageDef | undefined = this.settings.defaultBgImage
+      ? { pos: "bg", url: this.settings.defaultBgImage }
+      : undefined;
+    return bgImageDef;
   }
 
 }

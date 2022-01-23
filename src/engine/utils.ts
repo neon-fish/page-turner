@@ -12,4 +12,8 @@ export class Utils {
     return false;
   }
 
+  static get id(): string {
+    return Math.random().toString();
+  }
+
 }

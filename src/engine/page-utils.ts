@@ -39,18 +39,22 @@ export class PageUtils {
    * @param nextPage The definition of the next page
    * @returns the index of the next page, or -1 if the target page was not found
    */
-  static async targetPageIndex(pages: Page[], nextPage?: NextPageDef): Promise<number> {
+  static targetPageIndex(pages: Page[], nextPage?: NextPageDef): number {
 
     if (!nextPage) return -1;
 
     const target = typeof nextPage === "function"
-      ? await nextPage()
+      ? nextPage()
       : nextPage;
     if (!target) return -1;
 
-    const targetIndex = typeof target === "string"
-      ? pages.findIndex(p => p.id === target)
-      : pages.findIndex(p => p.id === target.id);
+    const targetIndex = typeof target === "number"
+      ? target
+      : typeof target === "string"
+        ? pages.findIndex(p => p.id === target)
+        : typeof target === "object"
+          ? pages.findIndex(p => p.id === target.id)
+          : -1;
 
     return targetIndex;
   }

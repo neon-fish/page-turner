@@ -23,7 +23,7 @@ export const TypeText: m.Component<{
     m.redraw();
   },
 
-  onupdate({ attrs }) {
+  onupdate({ attrs, dom }) {
     if (this.index < this.currText.length) {
       this.index++;
 
@@ -34,6 +34,8 @@ export const TypeText: m.Component<{
         setTimeout(() => m.redraw(), delay);
       }
     }
+
+    // dom.scrollIntoView(false);
   },
 
   view({ attrs }) {

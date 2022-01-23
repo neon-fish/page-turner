@@ -1,23 +1,11 @@
 import m from "mithril";
 import { PageUtils } from "../page-utils";
-import { Page, PageImageDef } from "../types";
+import { Page, PageChoice, PageImageDef } from "../types";
 import { TypeText } from "./TypeText";
 
-const content: string[] = [
-  "",
-];
-
-const testChoices: string[] = [
-  "Choice 1",
-  "Choice 2",
-  "Choice 3",
-  "Choice 4",
-  "Choice 5",
-  "Choice 6",
-];
-
-const fantasyTree = `https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallup.net%2Fwp-content%2Fuploads%2F2018%2F09%2F29%2F666764-fantasy-landscape-art-artwork-nature-scenery.jpg&f=1&nofb=1`;
-const cyberpunkStreet = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F68%2Fb4%2F46%2F68b446bbbabb02b6d91630943582c610.png&f=1&nofb=1";
+export const CURRENT_PAGE_ID = "current-page";
+const CONTENT_PANEL_ID = "page-content";
+const CHOICES_PANEL_ID = "page-choices";
 
 /**
  * The story page currently being displayed
@@ -27,10 +15,18 @@ export const CurrentPage: m.Component<{
   contentLine: number,
   bgImage?: PageImageDef,
   next: () => any,
-  selectChoice: (index: number) => any,
+  selectChoice: (choice: PageChoice, index: number) => any,
 }, {}> = {
 
   oninit() { },
+
+  onupdate({ dom }) {
+    const contentPanel = dom.querySelector(`#${CONTENT_PANEL_ID}`);
+    // console.log(`Updated CurrentPage, scrolling panel: ${contentPanel}`);
+    if (contentPanel) {
+      contentPanel.scrollTop = contentPanel.scrollHeight;
+    }
+  },
 
   view({ attrs }) {
     const { page, contentLine } = attrs;
@@ -45,13 +41,19 @@ export const CurrentPage: m.Component<{
     // console.log(`drawing page, curr content: ${currContent}`);
 
     return m(".h-full.w-full.relative", {
-      id: "current-page",
+      id: CURRENT_PAGE_ID,
       style: ``,
       class: `noselect`,
       tabindex: 0,
-      onclick: (ev: MouseEvent) => attrs.next(),
+      onclick: (ev: MouseEvent) => {
+        const target = ev.target as HTMLElement;
+        if (target.tagName !== "BUTTON") attrs.next();
+      },
       onkeydown: (ev: KeyboardEvent) => {
-        if (ev.code === "Space" || ev.code === "Enter") attrs.next();
+        const target = ev.target as HTMLElement;
+        if (target.tagName !== "BUTTON") {
+          if (ev.code === "Space" || ev.code === "Enter") attrs.next();
+        }
       },
     }, [
 
@@ -68,14 +70,14 @@ export const CurrentPage: m.Component<{
 
       // Content
       m(".absolute", {
-        id: "page-content",
+        id: `page-content-choices`,
         style: `inset: 0px;`,
       }, [
 
-        m(".p-4", {
-          id: "content-top",
-          class: `space-y-2 text-white`,
-          style: `height: 60%;`,
+        m(".p-4.flex.flex-col.space-y-2.overflow-y-auto.scroller", {
+          id: CONTENT_PANEL_ID,
+          class: `text-white whitespace-pre-wrap`,
+          style: `height: 60%; text-shadow: black 0px 0px 2px;`,
         }, [
           prevContent.map(c => {
             return m("p", c);
@@ -87,22 +89,24 @@ export const CurrentPage: m.Component<{
           }) : [],
         ]),
 
-        (page.choices && contentFinished) ? m(".p-4.flex.flex-col.space-y-4.overflow-y-auto.scroller", {
-          id: "content-bottom",
-          style: `height: 40%;`,
-          class: `backdrop-blur-sm`,
-        }, [
-          (page.choices ?? []).map(c => {
-            const text = PageUtils.choiceText(c);
+        (page.choices && contentFinished)
+          ? m(".p-4.flex.flex-col.space-y-4.overflow-y-auto.scroller", {
+            id: CHOICES_PANEL_ID,
+            style: `height: 40%;`,
+            class: `backdrop-blur-sm`,
+          }, [
+            (page.choices ?? []).map((c, i) => {
+              const text = PageUtils.choiceText(c);
 
-            return m("button.px-2.py-1.text-left.bg-white.border.rounded.shadow", {
-              // class: `shadow-blue-300 hover:border-blue-300 hover:shadow-md hover:shadow-blue-300`,
-              // class: `hover:ring hover:shadow-lg`,
-              class: `hover:shadow-lg hover:shadow-blue-500 hover:border-blue-500`,
-              onclick: () => { },
-            }, text);
-          }),
-        ]) : [],
+              return m("button.px-2.py-1.text-left.bg-white.border.rounded.shadow", {
+                // class: `shadow-blue-300 hover:border-blue-300 hover:shadow-md hover:shadow-blue-300`,
+                // class: `hover:ring hover:shadow-lg`,
+                class: `hover:shadow-lg hover:shadow-blue-500 hover:border-blue-500`,
+                onclick: () => attrs.selectChoice(c, i),
+              }, text);
+            }),
+          ])
+          : [],
 
       ]),
 
