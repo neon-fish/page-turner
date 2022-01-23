@@ -11,6 +11,7 @@ export interface Settings {
   startAt: NextPageDef,
   holdBgImage: boolean,
   defaultBgImage?: string,
+  contentDelay?: number,
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -68,6 +69,7 @@ export class MCGE {
             page: this.currPage,
             contentLine: this.contentIndex,
             bgImage: this.lastBgImage ?? this.getDefaultBgImage(),
+            contentDelay: this.settings.contentDelay,
 
             next: async () => {
               console.log("calling next()...");

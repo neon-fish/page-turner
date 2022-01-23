@@ -1,6 +1,11 @@
 
 export class Utils {
 
+  /**
+   * Determines if a given value is undefined, null, or empty
+   * @param value 
+   * @returns 
+   */
   static isEmptyOrUndefined(value: any) {
 
     if (value === undefined) return true;
@@ -12,6 +17,7 @@ export class Utils {
     return false;
   }
 
+  /** Generates and returns a new random(ish) ID string */
   static get id(): string {
     return Math.random().toString();
   }

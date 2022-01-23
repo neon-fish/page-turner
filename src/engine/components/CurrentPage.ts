@@ -14,6 +14,7 @@ export const CurrentPage: m.Component<{
   page: Page,
   contentLine: number,
   bgImage?: PageImageDef,
+  contentDelay?: number,
   next: () => any,
   selectChoice: (choice: PageChoice, index: number) => any,
 }, {}> = {
@@ -85,7 +86,7 @@ export const CurrentPage: m.Component<{
           currContent ? m(TypeText, {
             class: "block",
             text: currContent,
-            delay: 0,
+            delay: attrs.contentDelay ?? 0,
           }) : [],
         ]),
 
