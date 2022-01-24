@@ -20,7 +20,7 @@ export const DEFAULT_SETTINGS: Settings = {
   startAt: 0,
 };
 
-export class MCGE {
+export class Macgyver {
 
   settings: Settings;
   pages: Page[] = [];
