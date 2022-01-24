@@ -1,4 +1,5 @@
 import m from "mithril";
+import { MacgyverAudio } from "./audio";
 import { CurrentPage, CURRENT_PAGE_ID } from "./components/CurrentPage";
 import { PageUtils } from "./page-utils";
 // import { Layout } from "./components/Layout";
@@ -32,6 +33,8 @@ export class Macgyver {
   private contentIndex: number = 0;
 
   lastBgImage?: PageImageDef;
+
+  audio = new MacgyverAudio();
 
   constructor(params: {
     settings: Partial<Settings>,
@@ -107,8 +110,8 @@ export class Macgyver {
     const targetIndex = PageUtils.targetPageIndex(this.pages, nextPage);
 
     if (targetIndex > -1) {
-      this.currPageIndex = targetIndex;
-      this.initCurrPage();
+      // this.currPageIndex = targetIndex;
+      this.initialisePageIndex(targetIndex);
       return;
     }
 
@@ -119,20 +122,24 @@ export class Macgyver {
    * Advance to the next page in the list
    */
   gotoNextPage() {
-    this.currPageIndex += 1;
+
+    let nextPageIndex = this.currPageIndex + 1;
 
     // Wrap around the page list in case the index falls off the end
-    if (this.currPageIndex >= this.pages.length) {
-      this.currPageIndex = 0;
+    if (nextPageIndex >= this.pages.length) {
+      nextPageIndex = 0;
     }
-    this.initCurrPage();
+
+    this.initialisePageIndex(nextPageIndex);
   }
 
   /**
    * Called after the new current page has been selected, this initialises
    * the new current page
    */
-  initCurrPage() {
+  private initialisePageIndex(index: number) {
+
+    this.currPageIndex = index;
 
     // Reset the index of the current line of content to display
     this.contentIndex = 0;
@@ -172,11 +179,5 @@ export class Macgyver {
       : undefined;
     return bgImageDef;
   }
-
-  startMusic() {}
-
-  stopMusic() {}
-
-  playAudio() {}
 
 }
