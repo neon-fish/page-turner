@@ -92,6 +92,8 @@ export class Macgyver {
     m.mount(appEl, Layout);
   }
 
+  // ========== Pages, content, and choices ==========
+
   advanceContent(): boolean {
     const prevIndex = this.contentIndex;
     this.contentIndex = Math.min(this.contentIndex + 1, this.currPage.content.length);
@@ -170,5 +172,11 @@ export class Macgyver {
       : undefined;
     return bgImageDef;
   }
+
+  startMusic() {}
+
+  stopMusic() {}
+
+  playAudio() {}
 
 }
