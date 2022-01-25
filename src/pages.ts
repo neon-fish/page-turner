@@ -64,6 +64,7 @@ export const pages: Page[] = [
       "18",
       "19",
       "20",
+      "This is some long loong looong loooong looooong loooooong looooooong loooooooong looooooooong loooooooooong looooooooooong loooooooooooong looooooooooooong loooooooooooooong text!",
       "That's the end!",
       "How does it look? Both options only continue to the next page!"
     ],
