@@ -1,6 +1,7 @@
 import m from "mithril";
 import { PageUtils } from "../page-utils";
 import { Page, PageChoice, PageImageDef } from "../types";
+import { PageImage } from "./PageImage";
 import { TypeText } from "./TypeText";
 
 export const CURRENT_PAGE_ID = "current-page";
@@ -67,6 +68,9 @@ export const CurrentPage: m.Component<{
           style: `object-fit: cover;`,
           src: bgImage.url,
         }) : [],
+        (page.images ?? []).map(imageDef => {
+          return m(PageImage, { imageDef });
+        }),
       ]),
 
       // Content

@@ -1,4 +1,4 @@
-import { cyberpunkStreetUrl } from "./assets";
+import { cyberpunk2077CharacterUrl, cyberpunkStreetUrl } from "./assets";
 import { Page } from "./engine/types";
 import { Utils } from "./engine/utils";
 
@@ -16,6 +16,8 @@ export const pages: Page[] = [
     id: PAGE.START,
     images: [
       { pos: "bg", url: cyberpunkStreetUrl },
+      { pos: "left", url: cyberpunk2077CharacterUrl },
+      { pos: "right", url: cyberpunk2077CharacterUrl, style: "transform: scalex(-1);", fit: "cover" },
     ],
     content: [
       "Hello there!",

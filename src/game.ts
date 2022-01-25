@@ -9,7 +9,7 @@ const game = new Macgyver({
   settings: {
     containerEl: "#mcge",
     defaultBgImage: cyberpunkStreetUrl,
-    startAt: PAGE.WRAP,
+    // startAt: PAGE.WRAP,
     // contentDelay: 30,
   },
   pages: pages,

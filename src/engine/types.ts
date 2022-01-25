@@ -37,17 +37,17 @@ export type PageImagePos =
   | "left"
   | "right"
   | "centre"
-  | "coords";
+  | "custom";
 
 export interface PageImageDef {
   url: string,
   pos: PageImagePos,
-  coords?: {
-    l: number,
-    t: number,
-    w: number,
-    h: number,
-  },
+  /** Optionally override the default value for the `object-fit` style on the `<img>` tag */
+  fit?: "contain" | "cover" | "fill" | "none",
+  /** Optional CSS styles to apply to the `<img>` element */
+  style?: string,
+  // /** Optional additional  */
+  // class?: string,
 }
 
 export interface PageAudioDef {
