@@ -2,28 +2,28 @@ import m from "mithril";
 import { McgeAudio } from "./audio";
 import { CurrentPage, CURRENT_PAGE_ID } from "./components/CurrentPage";
 import { PageUtils } from "./page-utils";
-// import { Layout } from "./components/Layout";
-import { NextPageDef, Page, PageChoice, PageImageDef } from "./types";
+import { DeepPartial, GameSettings, NextPageDef, Page, PageChoice, PageImageDef } from "./types";
 import { Utils } from "./utils";
 
-export interface Settings {
-  /** Element containing the game, as an element or selector */
-  containerEl: string | HTMLElement,
-  startAt: NextPageDef,
-  holdBgImage: boolean,
-  defaultBgImage?: string,
-  contentDelay?: number,
-}
-
-export const DEFAULT_SETTINGS: Settings = {
+export const DEFAULT_SETTINGS: GameSettings = {
   containerEl: "#app",
   holdBgImage: true,
   startAt: 0,
+  contentPanel: {
+    top: "0%",
+    height: "60%",
+    blur: false,
+  },
+  choicesPanel: {
+    top: "60%",
+    height: "40%",
+    blur: true,
+  },
 };
 
 export class MCGE {
 
-  settings: Settings;
+  settings: GameSettings;
   pages: Page[] = [];
 
   private currPageIndex: number = 0;
@@ -37,7 +37,7 @@ export class MCGE {
   audio = new McgeAudio();
 
   constructor(params: {
-    settings: Partial<Settings>,
+    settings: DeepPartial<GameSettings>,
     pages: Page[],
   }) {
 
@@ -69,10 +69,10 @@ export class MCGE {
         }, [
           m(CurrentPage, {
 
+            settings: this.settings,
             page: this.currPage,
             contentLine: this.contentIndex,
             bgImage: this.lastBgImage ?? this.getDefaultBgImage(),
-            contentDelay: this.settings.contentDelay,
 
             next: async () => {
               console.log("calling next()...");

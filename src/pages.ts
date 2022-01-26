@@ -25,6 +25,10 @@ export const pages: Page[] = [
       "This is a much longer piece of text to test how the content text is drawn in. After this is just filler. Text text text text text text text text text text text text text text text text text text.",
       "To the next page!",
     ],
+    contentPanel: {
+      height: "40%",
+      top: "60%",
+    }
   },
   {
     content: [
@@ -40,6 +44,8 @@ export const pages: Page[] = [
       { text: "Choice 5" },
       { text: "Choice 6" },
     ],
+    contentPanel: { height: "40%", top: "0" },
+    choicesPanel: { top: "40%", height: "40%" },
   },
   {
     id: PAGE.TALL,

@@ -1,4 +1,25 @@
 
+export type DeepPartial<T> = T extends object ? {
+  [P in keyof T]?: DeepPartial<T[P]>;
+} : T;
+
+export interface PanelSettings {
+  top: string,
+  height: string,
+  blur: boolean,
+}
+
+export interface GameSettings {
+  /** Element containing the game, as an element or selector */
+  containerEl: string | HTMLElement,
+  startAt: NextPageDef,
+  holdBgImage: boolean,
+  contentPanel: PanelSettings,
+  choicesPanel: PanelSettings,
+  defaultBgImage?: string,
+  contentDelay?: number,
+}
+
 // export type PageType =
 //   | "title" // use image for formatting?
 //   | "text" // text
@@ -107,6 +128,11 @@ export interface Page {
 
   animStart?: PageAnimation,
   animEnd?: PageAnimation,
+
+  /** Optionally override the default settings for the content panel */
+  contentPanel?: Partial<PanelSettings>,
+  /** Optionally override the default settings for the choices panel */
+  choicesPanel?: Partial<PanelSettings>,
 
   hookStart?: PageHook,
   hookEnd?: PageHook,

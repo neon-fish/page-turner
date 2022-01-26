@@ -1,6 +1,6 @@
 import m from "mithril";
 import { PageUtils } from "../page-utils";
-import { Page, PageChoice, PageImageDef } from "../types";
+import { GameSettings, Page, PageChoice, PageImageDef, PanelSettings } from "../types";
 import { PageImage } from "./PageImage";
 import { TypeText } from "./TypeText";
 
@@ -12,10 +12,10 @@ const CHOICES_PANEL_ID = "page-choices";
  * The story page currently being displayed
  */
 export const CurrentPage: m.Component<{
+  settings: GameSettings,
   page: Page,
   contentLine: number,
   bgImage?: PageImageDef,
-  contentDelay?: number,
   next: () => any,
   selectChoice: (choice: PageChoice, index: number) => any,
 }, {
@@ -37,7 +37,7 @@ export const CurrentPage: m.Component<{
   },
 
   view({ attrs }) {
-    const { page, contentLine } = attrs;
+    const { settings, page, contentLine } = attrs;
 
     // If the page has changed, reset state
     if (this.lastPage !== page) {
@@ -51,6 +51,9 @@ export const CurrentPage: m.Component<{
     const currContent = allContent[contentLine];
     const prevContent = allContent.slice(0, contentLine);
     const contentFinished = prevContent.length === allContent.length;
+
+    const contentSettings: PanelSettings = Object.assign({}, settings.contentPanel, page.contentPanel ?? {});
+    const choicesSettings: PanelSettings = Object.assign({}, settings.choicesPanel, page.choicesPanel ?? {});
 
     // console.log(`drawing page, curr content: ${currContent}`);
 
@@ -102,16 +105,18 @@ export const CurrentPage: m.Component<{
         }),
       ]),
 
-      // Content
+      // Content & Choices
       m(".absolute", {
         id: `page-content-choices`,
         style: `inset: 0px;`,
       }, [
 
-        m(".p-4.flex.flex-col.space-y-2.overflow-y-auto.scroller", {
+        // Content panel
+        m(".p-4.absolute.flex.flex-col.space-y-2.overflow-y-auto.scroller", {
           id: CONTENT_PANEL_ID,
-          class: `text-white whitespace-pre-wrap`,
-          style: `height: 60%; text-shadow: black 0px 0px 2px;`,
+          class: `text-white whitespace-pre-wrap ${contentSettings.blur ? "backdrop-blur-sm" : ""}`,
+          style: `top: ${contentSettings.top}; height: ${contentSettings.height}; left: 0; right: 0;
+            text-shadow: black 0px 0px 4px, black 0px 0px 4px;`,
         }, [
           prevContent.map(c => {
             return m("p", c);
@@ -119,15 +124,16 @@ export const CurrentPage: m.Component<{
           currContent ? m(TypeText, {
             class: "block",
             text: currContent,
-            delay: attrs.contentDelay ?? 0,
+            delay: settings.contentDelay ?? 0,
           }) : [],
         ]),
 
+        // Choices panel
         (page.choices && contentFinished)
-          ? m(".p-4.flex.flex-col.space-y-4.overflow-y-auto.scroller", {
+          ? m(".p-4.absolute.flex.flex-col.space-y-4.overflow-y-auto.scroller", {
             id: CHOICES_PANEL_ID,
-            style: `height: 40%;`,
-            class: `backdrop-blur-sm`,
+            style: `top: ${choicesSettings.top}; height: ${choicesSettings.height}; left: 0; right: 0;`,
+            class: `${choicesSettings.blur ? "backdrop-blur-sm" : ""}`,
           }, [
             (page.choices ?? []).map((c, i) => {
               const text = PageUtils.choiceText(c);

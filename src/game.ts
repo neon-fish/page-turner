@@ -11,6 +11,10 @@ const game = new MCGE({
     defaultBgImage: cyberpunkStreetUrl,
     // startAt: PAGE.WRAP,
     // contentDelay: 30,
+    contentPanel: {
+      // height: "40%",
+      // top: "10%",
+    },
   },
   pages: pages,
 });
