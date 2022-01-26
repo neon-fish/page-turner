@@ -1,4 +1,4 @@
-import { cyberpunk2077CharacterUrl, cyberpunkStreetUrl } from "./assets";
+import { AUDIO_URL, cyberpunk2077CharacterUrl, cyberpunkStreetUrl } from "./assets";
 import { Page } from "./engine/types";
 import { Utils } from "./engine/utils";
 
@@ -19,6 +19,7 @@ export const pages: Page[] = [
       { pos: "left", url: cyberpunk2077CharacterUrl },
       { pos: "right", url: cyberpunk2077CharacterUrl, style: "transform: scalex(-1);", fit: "cover" },
     ],
+    music: { url: AUDIO_URL.electronicPunch, volume: 0.2 },
     content: [
       "Hello there!",
       "Well howdy!",
@@ -28,7 +29,7 @@ export const pages: Page[] = [
     contentPanel: {
       height: "40%",
       top: "60%",
-    }
+    },
   },
   {
     content: [

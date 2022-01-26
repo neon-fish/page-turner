@@ -111,7 +111,7 @@ export class MCGE {
 
     if (targetIndex > -1) {
       // this.currPageIndex = targetIndex;
-      this.initialisePageIndex(targetIndex);
+      this.initialiseNewPage(targetIndex);
       return;
     }
 
@@ -130,14 +130,14 @@ export class MCGE {
       nextPageIndex = 0;
     }
 
-    this.initialisePageIndex(nextPageIndex);
+    this.initialiseNewPage(nextPageIndex);
   }
 
   /**
    * Called after the new current page has been selected, this initialises
    * the new current page
    */
-  private initialisePageIndex(index: number) {
+  private initialiseNewPage(index: number) {
 
     this.currPageIndex = index;
 
@@ -151,6 +151,11 @@ export class MCGE {
     if (this.settings.holdBgImage) {
       const pageBgImage = PageUtils.findBgImage(this.currPage);
       if (pageBgImage) this.lastBgImage = pageBgImage;
+    }
+
+    // If the page specifies music, start it if it is not already playing
+    if (this.currPage.music) {
+      this.audio.replaceMusic(this.currPage.music);
     }
 
     const pageEl = document.querySelector(`#${CURRENT_PAGE_ID}`) as HTMLElement | null;

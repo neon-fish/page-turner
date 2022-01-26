@@ -4,15 +4,22 @@ export class McgeAudio {
 
   private playing: HTMLAudioElement[] = [];
 
-  constructor() {}
+  constructor() { }
 
   startMusic(audioDef: PageAudioDef) {
     const audio = new Audio(audioDef.url);
-    if (audioDef.volume!== undefined) {
+    if (audioDef.volume !== undefined) {
       audio.volume = audioDef.volume;
     }
+    audio.loop = true;
     audio.play();
     this.playing.push(audio);
+  }
+
+  replaceMusic(audioDef: PageAudioDef) {
+    if (this.isMusicPlaying(audioDef)) return;
+    this.stopAllMusic();
+    this.startMusic(audioDef);
   }
 
   stopAllMusic() {
@@ -26,7 +33,7 @@ export class McgeAudio {
 
   stopMusic(toStop: number | string | PageAudioDef) {
 
-    for (let i = this.playing.length - 1; i >= 0 ; i--) {
+    for (let i = this.playing.length - 1; i >= 0; i--) {
       const p = this.playing[i];
 
       const stop = (typeof toStop === "number" && i === toStop) ||
@@ -42,9 +49,14 @@ export class McgeAudio {
 
   }
 
+  isMusicPlaying(audioDef: PageAudioDef): boolean {
+    const found = this.playing.find(p => p.src === audioDef.url);
+    return found !== undefined;
+  }
+
   playAudio(audioDef: PageAudioDef) {
     const audio = new Audio(audioDef.url);
-    if (audioDef.volume!== undefined) {
+    if (audioDef.volume !== undefined) {
       audio.volume = audioDef.volume;
     }
     audio.play();

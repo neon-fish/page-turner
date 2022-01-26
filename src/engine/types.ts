@@ -75,10 +75,10 @@ export interface PageAudioDef {
   url: string,
   /** Optional volume multiplier, 1 = no change, 0.5 = half volume */
   volume?: number,
-  /** Music is looped by default, sounds are not */
-  loop?: boolean,
-  /**  */
-  mode?: "once" | "?",
+  // /** Music is looped by default, sounds are not */
+  // loop?: boolean,
+  // /**  */
+  // mode?: "once" | "?",
 }
 
 /**

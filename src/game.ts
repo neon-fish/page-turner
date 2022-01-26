@@ -12,8 +12,8 @@ const game = new MCGE({
     // startAt: PAGE.WRAP,
     // contentDelay: 30,
     contentPanel: {
-      // height: "40%",
-      // top: "10%",
+      height: "40%",
+      top: "10%",
     },
   },
   pages: pages,
