@@ -1,11 +1,11 @@
 import { cyberpunkStreetUrl } from './assets';
-import { Macgyver } from './engine/macgyver';
+import { MCGE } from './engine/mcge';
 import { PAGE, pages } from './pages';
 import './engine/styles.css';
 
 // Entry point into the app from index.html
 
-const game = new Macgyver({
+const game = new MCGE({
   settings: {
     containerEl: "#mcge",
     defaultBgImage: cyberpunkStreetUrl,

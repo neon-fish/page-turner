@@ -1,6 +1,6 @@
 import { PageAudioDef } from "./types";
 
-export class MacgyverAudio {
+export class McgeAudio {
 
   private playing: HTMLAudioElement[] = [];
 

@@ -1,5 +1,5 @@
 import m from "mithril";
-import { MacgyverAudio } from "./audio";
+import { McgeAudio } from "./audio";
 import { CurrentPage, CURRENT_PAGE_ID } from "./components/CurrentPage";
 import { PageUtils } from "./page-utils";
 // import { Layout } from "./components/Layout";
@@ -21,7 +21,7 @@ export const DEFAULT_SETTINGS: Settings = {
   startAt: 0,
 };
 
-export class Macgyver {
+export class MCGE {
 
   settings: Settings;
   pages: Page[] = [];
@@ -34,7 +34,7 @@ export class Macgyver {
 
   lastBgImage?: PageImageDef;
 
-  audio = new MacgyverAudio();
+  audio = new McgeAudio();
 
   constructor(params: {
     settings: Partial<Settings>,

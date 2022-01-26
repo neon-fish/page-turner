@@ -18,9 +18,15 @@ export const CurrentPage: m.Component<{
   contentDelay?: number,
   next: () => any,
   selectChoice: (choice: PageChoice, index: number) => any,
-}, {}> = {
+}, {
+  lastPage: Page | undefined,
+  highlightChoiceIndex: number | undefined,
+}> = {
 
-  oninit() { },
+  oninit() {
+    this.lastPage = undefined;
+    this.highlightChoiceIndex = undefined;
+  },
 
   onupdate({ dom }) {
     const contentPanel = dom.querySelector(`#${CONTENT_PANEL_ID}`);
@@ -32,6 +38,12 @@ export const CurrentPage: m.Component<{
 
   view({ attrs }) {
     const { page, contentLine } = attrs;
+
+    // If the page has changed, reset state
+    if (this.lastPage !== page) {
+      this.lastPage = page;
+      this.highlightChoiceIndex = undefined;
+    }
 
     const bgImage = PageUtils.findBgImage(page) ?? attrs.bgImage;
 
@@ -53,8 +65,25 @@ export const CurrentPage: m.Component<{
       },
       onkeydown: (ev: KeyboardEvent) => {
         const target = ev.target as HTMLElement;
+        const hasChoices = page.choices && page.choices.length > 0;
+
+        // Advance page with Space or Enter
         if (target.tagName !== "BUTTON") {
           if (ev.code === "Space" || ev.code === "Enter") attrs.next();
+        }
+
+        // Move highlighted choice with arrow keys
+        if (hasChoices && ev.code === "ArrowDown") {
+          this.highlightChoiceIndex = Math.min(this.highlightChoiceIndex !== undefined ? this.highlightChoiceIndex + 1 : 0, page.choices!.length - 1);
+        }
+        if (hasChoices && ev.code === "ArrowUp") {
+          this.highlightChoiceIndex = Math.max(this.highlightChoiceIndex !== undefined ? this.highlightChoiceIndex - 1 : 0, 0);
+        }
+
+        // Choose the highlighted choice with Enter
+        if (ev.code === "Enter" && this.highlightChoiceIndex !== undefined) {
+          const selected = page.choices?.[this.highlightChoiceIndex];
+          if (selected) attrs.selectChoice(selected, this.highlightChoiceIndex);
         }
       },
     }, [
@@ -102,11 +131,13 @@ export const CurrentPage: m.Component<{
           }, [
             (page.choices ?? []).map((c, i) => {
               const text = PageUtils.choiceText(c);
+              const isHighlighted = this.highlightChoiceIndex === i;
 
               return m("button.px-2.py-1.text-left.bg-white.border.rounded.shadow", {
                 // class: `shadow-blue-300 hover:border-blue-300 hover:shadow-md hover:shadow-blue-300`,
                 // class: `hover:ring hover:shadow-lg`,
-                class: `hover:shadow-lg hover:shadow-blue-500 hover:border-blue-500`,
+                class: `hover:shadow-lg hover:shadow-blue-500 hover:border-blue-500 ${isHighlighted ? "shadow-lg shadow-blue-500 border-blue-500" : ""}`,
+                onmouseover: (ev: MouseEvent) => this.highlightChoiceIndex = i,
                 onclick: () => attrs.selectChoice(c, i),
               }, text);
             }),

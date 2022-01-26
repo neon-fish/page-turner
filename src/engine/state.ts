@@ -1,7 +1,7 @@
 
 const DEFAULT_LOCAL_STORAGE_KEY = "mcge-state";
 
-export class MacgyverState<GameState extends object = {}> {
+export class McgeState<GameState extends object = {}> {
 
   private _engine = {};
 
