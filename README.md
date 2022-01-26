@@ -28,5 +28,5 @@ Run a hot-reloading dev server with `npm run dev`
 - [x] Positioning content and choices
 - [x] Playing music
 - [x] Playing sounds
+- [x] Add options for blurring the background of the content panel
 - [ ] Styling choices
-- [ ] Add options for blurring the background of the content panel
