@@ -12,4 +12,5 @@ export const AUDIO_URL = {
   electronicPunch: "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/HBkoCjiJNjpi3pnnv/audioblocks-electronica-punch_BguaMHqnr_NWM.mp3",
   darkSynthRetrowave: "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/HBkoCjiJNjpi3pnnv/audioblocks-dark-synth-retrowave-retrowave_rutUhN9hr_NWM.mp3",
   synthwaveRetroElectroCyberpunk: "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/HBkoCjiJNjpi3pnnv/audioblocks-synthwave-retro-electro-cyberpunk_SfytIHqhH_NWM.mp3",
+  maleYeah: "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/BsTwCwBHBjzwub4i4/audioblocks-male-say-male-say-yeah-2_SFN-5XMIAwL_NWM.mp3",
 };

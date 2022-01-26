@@ -32,6 +32,7 @@ export const pages: Page[] = [
     },
   },
   {
+    soundStart: { url: AUDIO_URL.maleYeah, volume: 0.5 },
     content: [
       "Another page!",
       "This page has choices.",
