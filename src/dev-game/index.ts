@@ -1,6 +1,6 @@
+import { MCGE } from '../engine/mcge';
+import '../engine/styles.css';
 import { IMAGE_URL } from './assets';
-import { MCGE } from './engine/mcge';
-import './engine/styles.css';
 import { pages } from './pages';
 
 // Entry point into the app from index.html

@@ -1,6 +1,6 @@
 import { AUDIO_URL, IMAGE_URL } from "./assets";
-import { Page } from "./engine/types";
-import { Utils } from "./engine/utils";
+import { Page } from "../engine/types";
+import { Utils } from "../engine/utils";
 
 // Definition of the game pages
 
