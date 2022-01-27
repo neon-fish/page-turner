@@ -1,8 +1,9 @@
 import m from "mithril";
 import { PageUtils } from "../page-utils";
-import { GameSettings, Page, PageChoice, PageImageDef, PanelSettings } from "../types";
+import { ChoicesSettings, ContentSettings, GameSettings, Page, PageChoice, PageImageDef } from "../types/types";
 import { PageImage } from "./PageImage";
 import { TypeText } from "./TypeText";
+import { TypeWord } from "./TypeWord";
 
 export const CURRENT_PAGE_ID = "current-page";
 const CONTENT_PANEL_ID = "page-content";
@@ -52,8 +53,8 @@ export const CurrentPage: m.Component<{
     const prevContent = allContent.slice(0, contentLine);
     const contentFinished = prevContent.length === allContent.length;
 
-    const contentSettings: PanelSettings = Object.assign({}, settings.contentPanel, page.contentPanel ?? {});
-    const choicesSettings: PanelSettings = Object.assign({}, settings.choicesPanel, page.choicesPanel ?? {});
+    const contentSettings: ContentSettings = Object.assign({}, settings.content, page.contentSettings ?? {});
+    const choicesSettings: ChoicesSettings = Object.assign({}, settings.choices, page.choicesSettings ?? {});
 
     // console.log(`drawing page, curr content: ${currContent}`);
 
@@ -121,11 +122,21 @@ export const CurrentPage: m.Component<{
           prevContent.map(c => {
             return m("p", c);
           }),
-          currContent ? m(TypeText, {
-            class: "block",
-            text: currContent,
-            delay: settings.contentDelay ?? 0,
-          }) : [],
+          currContent
+            ? (contentSettings.fast
+              ? m(TypeWord, {
+                class: "block",
+                text: currContent,
+                delay: settings.content.delay,
+                showAll: settings.content.instant,
+              })
+              : m(TypeText, {
+                class: "block",
+                text: currContent,
+                delay: settings.content.delay,
+                showAll: settings.content.instant,
+              })
+            ) : [],
         ]),
 
         // Choices panel

@@ -1,6 +1,6 @@
 import m from "mithril";
 
-export const TypeText: m.Component<{
+export const TypeWord: m.Component<{
   text: string,
   delay: number,
   showAll: boolean,
@@ -9,12 +9,16 @@ export const TypeText: m.Component<{
   class?: string,
 }, {
   currText: string,
+  currWords: string[],
   index: number,
+  // displayingText: string;
 }> = {
 
   oninit() {
     this.currText = "";
+    this.currWords = [],
     this.index = 0;
+    // this.displayingText = "";
   },
 
   oncreate() {
@@ -23,7 +27,7 @@ export const TypeText: m.Component<{
   },
 
   onupdate({ attrs, dom }) {
-    if (this.index < this.currText.length) {
+    if (this.index < this.currWords.length) {
       this.index++;
 
       const delay = attrs.delay;
@@ -44,15 +48,17 @@ export const TypeText: m.Component<{
     if (text !== this.currText) {
       this.index = 0;
       this.currText = text;
+      this.currWords = this.currText.split(" ");
+      // this.displayingText = "";
       if (attrs.showAll) {
-        this.index = this.currText.length;
+        this.index = this.currWords.length;
       }
     }
 
     return m("span", {
       style: `${attrs.style ?? ""}`,
       class: `${attrs.class ?? ""}`,
-    }, text.slice(0, this.index));
+    }, this.currWords.slice(0, this.index).join(" "));
   }
 
 };

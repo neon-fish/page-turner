@@ -2,22 +2,28 @@ import m from "mithril";
 import { McgeAudio } from "./audio";
 import { CurrentPage, CURRENT_PAGE_ID } from "./components/CurrentPage";
 import { PageUtils } from "./page-utils";
-import { DeepPartial, GameSettings, NextPageDef, Page, PageChoice, PageImageDef } from "./types";
+import { DeepPartial } from "./types/deep-partial";
+import { GameSettings, NextPageDef, Page, PageChoice, PageImageDef } from "./types/types";
 import { Utils } from "./utils";
 
 export const DEFAULT_SETTINGS: GameSettings = {
   containerEl: "#app",
-  holdBgImage: true,
   startAt: 0,
-  contentPanel: {
+  content: {
     top: "0%",
     height: "60%",
     blur: false,
+    delay: 0,
+    fast: false,
+    instant: false,
   },
-  choicesPanel: {
+  choices: {
     top: "60%",
     height: "40%",
     blur: true,
+  },
+  images: {
+    holdBgImage: true,
   },
 };
 
@@ -153,7 +159,7 @@ export class MCGE {
     }
 
     // If the background image should be held, update it if a new one is defined
-    if (this.settings.holdBgImage) {
+    if (this.settings.images.holdBgImage) {
       const pageBgImage = PageUtils.findBgImage(this.currPage);
       if (pageBgImage) this.lastBgImage = pageBgImage;
     }
@@ -188,8 +194,8 @@ export class MCGE {
   }
 
   getDefaultBgImage(): PageImageDef | undefined {
-    const bgImageDef: PageImageDef | undefined = this.settings.defaultBgImage
-      ? { pos: "bg", url: this.settings.defaultBgImage }
+    const bgImageDef: PageImageDef | undefined = this.settings.images.defaultBgImage
+      ? { pos: "bg", url: this.settings.images.defaultBgImage }
       : undefined;
     return bgImageDef;
   }

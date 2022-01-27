@@ -1,9 +1,14 @@
 
-export type DeepPartial<T> = T extends object ? {
-  [P in keyof T]?: DeepPartial<T[P]>;
-} : T;
+export interface ContentSettings {
+  top: string,
+  height: string,
+  blur: boolean,
+  delay: number,
+  fast: boolean,
+  instant: boolean,
+}
 
-export interface PanelSettings {
+export interface ChoicesSettings {
   top: string,
   height: string,
   blur: boolean,
@@ -12,12 +17,14 @@ export interface PanelSettings {
 export interface GameSettings {
   /** Element containing the game, as an element or selector */
   containerEl: string | HTMLElement,
+  /** The page to start the game at */
   startAt: NextPageDef,
-  holdBgImage: boolean,
-  contentPanel: PanelSettings,
-  choicesPanel: PanelSettings,
-  defaultBgImage?: string,
-  contentDelay?: number,
+  content: ContentSettings,
+  choices: ChoicesSettings,
+  images: {
+    holdBgImage: boolean,
+    defaultBgImage?: string,
+  },
 }
 
 // export type PageType =
@@ -115,8 +122,11 @@ export interface Page {
 
   /** The content to display in the page. The only required value. */
   content: PageContent[],
+  /** Optionally override the game settings for the content panel for this page */
+  contentSettings?: Partial<ContentSettings>,
   /** If all content should be drawn immediately on opening the page */
   showAllContent?: boolean,
+
 
   choices?: PageChoice[],
 
@@ -129,10 +139,8 @@ export interface Page {
   animStart?: PageAnimation,
   animEnd?: PageAnimation,
 
-  /** Optionally override the default settings for the content panel */
-  contentPanel?: Partial<PanelSettings>,
   /** Optionally override the default settings for the choices panel */
-  choicesPanel?: Partial<PanelSettings>,
+  choicesSettings?: Partial<ChoicesSettings>,
 
   hookStart?: PageHook,
   hookEnd?: PageHook,
