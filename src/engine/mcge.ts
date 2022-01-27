@@ -2,8 +2,7 @@ import m from "mithril";
 import { McgeAudio } from "./audio";
 import { CurrentPage, CURRENT_PAGE_ID } from "./components/CurrentPage";
 import { PageUtils } from "./page-utils";
-import { DeepPartial } from "./types/deep-partial";
-import { GameSettings, NextPageDef, Page, PageChoice, PageImageDef } from "./types/types";
+import { DeepPartial, GameSettings, NextPageDef, Page, PageChoice, PageImageDef } from "./types";
 import { Utils } from "./utils";
 
 export const DEFAULT_SETTINGS: GameSettings = {

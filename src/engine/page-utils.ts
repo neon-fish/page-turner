@@ -1,4 +1,4 @@
-import { NextPageDef, Page, PageChoice, PageImageDef } from "./types/types";
+import { NextPageDef, Page, PageChoice, PageImageDef } from "./types";
 
 export class PageUtils {
 

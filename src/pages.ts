@@ -1,5 +1,5 @@
-import { AUDIO_URL, cyberpunk2077CharacterUrl, cyberpunkStreetUrl } from "./assets";
-import { Page } from "./engine/types/types";
+import { AUDIO_URL, IMAGE_URL } from "./assets";
+import { Page } from "./engine/types";
 import { Utils } from "./engine/utils";
 
 // Definition of the game pages
@@ -15,9 +15,9 @@ export const pages: Page[] = [
   {
     id: PAGE.START,
     images: [
-      { pos: "bg", url: cyberpunkStreetUrl },
-      { pos: "left", url: cyberpunk2077CharacterUrl },
-      { pos: "right", url: cyberpunk2077CharacterUrl, style: "transform: scalex(-1);", fit: "cover" },
+      { pos: "bg", url: IMAGE_URL.cyberpunkStreet },
+      { pos: "left", url: IMAGE_URL.cyberpunk2077Character },
+      { pos: "right", url: IMAGE_URL.cyberpunk2077Character, style: "transform: scalex(-1);", fit: "cover" },
     ],
     // music: {
     //   url: AUDIO_URL.electronicPunch,

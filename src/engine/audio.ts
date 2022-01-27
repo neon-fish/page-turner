@@ -1,4 +1,4 @@
-import { PageAudioDef } from "./types/types";
+import { PageAudioDef } from "./types";
 
 export class McgeAudio {
 

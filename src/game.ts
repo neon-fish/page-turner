@@ -1,4 +1,4 @@
-import { cyberpunkStreetUrl } from './assets';
+import { IMAGE_URL } from './assets';
 import { MCGE } from './engine/mcge';
 import './engine/styles.css';
 import { pages } from './pages';
@@ -16,7 +16,7 @@ const game = new MCGE({
       // instant: true,
     },
     images: {
-      defaultBgImage: cyberpunkStreetUrl,
+      defaultBgImage: IMAGE_URL.cyberpunkStreet,
     },
   },
   pages: pages,

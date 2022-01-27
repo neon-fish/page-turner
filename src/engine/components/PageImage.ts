@@ -1,5 +1,5 @@
 import m from "mithril";
-import { PageImageDef } from "../types/types";
+import { PageImageDef } from "../types";
 
 export const PageImage: m.Component<{
   imageDef: PageImageDef,

@@ -1,6 +1,6 @@
 import m from "mithril";
 import { PageUtils } from "../page-utils";
-import { ChoicesSettings, ContentSettings, GameSettings, Page, PageChoice, PageImageDef } from "../types/types";
+import { ChoicesSettings, ContentSettings, GameSettings, Page, PageChoice, PageImageDef } from "../types";
 import { PageImage } from "./PageImage";
 import { TypeText } from "./TypeText";
 import { TypeWord } from "./TypeWord";
