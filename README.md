@@ -1,5 +1,5 @@
 
-# MacGyver - Multiple-Choice Game Engine
+# MCGE - Multiple-Choice Game Engine
 
 An engine to build web-based games/stories where the primary interaction method is a mutliple-choice selection.
 
@@ -29,4 +29,6 @@ Run a hot-reloading dev server with `npm run dev`
 - [x] Playing music
 - [x] Playing sounds
 - [x] Add options for blurring the background of the content panel
-- [ ] Styling choices
+- [ ] Styling/themeing options (inc. choices, content text)
+- [ ] Page enter/exit animations
+- [ ] Simple image animations
