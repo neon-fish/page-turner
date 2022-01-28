@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "",
   "author": "Ed Johnson, Neon Fish Software Ltd.",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "main": "dist/index.js",
   "scripts": {
     "dev": "vite",
