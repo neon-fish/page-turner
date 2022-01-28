@@ -32,3 +32,7 @@ Run a hot-reloading dev server with `npm run dev`
 - [ ] Styling/themeing options (inc. choices, content text)
 - [ ] Page enter/exit animations
 - [ ] Simple image animations
+
+## Deployment
+
+`npm publish`
