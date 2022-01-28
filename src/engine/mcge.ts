@@ -58,6 +58,18 @@ export class MCGE {
   }
 
   private init() {
+
+    this.setCssVariable("--mcge-content-text-colour", "white");
+    this.setCssVariable("--mcge-content-shadow-colour", "black");
+
+    this.setCssVariable("--mcge-choice-colour-fg", "black");
+    this.setCssVariable("--mcge-choice-colour-bg", "white");
+    this.setCssVariable("--mcge-choice-colour-border", "#64748b");
+    this.setCssVariable("--mcge-choice-colour-highlight", "#3b82f6");
+
+    this.setCssVariable("--mcge-scroll-fg", "#3b82f6");
+    this.setCssVariable("--mcge-scroll-bg", "#cbd5e1");
+
     this.mountLayout();
   }
 
@@ -69,8 +81,9 @@ export class MCGE {
 
     const Layout: m.Component = {
       view: () => {
-        return m(".h-full.w-full", {
+        return m("", {
           id: "layout",
+          style: "width: 100%; height: 100%;",
         }, [
           m(CurrentPage, {
 
@@ -80,7 +93,7 @@ export class MCGE {
             bgImage: this.lastBgImage ?? this.getDefaultBgImage(),
 
             next: async () => {
-              console.log("calling next()...");
+              // console.log("calling next()...");
               const isFinished = this.advanceContent();
               if (isFinished && Utils.isEmptyOrUndefined(this.currPage.choices)) {
                 this.gotoPage(this.currPage.next);
@@ -98,6 +111,12 @@ export class MCGE {
     };
 
     m.mount(appEl, Layout);
+  }
+
+  private setCssVariable(variable: string, value: string) {
+    variable = variable.startsWith("--") ? variable : `--${variable}`;
+    const root = document.querySelector(":root") as HTMLElement;
+    root.style.setProperty(variable, value);
   }
 
   // ========== Pages, content, and choices ==========

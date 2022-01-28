@@ -5,9 +5,10 @@ import { PageImage } from "./PageImage";
 import { TypeText } from "./TypeText";
 import { TypeWord } from "./TypeWord";
 
-export const CURRENT_PAGE_ID = "current-page";
-const CONTENT_PANEL_ID = "page-content";
-const CHOICES_PANEL_ID = "page-choices";
+export const CURRENT_PAGE_ID = "mcge-page";
+const IMAGES_PANEL_ID = "mcge-page-images";
+const CONTENT_PANEL_ID = "mcge-page-content";
+const CHOICES_PANEL_ID = "mcge-page-choices";
 
 /**
  * The story page currently being displayed
@@ -58,10 +59,10 @@ export const CurrentPage: m.Component<{
 
     // console.log(`drawing page, curr content: ${currContent}`);
 
-    return m(".h-full.w-full.relative", {
+    return m("", {
       id: CURRENT_PAGE_ID,
       style: ``,
-      class: `noselect`,
+      class: `no-select`,
       tabindex: 0,
       onclick: (ev: MouseEvent) => {
         const target = ev.target as HTMLElement;
@@ -93,12 +94,12 @@ export const CurrentPage: m.Component<{
     }, [
 
       // Images
-      m(".absolute", {
-        id: "page-images",
-        style: `inset: 0px;`,
+      m("", {
+        id: IMAGES_PANEL_ID,
+        style: `position: absolute; inset: 0px;`,
       }, [
-        bgImage ? m("img.w-full.h-full", {
-          style: `object-fit: cover;`,
+        bgImage ? m("img", {
+          style: `height: 100%; width: 100%; object-fit: cover;`,
           src: bgImage.url,
         }) : [],
         (page.images ?? []).map(imageDef => {
@@ -106,62 +107,51 @@ export const CurrentPage: m.Component<{
         }),
       ]),
 
-      // Content & Choices
-      m(".absolute", {
-        id: `page-content-choices`,
-        style: `inset: 0px;`,
+      // Content panel
+      m(".", {
+        id: CONTENT_PANEL_ID,
+        class: `scroller ${contentSettings.blur ? "backdrop-blur-sm" : ""}`,
+        style: `top: ${contentSettings.top}; height: ${contentSettings.height}; left: 0; right: 0;`,
       }, [
-
-        // Content panel
-        m(".p-4.absolute.flex.flex-col.space-y-2.overflow-y-auto.scroller", {
-          id: CONTENT_PANEL_ID,
-          class: `text-white whitespace-pre-wrap ${contentSettings.blur ? "backdrop-blur-sm" : ""}`,
-          style: `top: ${contentSettings.top}; height: ${contentSettings.height}; left: 0; right: 0;
-            text-shadow: black 0px 0px 4px, black 0px 0px 4px;`,
-        }, [
-          prevContent.map(c => {
-            return m("p", c);
-          }),
-          currContent
-            ? (contentSettings.fast
-              ? m(TypeWord, {
-                class: "block",
-                text: currContent,
-                delay: settings.content.delay,
-                showAll: settings.content.instant,
-              })
-              : m(TypeText, {
-                class: "block",
-                text: currContent,
-                delay: settings.content.delay,
-                showAll: settings.content.instant,
-              })
-            ) : [],
-        ]),
-
-        // Choices panel
-        (page.choices && contentFinished)
-          ? m(".p-4.absolute.flex.flex-col.space-y-4.overflow-y-auto.scroller", {
-            id: CHOICES_PANEL_ID,
-            style: `top: ${choicesSettings.top}; height: ${choicesSettings.height}; left: 0; right: 0;`,
-            class: `${choicesSettings.blur ? "backdrop-blur-sm" : ""}`,
-          }, [
-            (page.choices ?? []).map((c, i) => {
-              const text = PageUtils.choiceText(c);
-              const isHighlighted = this.highlightChoiceIndex === i;
-
-              return m("button.px-2.py-1.text-left.bg-white.border.rounded.shadow", {
-                // class: `shadow-blue-300 hover:border-blue-300 hover:shadow-md hover:shadow-blue-300`,
-                // class: `hover:ring hover:shadow-lg`,
-                class: `hover:shadow-lg hover:shadow-blue-500 hover:border-blue-500 ${isHighlighted ? "shadow-lg shadow-blue-500 border-blue-500" : ""}`,
-                onmouseover: (ev: MouseEvent) => this.highlightChoiceIndex = i,
-                onclick: () => attrs.selectChoice(c, i),
-              }, text);
-            }),
-          ])
-          : [],
-
+        prevContent.map(c => {
+          return m("p", c);
+        }),
+        currContent
+          ? (contentSettings.fast
+            ? m(TypeWord, {
+              class: "block",
+              text: currContent,
+              delay: settings.content.delay,
+              showAll: settings.content.instant,
+            })
+            : m(TypeText, {
+              class: "block",
+              text: currContent,
+              delay: settings.content.delay,
+              showAll: settings.content.instant,
+            })
+          ) : [],
       ]),
+
+      // Choices panel
+      (page.choices && contentFinished)
+        ? m("", {
+          id: CHOICES_PANEL_ID,
+          style: `top: ${choicesSettings.top}; height: ${choicesSettings.height}; left: 0; right: 0;`,
+          class: `scroller ${choicesSettings.blur ? "backdrop-blur-sm" : ""}`,
+        }, [
+          (page.choices ?? []).map((c, i) => {
+            const text = PageUtils.choiceText(c);
+            const isHighlighted = this.highlightChoiceIndex === i;
+
+            return m("button", {
+              class: `${isHighlighted ? "highlight" : ""}`,
+              onmouseover: (ev: MouseEvent) => this.highlightChoiceIndex = i,
+              onclick: () => attrs.selectChoice(c, i),
+            }, text);
+          }),
+        ])
+        : [],
 
     ]);
 

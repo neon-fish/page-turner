@@ -17,13 +17,13 @@ export const PageImage: m.Component<{
 
     const objectFit = imageDef.fit ?? (imageDef.pos === "bg" ? "cover" : "contain");
 
-    return m(".absolute", {
-      style: `${posStyle}`,
+    return m("", {
+      style: `position: absolute; ${posStyle}`,
     }, [
-      m("img.w-full.h-full", {
+      m("img", {
         src: imageDef.url,
-        style: `object-fit: ${objectFit}; ${imageDef.style ?? ""}`,
-      })
+        style: `width: 100%; height: 100%; object-fit: ${objectFit}; ${imageDef.style ?? ""}`,
+      }),
     ]);
   }
 };

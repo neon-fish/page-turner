@@ -1,20 +1,97 @@
 
+/* Page & General */
+
+*, ::after, ::before {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: #e5e7eb;
+}
+p {
+  margin: 0;
+}
+button {
+  text-transform: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 100%;
+  line-height: inherit;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+}
+#mcge-page {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  width: 100%;
+  height: 100%;
+  position: relative;
+  inset: 0px;
+  line-height: 1.5rem;
+  font-size: 1rem;
+}
+
+/* Content */
+
+#mcge-page-content {
+  padding: 1rem;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  color: var(--mcge-content-text-colour, white);
+  text-shadow: var(--mcge-content-shadow-colour, black) 0px 0px 4px, var(--mcge-content-shadow-colour, black) 0px 0px 4px;
+}
+#mcge-page-content > *:not(:first-child) {
+  margin-top: 0.5rem;
+}
+
+/* Choices */
+
+#mcge-page-choices {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 1rem;
+}
+#mcge-page-choices > *:not(:first-child) {
+  margin-top: 1rem;
+}
+#mcge-page-choices button {
+  padding: 0.25rem 0.5rem;
+  text-align: left;
+  color: var(--mcge-choice-colour-fg, black);
+  background-color: var(--mcge-choice-colour-bg, white);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--mcge-choice-colour-border, rgb(0 0 0 / 0.1));
+  border-radius: 0.25rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+#mcge-page-choices button:hover, #mcge-page-choices button.highlight {
+  border-color: var(--mcge-choice-colour-highlight, #3b82f6);
+  box-shadow: 0 10px 15px -3px var(--mcge-choice-colour-highlight, #3b82f6), 0 4px 6px -4px var(--mcge-choice-colour-highlight, #3b82f6);
+}
+
+/* Misc. */
+
 .scroller {
-  scrollbar-color: #1470d8 #C2D2E4;
+  scrollbar-color: var(--mcge-scroll-fg, #3b82f6) var(--mcge-scroll-bg, #cbd5e1);
 }
 .scroller::-webkit-scrollbar {
   width: 15px;
   height: 15px;
 }
 .scroller::-webkit-scrollbar-track  {
-  background-color: #C2D2E4;
+  background-color: var(--mcge-scroll-bg, #cbd5e1);
 }
 .scroller::-webkit-scrollbar-thumb {
   height: 30px;
-  background-color: #1470d8;
+  background-color: var(--mcge-scroll-fg, #3b82f6);
 }
 
-.noselect {
+.no-select {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
      -khtml-user-select: none; /* Konqueror HTML */
@@ -23,3 +100,9 @@
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 }
+
+.backdrop-blur-none { backdrop-filter: blur(0); }
+.backdrop-blur-sm { backdrop-filter: blur(4px); }
+.backdrop-blur { backdrop-filter: blur(8px); }
+.backdrop-blur-md { backdrop-filter: blur(12px); }
+.backdrop-blur-lg { backdrop-filter: blur(16px); }
