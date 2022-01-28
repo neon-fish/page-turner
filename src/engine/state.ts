@@ -45,7 +45,7 @@ export class McgeState<GameState extends object = {}> {
     if (game) this._game = game;
   }
 
-  private readFromLocalStorage(params?: { storageKey?: string }) {
+  private readFromLocalStorage(params?: { storageKey?: string }): { game: any, engine: any } {
     const state = {
       game: undefined,
       engine: undefined,
