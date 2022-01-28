@@ -32,7 +32,6 @@ export const CurrentPage: m.Component<{
 
   onupdate({ dom }) {
     const contentPanel = dom.querySelector(`#${CONTENT_PANEL_ID}`);
-    // console.log(`Updated CurrentPage, scrolling panel: ${contentPanel}`);
     if (contentPanel) {
       contentPanel.scrollTop = contentPanel.scrollHeight;
     }
@@ -56,8 +55,6 @@ export const CurrentPage: m.Component<{
 
     const contentSettings: ContentSettings = Object.assign({}, settings.content, page.contentSettings ?? {});
     const choicesSettings: ChoicesSettings = Object.assign({}, settings.choices, page.choicesSettings ?? {});
-
-    // console.log(`drawing page, curr content: ${currContent}`);
 
     return m("", {
       id: CURRENT_PAGE_ID,
@@ -93,7 +90,7 @@ export const CurrentPage: m.Component<{
       },
     }, [
 
-      // Images
+      // ===== Images =====
       m("", {
         id: IMAGES_PANEL_ID,
         style: `position: absolute; inset: 0px;`,
@@ -107,7 +104,7 @@ export const CurrentPage: m.Component<{
         }),
       ]),
 
-      // Content panel
+      // ===== Content =====
       m(".", {
         id: CONTENT_PANEL_ID,
         class: `scroller ${contentSettings.blur ? "backdrop-blur-sm" : ""}`,
@@ -122,18 +119,18 @@ export const CurrentPage: m.Component<{
               class: "block",
               text: currContent,
               delay: settings.content.delay,
-              showAll: settings.content.instant,
+              showAll: settings.content.instantLine,
             })
             : m(TypeText, {
               class: "block",
               text: currContent,
               delay: settings.content.delay,
-              showAll: settings.content.instant,
+              showAll: settings.content.instantLine,
             })
           ) : [],
       ]),
 
-      // Choices panel
+      // ===== Choices =====
       (page.choices && contentFinished)
         ? m("", {
           id: CHOICES_PANEL_ID,

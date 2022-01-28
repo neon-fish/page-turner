@@ -2,10 +2,16 @@
 export interface ContentSettings {
   top: string,
   height: string,
+  /** Blur the content panel background */
   blur: boolean,
+  /** Delay to wait before adding the next letter */
   delay: number,
+  /** Add content to the page one word at a time instead of one letter at a time */
   fast: boolean,
-  instant: boolean,
+  /** Add each new line instantly */
+  instantLine: boolean,
+  /** Display all the content in a page at once */
+  instantPage: boolean,
 }
 
 export interface ChoicesSettings {
@@ -124,11 +130,11 @@ export interface Page {
   content: PageContent[],
   /** Optionally override the game settings for the content panel for this page */
   contentSettings?: Partial<ContentSettings>,
-  /** If all content should be drawn immediately on opening the page */
-  showAllContent?: boolean,
 
-
+  /** The choices to display in the page */
   choices?: PageChoice[],
+  /** Optionally override the default settings for the choices panel */
+  choicesSettings?: Partial<ChoicesSettings>,
 
   images?: PageImageDef[],
 
@@ -138,9 +144,6 @@ export interface Page {
 
   animStart?: PageAnimation,
   animEnd?: PageAnimation,
-
-  /** Optionally override the default settings for the choices panel */
-  choicesSettings?: Partial<ChoicesSettings>,
 
   hookStart?: PageHook,
   hookEnd?: PageHook,

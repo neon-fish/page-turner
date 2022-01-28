@@ -14,7 +14,8 @@ export const DEFAULT_SETTINGS: GameSettings = {
     blur: false,
     delay: 0,
     fast: false,
-    instant: false,
+    instantLine: false,
+    instantPage: false,
   },
   choices: {
     top: "60%",
@@ -172,7 +173,8 @@ export class MCGE {
 
     // Reset the index of the current line of content to display
     this.contentIndex = 0;
-    if (this.currPage.showAllContent) {
+    const instantPage = this.currPage.contentSettings?.instantPage ?? this.settings.content.instantPage;
+    if (instantPage) {
       this.contentIndex = this.currPage.content.length;
     }
 

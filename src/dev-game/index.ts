@@ -1,4 +1,4 @@
-import { MCGE } from '../engine/mcge';
+import { MCGE } from '../engine';
 import '../engine/styles.css';
 import { IMAGE_URL } from './assets';
 import { pages } from './pages';
