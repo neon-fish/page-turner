@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "vite",
     "build": "rimraf dist && tsc && copyfiles -u 2 ./src/engine/styles.css ./dist",
+    "prepublishOnly": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
