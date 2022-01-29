@@ -1,6 +1,8 @@
 
 # MCGE - Multiple Choice Game Engine
 
+[![npm version](https://badge.fury.io/js/mcge.svg)](https://badge.fury.io/js/mcge)
+
 An engine to build web-based games/stories where the primary interaction method is a mutliple-choice selection.
 
 ## Usage
@@ -17,7 +19,7 @@ Requirements
 - Node
 - npm
 
-Install dependencies with `npm i`
+Install dependencies with `npm install`
 
 Run a hot-reloading dev server with `npm run dev`
 
