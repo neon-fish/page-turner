@@ -15,13 +15,9 @@ https://docs.google.com/document/d/16yhF2b2kGbcrEN4Bgnc-3G-urajoE7mC61nCpX3Njt8/
 
 ## Development
 
-Requirements
-- Node
-- npm
-
-Install dependencies with `npm install`
-
-Run a hot-reloading dev server with `npm run dev`
+- Requires [Node](https://nodejs.org)
+- Install dependencies with `npm install`
+- Start a hot-reloading dev server with `npm run dev`
 
 ### TODO
 
