@@ -1,4 +1,4 @@
-import { Page, Utils } from "../engine";
+import { Page, Utils } from "../../engine";
 import { AUDIO_URL, IMAGE_URL } from "./assets";
 
 // Definition of the game pages

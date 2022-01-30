@@ -1,34 +1,36 @@
-import { MCGE } from '../engine';
+import { Mcge } from '../engine';
 import '../engine/styles.css';
-import { IMAGE_URL } from './assets';
-import { pages } from './pages';
+import { IMAGE_URL } from './2/assets';
+import { pages } from './2/pages';
+// import { state } from './2/state';
+import { theme } from './2/theme';
 
 // Entry point into the app from index.html
 
-const game = new MCGE({
+const game = new Mcge({
   settings: {
     containerEl: "#mcge",
     debug: true,
     content: {
-      // top: "10%",
-      height: "40%",
+      top: "5%",
+      height: "45%",
       // blur: true,
       // tint: true,
     },
     choices: {
       tint: true,
-      left: "10%",
-      width: "80%",
+      left: "calc((100% - min(80%, 600px)) / 2)",
+      width: "min(80%, 600px)",
+      top: "calc(100% - min(35%, 250px))",
+      height: "min(35%, 250px)",
     },
     images: {
-      defaultBgImage: IMAGE_URL.cyberpunkStreet,
+      // defaultBgImage: IMAGE_URL.cyberpunkStreet,
     },
-    theme: {
-      // choiceGap: "0.5rem",
-      // choiceBorderRadius: "1rem",
-    },
+    theme: theme,
   },
   pages: pages,
+  state: {}, // state,
 });
 
 let isBig = false;
