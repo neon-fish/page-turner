@@ -1,3 +1,4 @@
+import { Mcge } from "./mcge";
 
 export type DeepPartial<T> = T extends object ? {
   [P in keyof T]?: DeepPartial<T[P]>;
@@ -242,16 +243,24 @@ export class Page {
    * @param choices The optional list of choices in the page
    * @param page Any other settings for the page
    */
-  constructor(content: string, choices?: PageChoice[], page?: Partial<Page>) {
+  constructor(content: string,)
+  constructor(content: string, choices: PageChoice[])
+  constructor(content: string, page: Partial<Page>)
+  constructor(content: string, choices: PageChoice[] | Partial<Page>, page: Partial<Page>)
+  constructor(content: string, choicesOrPage?: PageChoice[] | Partial<Page>, page?: Partial<Page>) {
 
     // Assign any specified settings
     if (page) {
       Object.assign(this, page);
     }
 
-    // Assign any specified choices
-    if (choices) {
-      this.choices = choices;
+    // Assign any specified page settings or choices (whatever's in the second parameter)
+    if (choicesOrPage) {
+      if (choicesOrPage instanceof Array) {
+        this.choices = choicesOrPage;
+      } else {
+        Object.assign(this, choicesOrPage);
+      }
     }
 
     // Split the given content string into lines
@@ -263,4 +272,3 @@ export class Page {
   }
 
 }
-
