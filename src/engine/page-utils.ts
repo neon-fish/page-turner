@@ -1,6 +1,5 @@
-import { ChoicesSettings } from "./types";
-import { DeepPartial, GameSettings } from "./types";
-import { NextPageDef, Page, PageChoice, PageImageDef } from "./types";
+import { Mcge } from "./mcge";
+import { ChoicesSettings, DeepPartial, GameSettings, NextPageDef, Page, PageChoice, PageImageDef } from "./types";
 
 export class PageUtils {
 
@@ -28,16 +27,20 @@ export class PageUtils {
     return bgImage;
   }
 
-  static pageContent(page: Page) {
+  static pageContent(mcge: Mcge, page: Page): string[] {
     const textArr: string[] = [];
 
-    for (let i = 0; i < (page.content ?? []).length; i++) {
-      const c = (page.content ?? [])[i];
+    const pageContent = (typeof page.content === "function"
+      ? page.content(mcge)
+      : page.content) ?? []
+
+    for (let i = 0; i < (pageContent ?? []).length; i++) {
+      const c = (pageContent ?? [])[i];
 
       const text = typeof c === "string"
         ? c
         : typeof c === "function"
-          ? c()
+          ? c(mcge)
           : "?";
       textArr.push(text);
     }
@@ -45,11 +48,22 @@ export class PageUtils {
     return textArr;
   }
 
-  static choiceText(choice: PageChoice): string {
+  static pageChoices(mcge: Mcge, page: Page): PageChoice[] {
+
+    if (!page.choices) return [];
+
+    const choices = (typeof page.choices === "function")
+      ? page.choices(mcge)
+      : page.choices;
+
+    return choices;
+  }
+
+  static choiceText(mcge: Mcge, choice: PageChoice): string {
     const text = typeof choice === "string"
       ? choice
       : typeof choice.text === "function"
-        ? choice.text()
+        ? choice.text(mcge)
         : choice.text;
     return text;
   }
@@ -60,12 +74,12 @@ export class PageUtils {
    * @param nextPage The definition of the next page
    * @returns the index of the next page, or -1 if the target page was not found
    */
-  static targetPageIndex(pages: Page[], nextPage?: NextPageDef): number {
+  static targetPageIndex(mcge: Mcge, pages: Page[], nextPage?: NextPageDef): number {
 
     if (nextPage === undefined) return -1;
 
     const target = typeof nextPage === "function"
-      ? nextPage()
+      ? nextPage(mcge)
       : nextPage;
     if (target === undefined) return -1;
 

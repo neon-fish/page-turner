@@ -144,6 +144,7 @@ export const pages: Page[] = [
 - [x] Styling/theming options (inc. choices, content text)
 - [ ] Page enter/exit animations
 - [ ] Simple image animations
+- [ ] "Speaker" labels for content strings
 
 ## Deployment
 

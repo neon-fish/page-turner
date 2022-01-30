@@ -1,10 +1,11 @@
 import m from "mithril";
-import { Theme } from ".";
+import { PageContent } from ".";
 import { McgeAudio } from "./audio";
 import { CurrentPage, CURRENT_PAGE_ID } from "./components/CurrentPage";
 import { PageUtils } from "./page-utils";
+import { McgeState } from "./state";
 import { DEFAULT_THEME } from "./themes";
-import { DeepPartial, GameSettings, NextPageDef, Page, PageChoice, PageImageDef } from "./types";
+import { DeepPartial, GameSettings, NextPageDef, Page, PageChoice, PageImageDef, Theme } from "./types";
 import { Utils } from "./utils";
 
 /**
@@ -41,7 +42,7 @@ export const DEFAULT_SETTINGS: GameSettings = {
   theme: DEFAULT_THEME,
 };
 
-export class MCGE {
+export class Mcge<TState extends object = {}> {
 
   settings: GameSettings;
   get debug() { return this.settings.debug; }
@@ -52,23 +53,32 @@ export class MCGE {
   get currPage(): Page {
     return this.pages[this.currPageIndex];
   }
+  private currPageContent: PageContent[] = [];
+  private currPageChoices: PageChoice[] = [];
   private contentIndex: number = 0;
 
   lastBgImage?: PageImageDef;
 
-  audio = new McgeAudio();
+  audio: McgeAudio = new McgeAudio();
+
+  state: McgeState<TState>;
 
   constructor(params: {
     settings: DeepPartial<GameSettings>,
     pages: Page[],
+    state: TState,
   }) {
 
     this.settings = PageUtils.patchGameSettings(DEFAULT_SETTINGS, params.settings);
     this.debug && console.log("MCGE constructor, settings:", this.settings);
 
+    const initialState: TState = params.state ?? {};
+    this.state = new McgeState<TState>({ initialGameState: initialState });
+    this.debug && console.log("MCGE constructor, state:", this.state);
+
     this.pages = params.pages;
 
-    this.currPageIndex = PageUtils.targetPageIndex(this.pages, this.settings.startAt);
+    this.currPageIndex = PageUtils.targetPageIndex(this, this.pages, this.settings.startAt);
     this.gotoPage(this.currPageIndex);
 
     this.init();
@@ -93,8 +103,11 @@ export class MCGE {
         }, [
           m(CurrentPage, {
 
+            mcge: this,
             settings: this.settings,
             page: this.currPage,
+            content: this.currPageContent,
+            choices: this.currPageChoices,
             contentLine: this.contentIndex,
             bgImage: this.lastBgImage ?? this.getDefaultBgImage(),
 
@@ -161,15 +174,15 @@ export class MCGE {
 
   advanceContent(): boolean {
     const prevIndex = this.contentIndex;
-    this.contentIndex = Math.min(this.contentIndex + 1, this.currPage.content.length);
+    this.contentIndex = Math.min(this.contentIndex + 1, this.currPageContent.length);
 
     // Return whether the content index has reached the end of the content list
-    return this.contentIndex === this.currPage.content.length;
+    return this.contentIndex === this.currPageContent.length;
   }
 
   gotoPage(nextPage?: NextPageDef) {
 
-    const targetIndex = PageUtils.targetPageIndex(this.pages, nextPage);
+    const targetIndex = PageUtils.targetPageIndex(this, this.pages, nextPage);
     this.debug && console.log(`Go to page, target index: ${targetIndex}`);
 
     if (targetIndex > -1) {
@@ -207,14 +220,36 @@ export class MCGE {
       this.audio.playAudio(this.currPage.soundEnd);
     }
 
+    // Call the end hook if it is defined
+    if (this.currPage.hookEnd) {
+      const result = this.currPage.hookEnd(this);
+      if (result && "redirect" in result) {
+        this.gotoPage(result.redirect);
+        return;
+      }
+    }
+
     // CHANGE PAGE
     this.currPageIndex = index;
+
+    // Call the start hook if it is defined
+    if (this.currPage.hookStart) {
+      const result = this.currPage.hookStart(this);
+      if (result && "redirect" in result) {
+        this.gotoPage(result.redirect);
+        return;
+      }
+    }
+
+    // Set the new cached content and choices
+    this.currPageContent = PageUtils.pageContent(this, this.currPage);
+    this.currPageChoices = PageUtils.pageChoices(this, this.currPage);
 
     // Reset the index of the current line of content to display
     this.contentIndex = 0;
     const instantPage = this.currPage.contentSettings?.instantPage ?? this.settings.content.instantPage;
     if (instantPage) {
-      this.contentIndex = this.currPage.content.length;
+      this.contentIndex = this.currPageContent.length;
     }
 
     // If the background image should be held, update it if a new one is defined
@@ -246,7 +281,7 @@ export class MCGE {
       return;
     }
 
-    const r = choice.onSelect?.();
+    const r = choice.onSelect?.(this);
     if (choice.nextPage) {
       this.gotoPage(choice.nextPage);
     } else {

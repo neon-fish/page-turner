@@ -1,6 +1,7 @@
 import m from "mithril";
+import { Mcge } from "../mcge";
 import { PageUtils } from "../page-utils";
-import { ChoicesSettings, ContentSettings, GameSettings, Page, PageChoice, PageImageDef } from "../types";
+import { ChoicesSettings, ContentSettings, GameSettings, Page, PageChoice, PageContent, PageImageDef } from "../types";
 import { PageImage } from "./PageImage";
 import { TypeText } from "./TypeText";
 import { TypeWord } from "./TypeWord";
@@ -14,8 +15,11 @@ const CHOICES_PANEL_ID = "mcge-page-choices";
  * The story page currently being displayed
  */
 export const CurrentPage: m.Component<{
+  mcge: Mcge,
   settings: GameSettings,
   page: Page,
+  content: PageContent[],
+  choices: PageChoice[],
   contentLine: number,
   bgImage?: PageImageDef,
   next: () => any,
@@ -38,20 +42,24 @@ export const CurrentPage: m.Component<{
   },
 
   view({ attrs }) {
-    const { settings, page, contentLine } = attrs;
+    const { mcge, settings, page, content, choices, contentLine } = attrs;
 
     // If the page has changed, reset state
     if (this.lastPage !== page) {
       this.lastPage = page;
       this.highlightChoiceIndex = undefined;
+      // settings.debug && console.log(`Reset CurrentPage state`);
     }
 
     const bgImage = PageUtils.findBgImage(page) ?? attrs.bgImage;
 
-    const allContent = PageUtils.pageContent(page);
+    const allContent = PageUtils.pageContent(mcge, page);
     const currContent = allContent[contentLine];
     const prevContent = allContent.slice(0, contentLine);
     const contentFinished = prevContent.length === allContent.length;
+    // console.log(`Drawing content:`, allContent);
+
+    // const allChoices = PageUtils.pageChoices(mcge, page);
 
     const contentSettings: ContentSettings = Object.assign({}, settings.content, page.contentSettings ?? {});
     const choicesSettings: ChoicesSettings = Object.assign({}, settings.choices, page.choicesSettings ?? {});
@@ -67,7 +75,7 @@ export const CurrentPage: m.Component<{
       },
       onkeydown: (ev: KeyboardEvent) => {
         const target = ev.target as HTMLElement;
-        const hasChoices = page.choices && page.choices.length > 0;
+        const hasChoices = choices && choices.length > 0;
 
         // Advance page with Space or Enter
         if (target.tagName !== "BUTTON") {
@@ -76,7 +84,7 @@ export const CurrentPage: m.Component<{
 
         // Move highlighted choice with arrow keys
         if (hasChoices && ev.code === "ArrowDown") {
-          this.highlightChoiceIndex = Math.min(this.highlightChoiceIndex !== undefined ? this.highlightChoiceIndex + 1 : 0, page.choices!.length - 1);
+          this.highlightChoiceIndex = Math.min(this.highlightChoiceIndex !== undefined ? this.highlightChoiceIndex + 1 : 0, choices!.length - 1);
         }
         if (hasChoices && ev.code === "ArrowUp") {
           this.highlightChoiceIndex = Math.max(this.highlightChoiceIndex !== undefined ? this.highlightChoiceIndex - 1 : 0, 0);
@@ -84,7 +92,7 @@ export const CurrentPage: m.Component<{
 
         // Choose the highlighted choice with Enter
         if (ev.code === "Enter" && this.highlightChoiceIndex !== undefined) {
-          const selected = page.choices?.[this.highlightChoiceIndex];
+          const selected = choices?.[this.highlightChoiceIndex];
           if (selected) attrs.selectChoice(selected, this.highlightChoiceIndex);
         }
       },
@@ -132,7 +140,7 @@ export const CurrentPage: m.Component<{
       ]),
 
       // ===== Choices =====
-      (page.choices && contentFinished)
+      (choices && contentFinished)
         ? m("", {
           id: CHOICES_PANEL_ID,
           style: `top: ${choicesSettings.top}; height: ${choicesSettings.height};
@@ -143,13 +151,18 @@ export const CurrentPage: m.Component<{
             class: "choices-panel-internal",
             style: `justify-content: ${PageUtils.choicePanelJustify(choicesSettings)};`,
           }, [
-          (page.choices ?? []).map((c, i) => {
-            const text = PageUtils.choiceText(c);
+          (choices ?? []).map((c, i) => {
+            const text = PageUtils.choiceText(mcge, c);
             const isHighlighted = this.highlightChoiceIndex === i;
 
             return m("button", {
               class: `${isHighlighted ? "highlight" : ""}`,
-              onmouseover: (ev: MouseEvent) => this.highlightChoiceIndex = i,
+              onmouseover: (ev: MouseEvent) => {
+                this.highlightChoiceIndex = i;
+                if (c.onHover) {
+                  c.onHover?.(mcge);
+                }
+              },
               onclick: () => attrs.selectChoice(c, i),
             }, text);
           }),
