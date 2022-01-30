@@ -30,3 +30,12 @@ const game = new MCGE({
   },
   pages: pages,
 });
+
+let isBig = false;
+const btnToggleFullscreen = document.getElementById("btn-toggle-fullscreen") as HTMLButtonElement;
+btnToggleFullscreen.addEventListener("click", () => {
+  isBig = !isBig;
+  const mcgeEl = document.getElementById("mcge") as HTMLDivElement;
+  mcgeEl.style.width = isBig ? `calc(${window.innerWidth}px - 2rem)` : "800px";
+  mcgeEl.style.height = isBig ? `calc(${window.innerHeight}px - 10rem)` : "600px";
+});
