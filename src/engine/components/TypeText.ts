@@ -4,17 +4,20 @@ export const TypeText: m.Component<{
   text: string,
   delay: number,
   showAll: boolean,
+  onFinished: () => any,
 
   style?: string,
   class?: string,
 }, {
   currText: string,
   index: number,
+  emittedFinished: boolean,
 }> = {
 
   oninit() {
     this.currText = "";
     this.index = 0;
+    this.emittedFinished = false;
   },
 
   oncreate() {
@@ -32,6 +35,11 @@ export const TypeText: m.Component<{
       } else {
         setTimeout(() => m.redraw(), delay);
       }
+    } else {
+      if (!this.emittedFinished) {
+        attrs.onFinished?.();
+        this.emittedFinished = true;
+      }
     }
 
     // dom.scrollIntoView(false);
@@ -44,6 +52,7 @@ export const TypeText: m.Component<{
     if (text !== this.currText) {
       this.index = 0;
       this.currText = text;
+      this.emittedFinished = false;
       if (attrs.showAll) {
         this.index = this.currText.length;
       }

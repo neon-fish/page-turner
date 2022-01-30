@@ -23,6 +23,8 @@ export interface ContentSettings {
   delay: number,
   /** Add content to the page one word at a time instead of one letter at a time */
   fast: boolean,
+  /** Display the next content line as soon as the current one has finished drawing */
+  autoNext: boolean,
   /** Add each new line instantly */
   instantLine: boolean,
   /** Display all the content in a page at once */

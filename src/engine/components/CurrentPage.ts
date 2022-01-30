@@ -24,6 +24,7 @@ export const CurrentPage: m.Component<{
   bgImage?: PageImageDef,
   next: () => any,
   selectChoice: (choice: PageChoice, index: number) => any,
+  contentLineFinished: () => any,
 }, {
   lastPage: Page | undefined,
   highlightChoiceIndex: number | undefined,
@@ -129,18 +130,20 @@ export const CurrentPage: m.Component<{
               text: currContent,
               delay: settings.content.delay,
               showAll: settings.content.instantLine,
+              onFinished: () => attrs.contentLineFinished(),
             })
             : m(TypeText, {
               class: "block",
               text: currContent,
               delay: settings.content.delay,
               showAll: settings.content.instantLine,
+              onFinished: () => attrs.contentLineFinished(),
             })
           ) : [],
       ]),
 
       // ===== Choices =====
-      (choices && contentFinished)
+      ((choices ?? []).length > 0 && contentFinished)
         ? m("", {
           id: CHOICES_PANEL_ID,
           style: `top: ${choicesSettings.top}; height: ${choicesSettings.height};

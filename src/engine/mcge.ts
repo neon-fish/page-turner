@@ -22,6 +22,7 @@ export const DEFAULT_SETTINGS: GameSettings = {
     width: "100%",
     blur: false,
     tint: false,
+    autoNext: false,
     delay: 0,
     fast: false,
     instantLine: false,
@@ -122,6 +123,16 @@ export class Mcge<TState extends object = {}> {
 
             selectChoice: (choice, index) => {
               this.selectChoice(this.currPage, choice, index);
+            },
+
+            contentLineFinished: () => {
+              console.log("content line finished");
+              const autoNext = this.currPage.contentSettings?.autoNext ?? this.settings.content.autoNext;
+              if (autoNext) {
+                console.log("advancing content automatically");
+                this.advanceContent();
+                m.redraw();
+              }
             },
 
           }),

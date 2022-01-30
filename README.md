@@ -142,6 +142,7 @@ export const pages: Page[] = [
 - [x] Playing sounds
 - [x] Add options for blurring the background of the content panel
 - [x] Styling/theming options (inc. choices, content text)
+- [ ] Fix bug skipping the end of last content line on next()
 - [ ] Page enter/exit animations
 - [ ] Simple image animations
 - [ ] "Speaker" labels for content strings

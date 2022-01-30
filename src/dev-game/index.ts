@@ -16,6 +16,8 @@ const game = new Mcge({
       height: "45%",
       // blur: true,
       // tint: true,
+      // autoNext: true,
+      delay: 20,
     },
     choices: {
       tint: true,

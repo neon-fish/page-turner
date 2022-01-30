@@ -4,6 +4,7 @@ export const TypeWord: m.Component<{
   text: string,
   delay: number,
   showAll: boolean,
+  onFinished: () => any,
 
   style?: string,
   class?: string,
@@ -11,14 +12,14 @@ export const TypeWord: m.Component<{
   currText: string,
   currWords: string[],
   index: number,
-  // displayingText: string;
+  emittedFinished: boolean,
 }> = {
 
   oninit() {
     this.currText = "";
     this.currWords = [],
     this.index = 0;
-    // this.displayingText = "";
+    this.emittedFinished = false;
   },
 
   oncreate() {
@@ -36,6 +37,11 @@ export const TypeWord: m.Component<{
       } else {
         setTimeout(() => m.redraw(), delay);
       }
+    } else {
+      if (!this.emittedFinished) {
+        attrs.onFinished?.();
+        this.emittedFinished = true;
+      }
     }
 
     // dom.scrollIntoView(false);
@@ -49,7 +55,7 @@ export const TypeWord: m.Component<{
       this.index = 0;
       this.currText = text;
       this.currWords = this.currText.split(" ");
-      // this.displayingText = "";
+      this.emittedFinished = false;
       if (attrs.showAll) {
         this.index = this.currWords.length;
       }

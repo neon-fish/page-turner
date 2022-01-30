@@ -107,6 +107,8 @@ export const pages: Page[] = [
     next: PAGE.orderCargo
   },
 
-  new Page(``, { id: PAGE.orderInspect }),
+  new Page(`
+  [inspecting the ship]
+  `, { id: PAGE.orderInspect }),
 
 ];
