@@ -107,8 +107,8 @@ export const CurrentPage: m.Component<{
       // ===== Content =====
       m(".", {
         id: CONTENT_PANEL_ID,
-        class: `scroller ${contentSettings.blur ? "backdrop-blur-sm" : ""}`,
         style: `top: ${contentSettings.top}; height: ${contentSettings.height}; left: 0; right: 0;`,
+        class: `scroller ${contentSettings.blur ? "bd-blur-4" : ""} ${contentSettings.tint ? "bg-tint-2" : ""}`,
       }, [
         prevContent.map(c => {
           return m("p", c);
@@ -135,7 +135,7 @@ export const CurrentPage: m.Component<{
         ? m("", {
           id: CHOICES_PANEL_ID,
           style: `top: ${choicesSettings.top}; height: ${choicesSettings.height}; left: 0; right: 0;`,
-          class: `scroller ${choicesSettings.blur ? "backdrop-blur-sm" : ""}`,
+          class: `scroller ${choicesSettings.blur ? "bd-blur-4" : ""} ${choicesSettings.tint ? "bg-tint-2" : ""}`,
         }, [
           (page.choices ?? []).map((c, i) => {
             const text = PageUtils.choiceText(c);

@@ -18,6 +18,7 @@ export const DEFAULT_SETTINGS: GameSettings = {
     top: "0%",
     height: "60%",
     blur: false,
+    tint: false,
     delay: 0,
     fast: false,
     instantLine: false,
@@ -27,6 +28,7 @@ export const DEFAULT_SETTINGS: GameSettings = {
     top: "60%",
     height: "40%",
     blur: true,
+    tint: false,
   },
   images: {
     holdBgImage: true,

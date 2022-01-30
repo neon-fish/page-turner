@@ -101,8 +101,14 @@ button {
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
-.backdrop-blur-none { backdrop-filter: blur(0); }
-.backdrop-blur-sm { backdrop-filter: blur(4px); }
-.backdrop-blur { backdrop-filter: blur(8px); }
-.backdrop-blur-md { backdrop-filter: blur(12px); }
-.backdrop-blur-lg { backdrop-filter: blur(16px); }
+.bg-tint-1 { background-color: rgba(0, 0, 0, 0.1); }
+.bg-tint-2 { background-color: rgba(0, 0, 0, 0.2); }
+.bg-tint-3 { background-color: rgba(0, 0, 0, 0.3); }
+.bg-tint-4 { background-color: rgba(0, 0, 0, 0.4); }
+.bg-tint-5 { background-color: rgba(0, 0, 0, 0.5); }
+
+.bd-blur-0 { backdrop-filter: blur(0); }
+.bd-blur-4 { backdrop-filter: blur(4px); }
+.bd-blur-8 { backdrop-filter: blur(8px); }
+.bd-blur-12 { backdrop-filter: blur(12px); }
+.bd-blur-16 { backdrop-filter: blur(16px); }

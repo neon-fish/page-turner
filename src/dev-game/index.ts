@@ -11,13 +11,18 @@ const game = new MCGE({
     // startAt: PAGE.WRAP,
     // contentDelay: 30,
     content: {
+      // top: "10%",
       height: "40%",
-      top: "10%",
-      // instant: true,
+      // blur: true,
+      // tint: true,
+    },
+    choices: {
+      tint: true,
     },
     images: {
       defaultBgImage: IMAGE_URL.cyberpunkStreet,
     },
+    debug: true,
   },
   pages: pages,
 });

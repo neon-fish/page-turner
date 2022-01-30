@@ -10,6 +10,8 @@ export interface ContentSettings {
   height: string,
   /** Blur the content panel background */
   blur: boolean,
+  /** Apply a tint to the content panel background */
+  tint: boolean,
   /** Delay to wait before adding the next letter */
   delay: number,
   /** Add content to the page one word at a time instead of one letter at a time */
@@ -25,8 +27,10 @@ export interface ChoicesSettings {
   top: string,
   /** The height of the choices panel as a CSS expression (e.g. "40%") */
   height: string,
-  /** Blur the chocies panel background */
+  /** Blur the choices panel background */
   blur: boolean,
+  /** Apply a tint to the choices panel background */
+  tint: boolean,
 }
 
 /** A collection of styling settings */

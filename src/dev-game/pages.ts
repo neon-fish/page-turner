@@ -31,11 +31,6 @@ export const pages: Page[] = [
       "This is a much longer piece of text to test how the content text is drawn in. After this is just filler. Text text text text text text text text text text text text text text text text text text.",
       "To the next page!",
     ],
-    contentSettings: {
-      height: "50%",
-      top: "10%",
-    },
-    // fastContent: true,
   },
   {
     // soundStart: { url: AUDIO_URL.maleYeah, volume: 0.5 },
@@ -52,8 +47,8 @@ export const pages: Page[] = [
       { text: "Choice 5" },
       { text: "Choice 6" },
     ],
-    contentSettings: { height: "40%", top: "0" },
-    choicesSettings: { top: "40%", height: "40%" },
+    // contentSettings: { height: "40%", top: "0" },
+    // choicesSettings: { top: "40%", height: "40%" },
   },
   {
     id: PAGE.TALL,
