@@ -6,10 +6,10 @@ export const DEFAULT_THEME: Theme = {
   contentColourShadow: "black",
   choiceColourFg: "black",
   choiceColourBg: "white",
-  choiceColourBorder: "#64748b",
+  choiceColourBorder: "#94a3b8",
   choiceColourHighlight: "#3b82f6",
-  scrollColourFg: "#3b82f6",
-  scrollColourBg: "#cbd5e1",
+  scrollColourFg: "#e2e8f0",
+  scrollColourBg: "#94a3b8",
 };
 
 /**
