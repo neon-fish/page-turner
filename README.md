@@ -141,7 +141,7 @@ export const pages: Page[] = [
 - [x] Playing music
 - [x] Playing sounds
 - [x] Add options for blurring the background of the content panel
-- [ ] Styling/theming options (inc. choices, content text)
+- [x] Styling/theming options (inc. choices, content text)
 - [ ] Page enter/exit animations
 - [ ] Simple image animations
 
