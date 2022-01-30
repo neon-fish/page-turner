@@ -11,7 +11,7 @@ MCGE is a simple engine to build web-based games or stories where the main way t
 
 It is not intended to have all visual the bells and whistles one could imagine. It intentionally provides few built-in primitives and options to encourage constraint-based design and interactivity via the page choices.
 
-## Why build it?
+## Why?
 
 The design of MCGE is driven by the question:
 
@@ -89,7 +89,7 @@ export const pages: Page[] = [
       "What do you think?\n(Click to reveal choices)",
     ],
     choices: [
-      // If a next page is not specified, the next page to be diplayed is the next in the list of all pages
+      // If a next page is not specified, the next page to be displayed is the next in the list of all pages
       { text: "Cool!" },
       // Define a next page in a choice to jump to that page if the choice is clicked
       { text: "I'm not impressed.", nextPage: PAGE.BAD },
