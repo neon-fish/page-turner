@@ -8,9 +8,24 @@ export const PAGE = {
   START: Utils.id,
   TALL: Utils.id,
   WRAP: Utils.id,
+  CLASS: Utils.id,
 };
 
 export const pages: Page[] = [
+
+  new Page(`This is an easier way of writing content.
+  You can just type into a multi-line string as the first parameter of the Page class.
+  Wow! So efficient!`, [], { id: PAGE.CLASS }),
+
+  {
+    id: PAGE.CLASS,
+    content: [
+      "This is an easier way of writing content.",
+      "You can just type into a multi-line string as the first parameter of the Page class.",
+      "Wow! So efficient!",
+    ],
+  },
+
   {
     id: PAGE.START,
     images: [
@@ -32,6 +47,7 @@ export const pages: Page[] = [
       "To the next page!",
     ],
   },
+
   {
     // soundStart: { url: AUDIO_URL.maleYeah, volume: 0.5 },
     content: [

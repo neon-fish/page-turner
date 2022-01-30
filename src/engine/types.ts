@@ -227,3 +227,34 @@ export interface Page {
   next?: NextPageDef,
 
 }
+
+export class Page {
+
+  /**
+   * Create a new Page
+   * @param content The content for the page. The string is split on new line characters to get the lines of content in the page.
+   * @param choices The optional list of choices in the page
+   * @param page Any other settings for the page
+   */
+  constructor(content: string, choices?: PageChoice[], page?: Partial<Page>) {
+
+    // Assign any specified settings
+    if (page) {
+      Object.assign(this, page);
+    }
+
+    // Assign any specified choices
+    if (choices) {
+      this.choices = choices;
+    }
+
+    // Split the given content string into lines
+    const contentLines = content.split("\n")
+      .map(l => l.trim())
+      .filter(l => Boolean(l.trim()));
+    this.content = contentLines;
+
+  }
+
+}
+
