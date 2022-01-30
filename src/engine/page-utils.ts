@@ -1,7 +1,25 @@
+import { DeepPartial, GameSettings } from "./types";
 import { NextPageDef, Page, PageChoice, PageImageDef } from "./types";
 
 export class PageUtils {
 
+  static patchGameSettings(settings: GameSettings, patch: DeepPartial<GameSettings>): GameSettings {
+    const merged: GameSettings = {
+      containerEl: patch.containerEl as any ?? settings.containerEl,
+      startAt: patch.startAt as any ?? settings.startAt,
+      debug: patch.debug ?? settings.debug,
+      choices: Object.assign(settings.choices, patch.choices),
+      content: Object.assign(settings.content, patch.content),
+      images: Object.assign(settings.images, patch.images),
+    };
+    return merged;
+  }
+
+  /**
+   * Find the first background image defined in the given page
+   * @param page 
+   * @returns 
+   */
   static findBgImage(page: Page): PageImageDef | undefined {
     const bgImage = (page.images ?? []).find(i => i.pos === "bg");
     return bgImage;
@@ -41,12 +59,12 @@ export class PageUtils {
    */
   static targetPageIndex(pages: Page[], nextPage?: NextPageDef): number {
 
-    if (!nextPage) return -1;
+    if (nextPage === undefined) return -1;
 
     const target = typeof nextPage === "function"
       ? nextPage()
       : nextPage;
-    if (!target) return -1;
+    if (target === undefined) return -1;
 
     const targetIndex = typeof target === "number"
       ? target

@@ -14,9 +14,10 @@ export const pages: Page[] = [
   {
     id: PAGE.START,
     images: [
-      { pos: "bg", url: IMAGE_URL.cyberpunkStreet },
-      { pos: "left", url: IMAGE_URL.cyberpunk2077Character },
-      { pos: "right", url: IMAGE_URL.cyberpunk2077Character, style: "transform: scalex(-1);", fit: "cover" },
+      // { pos: "bg", url: IMAGE_URL.cyberpunkStreet },
+      { pos: "bg", url: IMAGE_URL.fantasyTree },
+      // { pos: "left", url: IMAGE_URL.cyberpunk2077Character },
+      // { pos: "right", url: IMAGE_URL.cyberpunk2077Character, style: "transform: scalex(-1);", fit: "cover" },
     ],
     // music: {
     //   url: AUDIO_URL.electronicPunch,
@@ -37,7 +38,7 @@ export const pages: Page[] = [
     // fastContent: true,
   },
   {
-    soundStart: { url: AUDIO_URL.maleYeah, volume: 0.5 },
+    // soundStart: { url: AUDIO_URL.maleYeah, volume: 0.5 },
     content: [
       "Another page!",
       "This page has choices.",

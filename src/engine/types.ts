@@ -4,7 +4,9 @@ export type DeepPartial<T> = T extends object ? {
 } : T;
 
 export interface ContentSettings {
+  /** The top of the content panel as a CSS expression (e.g. "10%") */
   top: string,
+  /** The height of the content panel as a CSS expression (e.g. "40%") */
   height: string,
   /** Blur the content panel background */
   blur: boolean,
@@ -19,8 +21,11 @@ export interface ContentSettings {
 }
 
 export interface ChoicesSettings {
+  /** The top of the choices panel as a CSS expression (e.g. "10%") */
   top: string,
+  /** The height of the choices panel as a CSS expression (e.g. "40%") */
   height: string,
+  /** Blur the chocies panel background */
   blur: boolean,
 }
 
@@ -29,10 +34,17 @@ export interface GameSettings {
   containerEl: string | HTMLElement,
   /** The page to start the game at */
   startAt: NextPageDef,
+  /** Log debugging messages to the console */
+  debug: boolean,
+  /** Default settings for the content panel */
   content: ContentSettings,
+  /** Default settings for the choices panel */
   choices: ChoicesSettings,
+  /** Settings defining how images should behave */
   images: {
+    /** If a page does not specifiy a BG image, use the last-displayed BG image */
     holdBgImage: boolean,
+    /** An optional BG image to display as a fallback */
     defaultBgImage?: string,
   },
 }

@@ -5,9 +5,13 @@ import { PageUtils } from "./page-utils";
 import { DeepPartial, GameSettings, NextPageDef, Page, PageChoice, PageImageDef } from "./types";
 import { Utils } from "./utils";
 
+/**
+ * Default values for all MCGE settings, overridden to settings provided in the constructor
+ */
 export const DEFAULT_SETTINGS: GameSettings = {
   containerEl: "#app",
   startAt: 0,
+  debug: false,
   content: {
     top: "0%",
     height: "60%",
@@ -30,6 +34,8 @@ export const DEFAULT_SETTINGS: GameSettings = {
 export class MCGE {
 
   settings: GameSettings;
+  get debug() { return this.settings.debug; }
+
   pages: Page[] = [];
 
   private currPageIndex: number = 0;
@@ -47,8 +53,8 @@ export class MCGE {
     pages: Page[],
   }) {
 
-    this.settings = DEFAULT_SETTINGS;
-    Object.assign(this.settings, params.settings);
+    this.settings = PageUtils.patchGameSettings(DEFAULT_SETTINGS, params.settings);
+    this.debug && console.log("MCGE constructor, settings:", this.settings);
 
     this.pages = params.pages;
 
@@ -133,6 +139,7 @@ export class MCGE {
   gotoPage(nextPage?: NextPageDef) {
 
     const targetIndex = PageUtils.targetPageIndex(this.pages, nextPage);
+    this.debug && console.log(`Go to page, target index: ${targetIndex}`);
 
     if (targetIndex > -1) {
       // this.currPageIndex = targetIndex;
@@ -163,6 +170,7 @@ export class MCGE {
    * the new current page
    */
   private processPageTransition(index: number) {
+    this.debug && console.log(`Transitioning to page index ${index}...`);
 
     if (this.currPage?.soundEnd) {
       this.audio.playAudio(this.currPage.soundEnd);
@@ -181,7 +189,10 @@ export class MCGE {
     // If the background image should be held, update it if a new one is defined
     if (this.settings.images.holdBgImage) {
       const pageBgImage = PageUtils.findBgImage(this.currPage);
-      if (pageBgImage) this.lastBgImage = pageBgImage;
+      if (pageBgImage) {
+        this.lastBgImage = pageBgImage;
+        this.debug && console.log(`Updated held BG image (${Utils.truncate(pageBgImage.url, 100)})`);
+      }
     }
 
     // If the page specifies music, start it if it is not already playing

@@ -22,4 +22,16 @@ export class Utils {
     return Math.random().toString();
   }
 
+  /**
+   * Truncates strings longer than the given length and appends "...".
+   * Strings shorter than the length are returned unmodified.
+   * @param str 
+   * @param maxLength 
+   * @returns 
+   */
+   static truncate(str: string, maxLength: number) {
+    if (str.length <= maxLength) return str;
+    return str.slice(0, maxLength) + "...";
+  }
+
 }
