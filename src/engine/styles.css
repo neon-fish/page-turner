@@ -74,7 +74,7 @@ button {
   box-shadow: 0 10px 15px -3px var(--mcge-choice-colour-highlight, #3b82f6), 0 4px 6px -4px var(--mcge-choice-colour-highlight, #3b82f6);
 }
 
-/* Misc. */
+/* Common */
 
 .scroller {
   scrollbar-color: var(--mcge-scroll-fg, #3b82f6) var(--mcge-scroll-bg, #cbd5e1);
