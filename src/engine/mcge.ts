@@ -1,7 +1,9 @@
 import m from "mithril";
+import { Theme } from ".";
 import { McgeAudio } from "./audio";
 import { CurrentPage, CURRENT_PAGE_ID } from "./components/CurrentPage";
 import { PageUtils } from "./page-utils";
+import { DEFAULT_THEME } from "./themes";
 import { DeepPartial, GameSettings, NextPageDef, Page, PageChoice, PageImageDef } from "./types";
 import { Utils } from "./utils";
 
@@ -29,6 +31,7 @@ export const DEFAULT_SETTINGS: GameSettings = {
   images: {
     holdBgImage: true,
   },
+  theme: DEFAULT_THEME,
 };
 
 export class MCGE {
@@ -65,18 +68,7 @@ export class MCGE {
   }
 
   private init() {
-
-    this.setCssVariable("--mcge-content-text-colour", "white");
-    this.setCssVariable("--mcge-content-shadow-colour", "black");
-
-    this.setCssVariable("--mcge-choice-colour-fg", "black");
-    this.setCssVariable("--mcge-choice-colour-bg", "white");
-    this.setCssVariable("--mcge-choice-colour-border", "#64748b");
-    this.setCssVariable("--mcge-choice-colour-highlight", "#3b82f6");
-
-    this.setCssVariable("--mcge-scroll-fg", "#3b82f6");
-    this.setCssVariable("--mcge-scroll-bg", "#cbd5e1");
-
+    this.reloadTheme();
     this.mountLayout();
   }
 
@@ -120,10 +112,38 @@ export class MCGE {
     m.mount(appEl, Layout);
   }
 
+  /**
+   * Set the CSS variables to the associated values defined in the current theme
+   */
+  private reloadTheme() {
+    // Ensure all theme values have valid values
+    const theme = Object.assign({}, this.settings.theme, DEFAULT_THEME);
+
+    this.setCssVariable("--mcge-content-text-colour", theme.contentColourText);
+    this.setCssVariable("--mcge-content-shadow-colour", theme.contentColourShadow);
+
+    this.setCssVariable("--mcge-choice-colour-fg", theme.choiceColourFg);
+    this.setCssVariable("--mcge-choice-colour-bg", theme.choiceColourBg);
+    this.setCssVariable("--mcge-choice-colour-border", theme.choiceColourBorder);
+    this.setCssVariable("--mcge-choice-colour-highlight", theme.choiceColourHighlight);
+
+    this.setCssVariable("--mcge-scroll-fg", theme.scrollColourFg);
+    this.setCssVariable("--mcge-scroll-bg", theme.scrollColourBg);
+  }
+
   private setCssVariable(variable: string, value: string) {
     variable = variable.startsWith("--") ? variable : `--${variable}`;
     const root = document.querySelector(":root") as HTMLElement;
     root.style.setProperty(variable, value);
+  }
+
+  /**
+   * Apply a patch to the current theme settings, then reload the current theme
+   * @param theme 
+   */
+  patchTheme(theme: Partial<Theme>) {
+    Object.assign(this.settings.theme, theme);
+    this.reloadTheme();
   }
 
   // ========== Pages, content, and choices ==========

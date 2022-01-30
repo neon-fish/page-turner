@@ -4,14 +4,16 @@ import { NextPageDef, Page, PageChoice, PageImageDef } from "./types";
 export class PageUtils {
 
   static patchGameSettings(settings: GameSettings, patch: DeepPartial<GameSettings>): GameSettings {
+
+    // Use Object.assign() as a default, then explicitly patch all nested object
     const merged: GameSettings = {
-      containerEl: patch.containerEl as any ?? settings.containerEl,
-      startAt: patch.startAt as any ?? settings.startAt,
-      debug: patch.debug ?? settings.debug,
+      ...Object.assign({}, settings, patch),
       choices: Object.assign(settings.choices, patch.choices),
       content: Object.assign(settings.content, patch.content),
       images: Object.assign(settings.images, patch.images),
+      theme: Object.assign(settings.theme, patch.theme),
     };
+
     return merged;
   }
 

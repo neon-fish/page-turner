@@ -21,12 +21,32 @@ export interface ContentSettings {
 }
 
 export interface ChoicesSettings {
-  /** The top of the choices panel as a CSS expression (e.g. "10%") */
+  /** The top of the choices panel as a CSS expression (e.g. "50%") */
   top: string,
   /** The height of the choices panel as a CSS expression (e.g. "40%") */
   height: string,
   /** Blur the chocies panel background */
   blur: boolean,
+}
+
+/** A collection of styling settings */
+export interface Theme {
+  /** The colour of content text */
+  contentColourText: string,
+  /** The colour of the shadow behind content text */
+  contentColourShadow: string,
+  /** The colour of the text on chocie buttons */
+  choiceColourFg: string,
+  /** The colour of the background are of chocie buttons */
+  choiceColourBg: string,
+  /** The colour of the border of choice buttons */
+  choiceColourBorder: string,
+  /** The colour to apply to choice borders and shadows when the choice is highlighted */
+  choiceColourHighlight: string,
+  /** The colour of the scrollbar "handle" (the part that moves) */
+  scrollColourFg: string,
+  /** The colour of the scrollbar "track" (the background that doesn't move) */
+  scrollColourBg: string,
 }
 
 export interface GameSettings {
@@ -47,6 +67,8 @@ export interface GameSettings {
     /** An optional BG image to display as a fallback */
     defaultBgImage?: string,
   },
+  /** The current theme settings */
+  theme: Theme,
 }
 
 // export type PageType =
