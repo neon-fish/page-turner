@@ -32,10 +32,10 @@ export const pages: Page[] = [
   }),
 
   new Page(`What are your orders?`, [
-    { text: "What is our current position?", nextPage: PAGE.orderPos },
-    { text: "What is our destination?", nextPage: PAGE.orderDest },
-    { text: "Give me a report of our current cargo.", nextPage: PAGE.orderCargo },
-    { text: "Carry on, I'll be inspecting the ship.", nextPage: PAGE.orderInspect },
+    { text: "What is our current position?", next: PAGE.orderPos },
+    { text: "What is our destination?", next: PAGE.orderDest },
+    { text: "Give me a report of our current cargo.", next: PAGE.orderCargo },
+    { text: "Carry on, I'll be inspecting the ship.", next: PAGE.orderInspect },
   ], { id: PAGE.orders }),
 
   {
@@ -53,8 +53,8 @@ export const pages: Page[] = [
       () => `We will arrive in ${"3 days, 17 hours"}.`,
     ],
     choices: [
-      { text: () => `Tell me more about ${state.travelDest}`, nextPage: PAGE.orderDestDetail },
-      { text: `Very good.`, nextPage: PAGE.orders },
+      { text: () => `Tell me more about ${state.travelDest}`, next: PAGE.orderDestDetail },
+      { text: `Very good.`, next: PAGE.orders },
     ],
     // next: PAGE.orders,
   },
@@ -65,7 +65,7 @@ export const pages: Page[] = [
       `[destination detail]`,
     ],
     choices: [
-      { text: `Very good.`, nextPage: PAGE.orders },
+      { text: `Very good.`, next: PAGE.orders },
     ],
   },
 
@@ -82,14 +82,14 @@ export const pages: Page[] = [
       ].join("\n"),
     ],
     choices: [
-      { text: "Very good.", nextPage: PAGE.orders },
+      { text: "Very good.", next: PAGE.orders },
       ...state.cargo.length === 0
         ? []
         : state.cargo.map(c => {
           return {
             text: `Tell me about the ${c.name}`,
             onSelect: () => { state.inspectCargo = c; },
-            nextPage: PAGE.orderCargoDetail,
+            next: PAGE.orderCargoDetail,
           };
         }),
     ].flat(),

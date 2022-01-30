@@ -293,8 +293,8 @@ export class Mcge<TState extends object = {}> {
     }
 
     const r = choice.onSelect?.(this);
-    if (choice.nextPage) {
-      this.gotoPage(choice.nextPage);
+    if (choice.next) {
+      this.gotoPage(choice.next);
     } else {
       this.gotoNextPage();
     }

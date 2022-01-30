@@ -57,7 +57,7 @@ export const pages: Page[] = [
     ],
     choices: [
       { text: "Continue to next page (tall test)" },
-      { text: "Back to the start", nextPage: PAGE.START },
+      { text: "Back to the start", next: PAGE.START },
       { text: "Choice 3" },
       { text: "Choice 4" },
       { text: "Choice 5" },

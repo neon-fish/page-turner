@@ -92,7 +92,7 @@ export const pages: Page[] = [
       // If a next page is not specified, the next page to be displayed is the next in the list of all pages
       { text: "Cool!" },
       // Define a next page in a choice to jump to that page if the choice is clicked
-      { text: "I'm not impressed.", nextPage: PAGE.BAD },
+      { text: "I'm not impressed.", next: PAGE.BAD },
     ],
   },
   {

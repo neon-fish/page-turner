@@ -134,7 +134,7 @@ export type PageChoice = {
   /** Call a hook after selecting the choice */
   onSelect?: PageHook,
   /** The choice can navigate directly to another page */
-  nextPage?: NextPageDef,
+  next?: NextPageDef,
 };
 
 export type PageImagePos =
