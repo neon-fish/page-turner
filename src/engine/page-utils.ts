@@ -1,3 +1,4 @@
+import { ChoicesSettings } from "./types";
 import { DeepPartial, GameSettings } from "./types";
 import { NextPageDef, Page, PageChoice, PageImageDef } from "./types";
 
@@ -77,6 +78,15 @@ export class PageUtils {
           : -1;
 
     return targetIndex;
+  }
+
+  static choicePanelJustify(choicesSettings: ChoicesSettings): string {
+    return choicesSettings.align === "start" ? "start" :
+      choicesSettings.align === "center" ? "center" :
+        choicesSettings.align === "end" ? "end" :
+          choicesSettings.align === "space" ? "space-around" :
+            "center";
+
   }
 
 }

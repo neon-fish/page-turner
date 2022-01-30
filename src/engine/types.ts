@@ -4,10 +4,16 @@ export type DeepPartial<T> = T extends object ? {
 } : T;
 
 export interface ContentSettings {
+
   /** The top of the content panel as a CSS expression (e.g. "10%") */
   top: string,
   /** The height of the content panel as a CSS expression (e.g. "40%") */
   height: string,
+  /** The left of the content panel as a CSS expression (e.g. "0%") */
+  left: string,
+  /** The width of the content panel as a CSS expression (e.g. "100%") */
+  width: string,
+
   /** Blur the content panel background */
   blur: boolean,
   /** Apply a tint to the content panel background */
@@ -20,33 +26,54 @@ export interface ContentSettings {
   instantLine: boolean,
   /** Display all the content in a page at once */
   instantPage: boolean,
+
 }
 
 export interface ChoicesSettings {
+
   /** The top of the choices panel as a CSS expression (e.g. "50%") */
   top: string,
   /** The height of the choices panel as a CSS expression (e.g. "40%") */
   height: string,
+  /** The left of the choices panel as a CSS expression (e.g. "0%") */
+  left: string,
+  /** The width of the choices panel as a CSS expression (e.g. "100%") */
+  width: string,
+
   /** Blur the choices panel background */
   blur: boolean,
   /** Apply a tint to the choices panel background */
   tint: boolean,
+  /** How to align the choices within the panel if there is space left over */
+  align: "start" | "end" | "center" | "space",
+
 }
 
 /** A collection of styling settings */
 export interface Theme {
+
   /** The colour of content text */
   contentColourText: string,
   /** The colour of the shadow behind content text */
   contentColourShadow: string,
-  /** The colour of the text on chocie buttons */
+  /** The gap between text lines */
+  contentGap: string,
+  /** The radius of the content panel */
+  contentBorderRadius: string,
+
+  /** The colour of the text on choice buttons */
   choiceColourFg: string,
-  /** The colour of the background are of chocie buttons */
+  /** The colour of the background are of choice buttons */
   choiceColourBg: string,
   /** The colour of the border of choice buttons */
   choiceColourBorder: string,
   /** The colour to apply to choice borders and shadows when the choice is highlighted */
   choiceColourHighlight: string,
+  /** The gap between choices */
+  choiceGap: string,
+  /** The radius of the choices panel */
+  choiceBorderRadius: string,
+
   /** The colour of the scrollbar "handle" (the part that moves) */
   scrollColourFg: string,
   /** The colour of the scrollbar "track" (the background that doesn't move) */

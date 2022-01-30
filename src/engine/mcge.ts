@@ -17,6 +17,8 @@ export const DEFAULT_SETTINGS: GameSettings = {
   content: {
     top: "0%",
     height: "60%",
+    left: "0%",
+    width: "100%",
     blur: false,
     tint: false,
     delay: 0,
@@ -25,10 +27,13 @@ export const DEFAULT_SETTINGS: GameSettings = {
     instantPage: false,
   },
   choices: {
-    top: "60%",
-    height: "40%",
+    top: "65%",
+    height: "30%",
+    left: "0%",
+    width: "100%",
     blur: true,
     tint: false,
+    align: "center",
   },
   images: {
     holdBgImage: true,
@@ -123,11 +128,15 @@ export class MCGE {
 
     this.setCssVariable("--mcge-content-text-colour", theme.contentColourText);
     this.setCssVariable("--mcge-content-shadow-colour", theme.contentColourShadow);
+    this.setCssVariable("--mcge-content-gap", theme.contentGap);
+    this.setCssVariable("--mcge-content-border-radius", theme.contentBorderRadius);
 
     this.setCssVariable("--mcge-choice-colour-fg", theme.choiceColourFg);
     this.setCssVariable("--mcge-choice-colour-bg", theme.choiceColourBg);
     this.setCssVariable("--mcge-choice-colour-border", theme.choiceColourBorder);
     this.setCssVariable("--mcge-choice-colour-highlight", theme.choiceColourHighlight);
+    this.setCssVariable("--mcge-choice-gap", theme.choiceGap);
+    this.setCssVariable("--mcge-choice-border-radius", theme.choiceBorderRadius);
 
     this.setCssVariable("--mcge-scroll-fg", theme.scrollColourFg);
     this.setCssVariable("--mcge-scroll-bg", theme.scrollColourBg);

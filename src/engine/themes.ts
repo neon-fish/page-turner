@@ -4,10 +4,16 @@ import { Theme } from "./types";
 export const DEFAULT_THEME: Theme = {
   contentColourText: "white",
   contentColourShadow: "black",
+  contentGap: "0.5rem",
+  contentBorderRadius: "0px",
+
   choiceColourFg: "black",
   choiceColourBg: "white",
   choiceColourBorder: "#94a3b8",
   choiceColourHighlight: "#3b82f6",
+  choiceGap: "1rem",
+  choiceBorderRadius: "0px",
+
   scrollColourFg: "#e2e8f0",
   scrollColourBg: "#94a3b8",
 };

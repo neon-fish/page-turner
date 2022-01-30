@@ -8,8 +8,7 @@ import { pages } from './pages';
 const game = new MCGE({
   settings: {
     containerEl: "#mcge",
-    // startAt: PAGE.WRAP,
-    // contentDelay: 30,
+    debug: true,
     content: {
       // top: "10%",
       height: "40%",
@@ -18,11 +17,16 @@ const game = new MCGE({
     },
     choices: {
       tint: true,
+      left: "10%",
+      width: "80%",
     },
     images: {
       defaultBgImage: IMAGE_URL.cyberpunkStreet,
     },
-    debug: true,
+    theme: {
+      // choiceGap: "0.5rem",
+      // choiceBorderRadius: "1rem",
+    },
   },
   pages: pages,
 });

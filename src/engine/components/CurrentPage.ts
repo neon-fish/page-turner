@@ -107,7 +107,8 @@ export const CurrentPage: m.Component<{
       // ===== Content =====
       m(".", {
         id: CONTENT_PANEL_ID,
-        style: `top: ${contentSettings.top}; height: ${contentSettings.height}; left: 0; right: 0;`,
+        style: `top: ${contentSettings.top}; height: ${contentSettings.height};
+          left: ${contentSettings.left}; width: ${contentSettings.width};`,
         class: `scroller ${contentSettings.blur ? "bd-blur-4" : ""} ${contentSettings.tint ? "bg-tint-2" : ""}`,
       }, [
         prevContent.map(c => {
@@ -134,9 +135,14 @@ export const CurrentPage: m.Component<{
       (page.choices && contentFinished)
         ? m("", {
           id: CHOICES_PANEL_ID,
-          style: `top: ${choicesSettings.top}; height: ${choicesSettings.height}; left: 0; right: 0;`,
+          style: `top: ${choicesSettings.top}; height: ${choicesSettings.height};
+            left: ${choicesSettings.left}; width: ${choicesSettings.width};`,
           class: `scroller ${choicesSettings.blur ? "bd-blur-4" : ""} ${choicesSettings.tint ? "bg-tint-2" : ""}`,
         }, [
+          m("", {
+            class: "choices-panel-internal",
+            style: `justify-content: ${PageUtils.choicePanelJustify(choicesSettings)};`,
+          }, [
           (page.choices ?? []).map((c, i) => {
             const text = PageUtils.choiceText(c);
             const isHighlighted = this.highlightChoiceIndex === i;
@@ -147,6 +153,7 @@ export const CurrentPage: m.Component<{
               onclick: () => attrs.selectChoice(c, i),
             }, text);
           }),
+        ]),
         ])
         : [],
 

@@ -41,22 +41,29 @@ button {
   white-space: pre-wrap;
   color: var(--mcge-content-text-colour, white);
   text-shadow: var(--mcge-content-shadow-colour, black) 0px 0px 4px, var(--mcge-content-shadow-colour, black) 0px 0px 4px;
+  border-radius: var(--mcge-content-border-radius, 0);
 }
 #mcge-page-content > *:not(:first-child) {
-  margin-top: 0.5rem;
+  margin-top: var(--mcge-content-gap, 0.5rem);
 }
 
 /* Choices */
 
 #mcge-page-choices {
   position: absolute;
-  display: flex;
-  flex-direction: column;
   overflow-y: auto;
   padding: 1rem;
+  border-radius: var(--mcge-choice-border-radius, 0);
 }
-#mcge-page-choices > *:not(:first-child) {
-  margin-top: 1rem;
+#mcge-page-choices .choices-panel-internal {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+#mcge-page-choices button:not(:first-child) {
+  margin-top: var(--mcge-choice-gap, 1rem);
 }
 #mcge-page-choices button {
   padding: 0.25rem 0.5rem;
