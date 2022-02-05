@@ -57,6 +57,7 @@ export class Mcge<TState extends object = {}> {
   private currPageContent: PageContent[] = [];
   private currPageChoices: PageChoice[] = [];
   private contentIndex: number = 0;
+  private contentLineFinished: boolean = false;
 
   lastBgImage?: PageImageDef;
 
@@ -127,6 +128,7 @@ export class Mcge<TState extends object = {}> {
 
             contentLineFinished: () => {
               console.log("content line finished");
+              this.contentLineFinished = true;
               const autoNext = this.currPage.contentSettings?.autoNext ?? this.settings.content.autoNext;
               if (autoNext) {
                 console.log("advancing content automatically");
@@ -186,9 +188,11 @@ export class Mcge<TState extends object = {}> {
   advanceContent(): boolean {
     const prevIndex = this.contentIndex;
     this.contentIndex = Math.min(this.contentIndex + 1, this.currPageContent.length);
+    this.contentLineFinished = false;
 
     // Return whether the content index has reached the end of the content list
-    return this.contentIndex === this.currPageContent.length;
+    const isFinished = this.contentIndex === prevIndex;
+    return isFinished;
   }
 
   gotoPage(nextPage?: NextPageDef) {
@@ -258,9 +262,11 @@ export class Mcge<TState extends object = {}> {
 
     // Reset the index of the current line of content to display
     this.contentIndex = 0;
+    this.contentLineFinished = false;
     const instantPage = this.currPage.contentSettings?.instantPage ?? this.settings.content.instantPage;
     if (instantPage) {
       this.contentIndex = this.currPageContent.length;
+      this.contentLineFinished = true;
     }
 
     // If the background image should be held, update it if a new one is defined

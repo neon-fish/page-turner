@@ -35,7 +35,7 @@ export const pages: Page[] = [
     { text: "What is our current position?", next: PAGE.orderPos },
     { text: "What is our destination?", next: PAGE.orderDest },
     { text: "Give me a report of our current cargo.", next: PAGE.orderCargo },
-    { text: "Carry on, I'll be inspecting the ship.", next: PAGE.orderInspect },
+    { text: "Carry on, I'm going to inspect the ship.", next: PAGE.orderInspect },
   ], { id: PAGE.orders }),
 
   {
