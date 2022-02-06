@@ -51,10 +51,19 @@ export class Mcge<TState extends object = {}> {
 
   pages: Page[] = [];
 
+  /**
+   * The index in the pages list of the page being currently displayed.
+   * Must only be set in processPageTransition()
+   */
   private currPageIndex: number = 0;
-  get currPage(): Page {
-    return this.pages[this.currPageIndex];
-  }
+  /**
+   * The current page object being displayed.
+   * Must only be set in processPageTransition()
+   */
+  private currPage: Page;
+  // {
+  //   return this.pages[this.currPageIndex];
+  // }
   /** The list of content lines for the current page */
   private currPageContent: PageContent[] = [];
   /** The list of choices for the current page */
@@ -94,6 +103,7 @@ export class Mcge<TState extends object = {}> {
     this.pages = params.pages;
 
     this.currPageIndex = PageUtils.targetPageIndex(this, this.pages, this.settings.startAt);
+    this.currPage = this.pages[this.currPageIndex];
     this.gotoPage(this.currPageIndex);
 
     this.init();
@@ -275,8 +285,9 @@ export class Mcge<TState extends object = {}> {
       }
     }
 
-    // CHANGE PAGE
+    // ===== CHANGE PAGE =====
     this.currPageIndex = index;
+    this.currPage = PageUtils.pageWithAppliedDefaults(this.pages[this.currPageIndex]);
 
     // Call the start hook if it is defined
     if (this.currPage.hookStart) {
@@ -295,8 +306,7 @@ export class Mcge<TState extends object = {}> {
     // Reset the index of the current line of content to display
     this.contentIndex = 0;
     this.contentLineFinished = false;
-    const instantPage = this.currPage.contentSettings?.instantPage ?? this.settings.content.instantPage;
-    if (instantPage) {
+    if (this.currPageSettings.content.instantPage) {
       this.contentIndex = this.currPageContent.length;
       this.contentLineFinished = true;
     }

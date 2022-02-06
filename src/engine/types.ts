@@ -206,6 +206,8 @@ export type NextPageDef =
   | ((mcge: Mcge) => number | string | Page)
   ;
 
+export type PartialPage = Partial<Page>;
+
 export interface Page {
   // type: PageType,
 
@@ -242,6 +244,15 @@ export interface Page {
    * - `undefined` to advance to the next defined page in the list
    */
   next?: NextPageDef,
+
+  /**
+   * Optionally include the settings from another Page object as a set of defaults
+   * before the settings defined in this Page are applied.
+   * 
+   * Useful for reusing common content/choices settings without setting them as game
+   * default settings.
+   */
+  useDefaults?: PartialPage,
 
 }
 

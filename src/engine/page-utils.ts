@@ -32,6 +32,24 @@ export class PageUtils {
   }
 
   /**
+   * Apply any settings specified in the default settings partial page object
+   * @param page 
+   * @returns 
+   */
+  static pageWithAppliedDefaults(page: Page): Page {
+
+    const pageWithDefaults: Page = {
+      ...page.useDefaults,
+      ...page,
+      // Merge content and choices settings partial objects
+      contentSettings: Object.assign({}, page.useDefaults?.contentSettings ?? {}, page.contentSettings),
+      choicesSettings: Object.assign({}, page.useDefaults?.choicesSettings ?? {}, page.choicesSettings),
+    };
+
+    return pageWithDefaults;
+  }
+
+  /**
    * Find the first background image defined in the given page
    * @param page 
    * @returns 
