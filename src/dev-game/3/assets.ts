@@ -1,3 +1,8 @@
+// To import static assets
+/// <reference types="vite/client" />
+
+import { PageAudioDef } from '../../engine';
+import sfxPressAB from './assets/SFX_PRESS_AB.wav';
 
 // Definitions of static assets
 
@@ -8,13 +13,19 @@ export const IMAGE_URL = {
   oakLab: "https://pm1.narvii.com/6296/d605756de14e585cc436643796061c2f72db429e_hq.jpg",
 
   oak: `https://www.nicepng.com/png/full/125-1251389_oak-gary-delia-pokemon-costumes-professor-oak.png`,
-  
+  pikachuWave: `https://clipart.world/wp-content/uploads/2021/01/Friendly-Pikachu-clipart-transparent.png`,
+  gary: `https://www.pikpng.com/pngl/b/581-5814314_gary-oak-png-pokemon-gary-png-clipart.png`,
+
 };
 
 export const AUDIO_URL = {
-  cyberpunkBeat: `https://freesound.org/data/previews/525/525290_7990874-lq.mp3`,
-  electronicPunch: "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/HBkoCjiJNjpi3pnnv/audioblocks-electronica-punch_BguaMHqnr_NWM.mp3",
-  darkSynthRetrowave: "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/HBkoCjiJNjpi3pnnv/audioblocks-dark-synth-retrowave-retrowave_rutUhN9hr_NWM.mp3",
-  synthwaveRetroElectroCyberpunk: "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/HBkoCjiJNjpi3pnnv/audioblocks-synthwave-retro-electro-cyberpunk_SfytIHqhH_NWM.mp3",
-  maleYeah: "https://dm0qx8t0i9gc9.cloudfront.net/previews/audio/BsTwCwBHBjzwub4i4/audioblocks-male-say-male-say-yeah-2_SFN-5XMIAwL_NWM.mp3",
+  // Music
+
+  // Sounds
+  sfxPressAB,
+
+};
+
+export const AUDIO: { [key: string]: PageAudioDef } = {
+  sfxPressAB: { url: AUDIO_URL.sfxPressAB, volume: 0.2 },
 };

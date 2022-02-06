@@ -13,30 +13,16 @@ export interface CargoItem {
 
 export class State {
 
-  shipStatus: ShipState = "travelling";
-
-  travelSource = "Mars orbit";
-  travelPosition = "interplanetary space";
-  travelPosSystem = "the Solar system";
-  travelDest = "Huygens Station, orbiting Titan";
-
-  cargo: CargoItem[] = [
-    {
-      name: "Case of Widgets",
-      qty: 6,
-      desc: "A hardened flight case full of regular-sized Widgets.\nNot rated for exposure to vacuum.",
-    },
-  ];
-
-  inspectCargo: CargoItem | undefined = undefined;
+  playerName: string = "Player";
+  rivalName: string = "Gary";
 
   get cargoReport(): string[] {
     const report: string[] = [];
 
-    if (this.cargo.length === 0) {
+    if ([].length === 0) {
       report.push("The cargo hold is currently empty.");
     } else {
-      this.cargo.forEach(c => {
+      [].forEach(c => {
         report.push(`> ${c.qty} x ${c.name}`);
       });
     }
