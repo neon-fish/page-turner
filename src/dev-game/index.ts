@@ -1,7 +1,7 @@
 import { Mcge } from '../engine';
 import '../engine/styles.css';
-import { pages } from './2/pages';
-import { settings } from './2/settings';
+import { pages } from './3/pages';
+import { settings } from './3/settings';
 
 // Entry point into the app from index.html
 
