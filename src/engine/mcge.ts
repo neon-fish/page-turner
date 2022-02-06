@@ -59,6 +59,8 @@ export class Mcge<TState extends object = {}> {
   private currPageContent: PageContent[] = [];
   /** The list of choices for the current page */
   private currPageChoices: PageChoice[] = [];
+  /** The settings for the current page */
+  private currPageSettings: GameSettings;
   /** The index of the urrent content line to display, between 0 and the length of the content array inclusive */
   private contentIndex: number = 0;
   /** If the current line of content has finished drawing in */
@@ -82,6 +84,7 @@ export class Mcge<TState extends object = {}> {
   }) {
 
     this.settings = PageUtils.patchGameSettings(DEFAULT_SETTINGS, params.settings);
+    this.currPageSettings = Utils.dereference(this.settings);
     this.debug && console.log("MCGE constructor, settings:", this.settings);
 
     const initialState: TState = params.state ?? {};
@@ -164,7 +167,7 @@ export class Mcge<TState extends object = {}> {
    */
   private reloadTheme() {
     // Ensure all theme values have valid values
-    const theme = Object.assign({}, this.settings.theme, DEFAULT_THEME);
+    const theme = Object.assign({}, DEFAULT_THEME, this.settings.theme);
 
     this.setCssVariable("--mcge-content-text-colour", theme.contentColourText);
     this.setCssVariable("--mcge-content-shadow-colour", theme.contentColourShadow);
@@ -186,6 +189,7 @@ export class Mcge<TState extends object = {}> {
     variable = variable.startsWith("--") ? variable : `--${variable}`;
     const root = document.querySelector(":root") as HTMLElement;
     root.style.setProperty(variable, value);
+    this.debug && console.log(`Set CSS variable "${variable}" to "${value}"`);
   }
 
   /**
@@ -277,9 +281,10 @@ export class Mcge<TState extends object = {}> {
       }
     }
 
-    // Set the new cached content and choices
+    // Set the new cached page values
     this.currPageContent = PageUtils.pageContent(this, this.currPage);
     this.currPageChoices = PageUtils.pageChoices(this, this.currPage);
+    this.currPageSettings = PageUtils.settingsForPage(this.settings, this.currPage);
 
     // Reset the index of the current line of content to display
     this.contentIndex = 0;

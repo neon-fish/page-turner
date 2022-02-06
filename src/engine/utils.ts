@@ -34,4 +34,13 @@ export class Utils {
     return str.slice(0, maxLength) + "...";
   }
 
+  static dereference<T extends object>(value: T): T {
+    try {
+      return JSON.parse(JSON.stringify(value));
+    } catch (error) {
+      console.error(`Error dereferencing value: ${error} (value: ${value})`);
+      return value;
+    }
+  }
+
 }

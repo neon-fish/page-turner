@@ -3,18 +3,32 @@ import { ChoicesSettings, DeepPartial, GameSettings, NextPageDef, Page, PageChoi
 
 export class PageUtils {
 
+  /**
+   * Merges a partial settings object into a full settings object without modifying either.
+   * Returns a new merged settings object.
+   * @param settings 
+   * @param patch 
+   * @returns 
+   */
   static patchGameSettings(settings: GameSettings, patch: DeepPartial<GameSettings>): GameSettings {
 
     // Use Object.assign() as a default, then explicitly patch all nested object
     const merged: GameSettings = {
       ...Object.assign({}, settings, patch),
-      choices: Object.assign(settings.choices, patch.choices),
-      content: Object.assign(settings.content, patch.content),
-      images: Object.assign(settings.images, patch.images),
-      theme: Object.assign(settings.theme, patch.theme),
+      choices: Object.assign({}, settings.choices, patch.choices),
+      content: Object.assign({}, settings.content, patch.content),
+      images: Object.assign({}, settings.images, patch.images),
+      theme: Object.assign({}, settings.theme, patch.theme),
     };
 
     return merged;
+  }
+
+  static settingsForPage(settings: GameSettings, page: Page): GameSettings {
+    return this.patchGameSettings(settings, {
+      content: page.contentSettings,
+      choices: page.choicesSettings,
+    });
   }
 
   /**
