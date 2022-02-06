@@ -80,14 +80,19 @@ export const CurrentPage: m.Component<{
 
         // Advance page with Space or Enter
         if (target.tagName !== "BUTTON") {
-          if (ev.code === "Space" || ev.code === "Enter") attrs.next();
+          if (ev.code === "Space" || ev.code === "Enter") {
+            ev.preventDefault();
+            attrs.next();
+          }
         }
 
         // Move highlighted choice with arrow keys
         if (hasChoices && ev.code === "ArrowDown") {
+          ev.preventDefault();
           this.highlightChoiceIndex = Math.min(this.highlightChoiceIndex !== undefined ? this.highlightChoiceIndex + 1 : 0, choices!.length - 1);
         }
         if (hasChoices && ev.code === "ArrowUp") {
+          ev.preventDefault();
           this.highlightChoiceIndex = Math.max(this.highlightChoiceIndex !== undefined ? this.highlightChoiceIndex - 1 : 0, 0);
         }
 
