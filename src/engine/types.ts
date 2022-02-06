@@ -92,6 +92,7 @@ export interface Theme {
 }
 
 export interface GameSettings {
+
   /** Element containing the game, as an element or selector */
   containerEl: string | HTMLElement,
   /** The page to start the game at */
@@ -102,15 +103,18 @@ export interface GameSettings {
   content: ContentSettings,
   /** Default settings for the choices panel */
   choices: ChoicesSettings,
-  /** Settings defining how images should behave */
-  images: {
-    /** If a page does not specifiy a BG image, use the last-displayed BG image */
-    holdBgImage: boolean,
-    /** An optional BG image to display as a fallback */
-    defaultBgImage?: string,
-  },
+  // /** Settings defining how images should behave */
+  // images: {
+  //   /** If a page does not specifiy a BG image, use the last-displayed BG image */
+  //   holdBgImage: boolean,
+  //   /** An optional BG image to display as a fallback */
+  //   defaultBgImage?: string,
+  // },
+  /** Image slots to automatically "hold" once an image has been showm */
+  holdImageSlots: PageImageSlotSetting | PageImageSlotSetting[],
   /** The current theme settings */
   theme: Theme,
+
 }
 
 // export type PageType =
@@ -145,7 +149,8 @@ export type PageChoice = {
   next?: NextPageDef,
 };
 
-export type PageImagePos =
+/** Page image slot value */
+export type PageImageSlot =
   | "bg"
   | "fg"
   | "left"
@@ -153,11 +158,40 @@ export type PageImagePos =
   | "centre"
   | "custom";
 
+/** Page image slot value as a target for slot settings or clearing commands */
+export type PageImageSlotSetting =
+  | PageImageSlot
+  | "all";
+
+/** The definition of the position of an image */
+export interface PageImagePos {
+  /** Top */
+  t?: string,
+  /** Bottom */
+  b?: string,
+  /** Height */
+  h?: string,
+  /** Left */
+  l?: string,
+  /** Right */
+  r?: string,
+  /** Width */
+  w?: string,
+}
+
 export interface PageImageDef {
+  /** The URL of the image */
   url: string,
-  pos: PageImagePos,
+  /** The positioning slot for the image */
+  slot: PageImageSlot,
+  /** Specific positioning for images in the "custom" slot */
+  pos?: PageImagePos,
   /** Optionally override the default value for the `object-fit` style on the `<img>` tag */
   fit?: "contain" | "cover" | "fill" | "none",
+  /** If the image should only be displayed for the current page, regardless of image hold settings */
+  once?: boolean,
+  /** If the image should be held for multiple pages, regardless of image hold settings */
+  hold?: boolean,
   /** Optional CSS styles to apply to the `<img>` element */
   style?: string,
   // /** Optional additional  */
@@ -208,6 +242,11 @@ export type NextPageDef =
 
 export type PartialPage = Partial<Page>;
 
+export type PageLayoutSettings = {
+  content?: Partial<ContentSettings>,
+  choices?: Partial<ChoicesSettings>,
+};
+
 export interface Page {
   // type: PageType,
 
@@ -223,7 +262,10 @@ export interface Page {
   /** Optionally override the default settings for the choices panel */
   choicesSettings?: Partial<ChoicesSettings>,
 
+  /** Images to display */
   images?: PageImageDef[],
+  /** Clear any held images in the specified slots */
+  clearImageSlots?: PageImageSlotSetting[],
 
   music?: PageAudioDef,
   soundStart?: PageAudioDef,

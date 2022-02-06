@@ -43,4 +43,12 @@ export class Utils {
     }
   }
 
+  static elemOrArrToArr<T>(elemOrArr: T | T[]): T[] {
+    if (elemOrArr instanceof Array) {
+      return elemOrArr;
+    } else {
+      return [elemOrArr];
+    }
+  }
+
 }

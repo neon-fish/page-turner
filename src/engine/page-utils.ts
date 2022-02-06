@@ -1,5 +1,6 @@
 import { Mcge } from "./mcge";
-import { ChoicesSettings, DeepPartial, GameSettings, NextPageDef, Page, PageChoice, PageImageDef } from "./types";
+import { ChoicesSettings, DeepPartial, GameSettings, NextPageDef, Page, PageChoice, PageImageDef, PageImageSlotSetting } from "./types";
+import { Utils } from "./utils";
 
 export class PageUtils {
 
@@ -17,7 +18,6 @@ export class PageUtils {
       ...Object.assign({}, settings, patch),
       choices: Object.assign({}, settings.choices, patch.choices),
       content: Object.assign({}, settings.content, patch.content),
-      images: Object.assign({}, settings.images, patch.images),
       theme: Object.assign({}, settings.theme, patch.theme),
     };
 
@@ -50,12 +50,45 @@ export class PageUtils {
   }
 
   /**
+   * Split a given list of page images into those that should be held, and those that should be shown only once
+   * @param images 
+   * @param holdSlots 
+   * @returns 
+   */
+  static findHeldImages(images: PageImageDef[], holdSlots: PageImageSlotSetting | PageImageSlotSetting[]) {
+    const holdSlotsArr = Utils.elemOrArrToArr(holdSlots);
+
+    const held: PageImageDef[] = [];
+    const once: PageImageDef[] = [];
+
+    images.forEach(image => {
+      if (image.hold === true) {
+        held.push(image);
+        return;
+      }
+      if (image.once === true) {
+        once.push(image);
+        return;
+      }
+      if (holdSlotsArr.includes("all") || holdSlotsArr.includes(image.slot)) {
+        held.push(image);
+        return;
+      } else {
+        once.push(image);
+        return;
+      }
+    });
+
+    return { held, once };
+  }
+
+  /**
    * Find the first background image defined in the given page
    * @param page 
    * @returns 
    */
   static findBgImage(page: Page): PageImageDef | undefined {
-    const bgImage = (page.images ?? []).find(i => i.pos === "bg");
+    const bgImage = (page.images ?? []).find(i => i.slot === "bg");
     return bgImage;
   }
 

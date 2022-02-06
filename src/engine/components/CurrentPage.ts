@@ -21,7 +21,7 @@ export const CurrentPage: m.Component<{
   content: PageContent[],
   choices: PageChoice[],
   contentLine: number,
-  bgImage?: PageImageDef,
+  images: PageImageDef[],
   next: () => any,
   hoverChoice: (choice: PageChoice, index: number) => any,
   selectChoice: (choice: PageChoice, index: number) => any,
@@ -44,7 +44,7 @@ export const CurrentPage: m.Component<{
   },
 
   view({ attrs }) {
-    const { mcge, settings, page, content, choices, contentLine } = attrs;
+    const { mcge, settings, page, content, choices, contentLine, images } = attrs;
 
     // If the page has changed, reset state
     if (this.lastPage !== page) {
@@ -52,8 +52,6 @@ export const CurrentPage: m.Component<{
       this.highlightChoiceIndex = undefined;
       // settings.debug && console.log(`Reset CurrentPage state`);
     }
-
-    const bgImage = PageUtils.findBgImage(page) ?? attrs.bgImage;
 
     const allContent = PageUtils.pageContent(mcge, page);
     const currContent = allContent[contentLine];
@@ -114,11 +112,11 @@ export const CurrentPage: m.Component<{
         id: IMAGES_PANEL_ID,
         style: `position: absolute; inset: 0px;`,
       }, [
-        bgImage ? m("img", {
-          style: `height: 100%; width: 100%; object-fit: cover;`,
-          src: bgImage.url,
-        }) : [],
-        (page.images ?? []).map(imageDef => {
+        // bgImage ? m("img", {
+        //   style: `height: 100%; width: 100%; object-fit: cover;`,
+        //   src: bgImage.url,
+        // }) : [],
+        (images ?? []).map(imageDef => {
           return m(PageImage, { imageDef });
         }),
       ]),

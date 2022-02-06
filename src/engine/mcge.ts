@@ -1,11 +1,11 @@
 import m from "mithril";
-import { PageContent, PageHook } from "./types";
 import { McgeAudio } from "./audio";
 import { CurrentPage, CURRENT_PAGE_ID } from "./components/CurrentPage";
+import { McgeImages } from "./images";
 import { PageUtils } from "./page-utils";
 import { McgeState } from "./state";
 import { DEFAULT_THEME } from "./themes";
-import { DeepPartial, GameSettings, NextPageDef, Page, PageChoice, PageImageDef, Theme } from "./types";
+import { DeepPartial, GameSettings, NextPageDef, Page, PageChoice, PageContent, PageHook, PageImageDef, PageLayoutSettings, Theme } from "./types";
 import { Utils } from "./utils";
 
 /**
@@ -38,9 +38,7 @@ export const DEFAULT_SETTINGS: GameSettings = {
     align: "center",
     autoDisplay: true,
   },
-  images: {
-    holdBgImage: true,
-  },
+  holdImageSlots: "all",
   theme: DEFAULT_THEME,
 };
 
@@ -79,10 +77,11 @@ export class Mcge<TState extends object = {}> {
     return (this.contentIndex === this.currPageContent.length) ||
       (this.contentLineFinished && (this.contentIndex === this.currPageContent.length - 1));
   }
-
-  lastBgImage?: PageImageDef;
+  /** The list of un-held images for the current page */
+  currPageImages: PageImageDef[] = [];
 
   audio: McgeAudio = new McgeAudio();
+  images: McgeImages = new McgeImages();
 
   state: McgeState<TState>;
 
@@ -134,7 +133,7 @@ export class Mcge<TState extends object = {}> {
             content: this.currPageContent,
             choices: this.currPageChoices,
             contentLine: this.contentIndex,
-            bgImage: this.lastBgImage ?? this.getDefaultBgImage(),
+            images: [...this.images.all, ...this.currPageImages],
 
             next: async () => {
               this.debug && console.log("calling next()...");
@@ -176,6 +175,34 @@ export class Mcge<TState extends object = {}> {
     };
 
     m.mount(appEl, Layout);
+  }
+
+  patchSettings(settings: DeepPartial<GameSettings>) {
+    this.settings = PageUtils.patchGameSettings(this.settings, settings);
+  }
+
+  /**
+   * Set layout settings to the given values, or the default values where a layout value is not specified
+   * @param layout 
+   */
+  setLayout(layout: PageLayoutSettings) {
+    const toSet: PageLayoutSettings = {
+      content: Object.assign({}, DEFAULT_SETTINGS.content, layout.content),
+      choices: Object.assign({}, DEFAULT_SETTINGS.choices, layout.choices),
+    };
+    this.settings = PageUtils.patchGameSettings(this.settings, toSet);
+  }
+
+  /**
+   * Patch the current layout settings with the given layout settings
+   * @param layout 
+   */
+  patchLayout(layout: PageLayoutSettings) {
+    // const toSet: PageLayoutSettings = {
+    //   content: Object.assign({}, DEFAULT_SETTINGS.content, layout.content),
+    //   choices: Object.assign({}, DEFAULT_SETTINGS.choices, layout.choices),
+    // };
+    this.settings = PageUtils.patchGameSettings(this.settings, layout);
   }
 
   /**
@@ -311,13 +338,19 @@ export class Mcge<TState extends object = {}> {
       this.contentLineFinished = true;
     }
 
-    // If the background image should be held, update it if a new one is defined
-    if (this.settings.images.holdBgImage) {
-      const pageBgImage = PageUtils.findBgImage(this.currPage);
-      if (pageBgImage) {
-        this.lastBgImage = pageBgImage;
-        this.debug && console.log(`Updated held BG image (${Utils.truncate(pageBgImage.url, 100)})`);
-      }
+    // Clear any specified image slots to clear
+    this.currPageImages = [];
+    if (this.currPage.clearImageSlots !== undefined) {
+      this.images.clearSlots(...this.currPage.clearImageSlots);
+      this.debug && console.log(`Clearing image slots for new page: ${this.currPage.clearImageSlots}`);
+    }
+
+    // For pages in the new current page, either hold them or add them to the volatile list
+    if (this.currPage.images !== undefined) {
+      const { held, once } = PageUtils.findHeldImages(this.currPage.images, this.settings.holdImageSlots);
+      this.debug && console.log(`New page images: ${held.length} held, ${once.length} once`);
+      this.images.holdImages(...held);
+      this.currPageImages = once;
     }
 
     // If the page specifies music, start it if it is not already playing
@@ -357,13 +390,6 @@ export class Mcge<TState extends object = {}> {
     if (returned && "redirect" in returned) {
       this.gotoPage(returned.redirect);
     }
-  }
-
-  getDefaultBgImage(): PageImageDef | undefined {
-    const bgImageDef: PageImageDef | undefined = this.settings.images.defaultBgImage
-      ? { pos: "bg", url: this.settings.images.defaultBgImage }
-      : undefined;
-    return bgImageDef;
   }
 
 }
