@@ -53,6 +53,11 @@ export interface ChoicesSettings {
   /** If the page choices should be displayed immediately after the content has finished drawing */
   autoDisplay: boolean,
 
+  /** Default function to call on hovering over any choice */
+  onHoverDefault?: PageHook,
+  /** Default function to call after selecting any choice */
+  onSelectDefault?: PageHook,
+
 }
 
 /** A collection of styling settings */

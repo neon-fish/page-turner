@@ -23,6 +23,7 @@ export const CurrentPage: m.Component<{
   contentLine: number,
   bgImage?: PageImageDef,
   next: () => any,
+  hoverChoice: (choice: PageChoice, index: number) => any,
   selectChoice: (choice: PageChoice, index: number) => any,
   contentLineFinished: () => any,
 }, {
@@ -90,10 +91,14 @@ export const CurrentPage: m.Component<{
         if (hasChoices && ev.code === "ArrowDown") {
           ev.preventDefault();
           this.highlightChoiceIndex = Math.min(this.highlightChoiceIndex !== undefined ? this.highlightChoiceIndex + 1 : 0, choices!.length - 1);
+          const highlighted = choices?.[this.highlightChoiceIndex];
+          if (highlighted && attrs.hoverChoice) attrs.hoverChoice(highlighted , this.highlightChoiceIndex);
         }
         if (hasChoices && ev.code === "ArrowUp") {
           ev.preventDefault();
           this.highlightChoiceIndex = Math.max(this.highlightChoiceIndex !== undefined ? this.highlightChoiceIndex - 1 : 0, 0);
+          const highlighted = choices?.[this.highlightChoiceIndex];
+          if (highlighted && attrs.hoverChoice) attrs.hoverChoice(highlighted , this.highlightChoiceIndex);
         }
 
         // Choose the highlighted choice with Enter
@@ -167,9 +172,7 @@ export const CurrentPage: m.Component<{
               class: `${isHighlighted ? "highlight" : ""}`,
               onmouseover: (ev: MouseEvent) => {
                 this.highlightChoiceIndex = i;
-                if (c.onHover) {
-                  c.onHover?.(mcge);
-                }
+                attrs.hoverChoice?.(c, i);
               },
               onclick: () => attrs.selectChoice(c, i),
             }, text);

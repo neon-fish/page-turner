@@ -1,5 +1,5 @@
 import m from "mithril";
-import { PageContent } from ".";
+import { PageContent, PageHook } from "./types";
 import { McgeAudio } from "./audio";
 import { CurrentPage, CURRENT_PAGE_ID } from "./components/CurrentPage";
 import { PageUtils } from "./page-utils";
@@ -137,7 +137,13 @@ export class Mcge<TState extends object = {}> {
               m.redraw();
             },
 
+            hoverChoice: (choice, index) => {
+              this.callPageHook(this.settings.choices.onHoverDefault);
+              this.callPageHook(choice.onHover);
+            },
+
             selectChoice: (choice, index) => {
+              this.callPageHook(this.settings.choices.onSelectDefault);
               this.selectChoice(this.currPage, choice, index);
             },
 
@@ -331,6 +337,16 @@ export class Mcge<TState extends object = {}> {
       this.gotoNextPage();
     }
 
+  }
+
+  callPageHook(hook: PageHook | undefined) {
+    if (!hook) return;
+
+    const returned = hook(this);
+
+    if (returned && "redirect" in returned) {
+      this.gotoPage(returned.redirect);
+    }
   }
 
   getDefaultBgImage(): PageImageDef | undefined {
