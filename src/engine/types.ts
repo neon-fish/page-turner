@@ -50,6 +50,9 @@ export interface ChoicesSettings {
   /** How to align the choices within the panel if there is space left over */
   align: "start" | "end" | "center" | "space",
 
+  /** If the page choices should be displayed immediately after the content has finished drawing */
+  autoDisplay: boolean,
+
 }
 
 /** A collection of styling settings */

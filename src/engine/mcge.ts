@@ -36,6 +36,7 @@ export const DEFAULT_SETTINGS: GameSettings = {
     blur: true,
     tint: false,
     align: "center",
+    autoDisplay: true,
   },
   images: {
     holdBgImage: true,
@@ -54,10 +55,19 @@ export class Mcge<TState extends object = {}> {
   get currPage(): Page {
     return this.pages[this.currPageIndex];
   }
+  /** The list of content lines for the current page */
   private currPageContent: PageContent[] = [];
+  /** The list of choices for the current page */
   private currPageChoices: PageChoice[] = [];
+  /** The index of the urrent content line to display, between 0 and the length of the content array inclusive */
   private contentIndex: number = 0;
+  /** If the current line of content has finished drawing in */
   private contentLineFinished: boolean = false;
+  /** Whether all the lines for the current page have finished being drawn */
+  get allLinesDrawn(): boolean {
+    return (this.contentIndex === this.currPageContent.length) ||
+      (this.contentLineFinished && (this.contentIndex === this.currPageContent.length - 1));
+  }
 
   lastBgImage?: PageImageDef;
 
@@ -114,8 +124,10 @@ export class Mcge<TState extends object = {}> {
             bgImage: this.lastBgImage ?? this.getDefaultBgImage(),
 
             next: async () => {
-              // console.log("calling next()...");
-              const isFinished = this.advanceContent();
+              this.debug && console.log("calling next()...");
+              // const isFinished = this.advanceContent();
+              const isFinished = this.allLinesDrawn;
+              this.advanceContent();
               if (isFinished && Utils.isEmptyOrUndefined(this.currPage.choices)) {
                 this.gotoPage(this.currPage.next);
               }
@@ -127,11 +139,13 @@ export class Mcge<TState extends object = {}> {
             },
 
             contentLineFinished: () => {
-              console.log("content line finished");
+              this.debug && console.log("Content line finished");
               this.contentLineFinished = true;
               const autoNext = this.currPage.contentSettings?.autoNext ?? this.settings.content.autoNext;
-              if (autoNext) {
-                console.log("advancing content automatically");
+              const autoChoices = this.currPage.choicesSettings?.autoDisplay ?? this.settings.choices.autoDisplay;
+              const advanceToChoices = autoChoices && (this.allLinesDrawn && (this.currPageChoices.length > 0));
+              if (autoNext || advanceToChoices) {
+                this.debug && console.log("Advancing content automatically");
                 this.advanceContent();
                 m.redraw();
               }
@@ -185,6 +199,11 @@ export class Mcge<TState extends object = {}> {
 
   // ========== Pages, content, and choices ==========
 
+  /**
+   * Increment the index specifying the current line of content to proceed to the next line.
+   * Can be called while a line of content is currently drawing in.
+   * @returns 
+   */
   advanceContent(): boolean {
     const prevIndex = this.contentIndex;
     this.contentIndex = Math.min(this.contentIndex + 1, this.currPageContent.length);
@@ -193,6 +212,8 @@ export class Mcge<TState extends object = {}> {
     // Return whether the content index has reached the end of the content list
     const isFinished = this.contentIndex === prevIndex;
     return isFinished;
+
+    // return this.allLinesDrawn;
   }
 
   gotoPage(nextPage?: NextPageDef) {

@@ -18,6 +18,7 @@ export const settings: DeepPartial<GameSettings> = {
     width: "min(80%, 600px)",
     top: "calc(100% - min(35%, 250px))",
     height: "min(35%, 250px)",
+    // autoDisplay: false,
   },
   images: {
     // defaultBgImage: IMAGE_URL.cyberpunkStreet,
