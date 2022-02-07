@@ -1,8 +1,8 @@
 // To import static assets
 /// <reference types="vite/client" />
 
-import { PageAudioDef } from '../../engine';
 import sfxPressAB from './assets/SFX_PRESS_AB.wav';
+import titleScreen from './assets/03 Title Screen.mp3';
 
 // Definitions of static assets
 
@@ -18,14 +18,7 @@ export const IMAGE_URL = {
 
 };
 
-export const AUDIO_URL = {
-  // Music
-
-  // Sounds
-  sfxPressAB,
-
-};
-
-export const AUDIO: { [key: string]: PageAudioDef } = {
-  sfxPressAB: { url: AUDIO_URL.sfxPressAB, volume: 0.2 },
-};
+export const AUDIO = {
+  titleScreen: { url: titleScreen, volume: 0.2 },
+  sfxPressAB: { url: sfxPressAB, volume: 0.2 },
+} as const;

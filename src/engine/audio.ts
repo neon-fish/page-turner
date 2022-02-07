@@ -1,8 +1,9 @@
+import { Utils } from ".";
 import { PageAudioDef } from "./types";
 
 export class McgeAudio {
 
-  private playing: HTMLAudioElement[] = [];
+  private playing: { def: PageAudioDef, elem: HTMLAudioElement }[] = [];
 
   constructor() { }
 
@@ -13,11 +14,14 @@ export class McgeAudio {
     }
     audio.loop = true;
     audio.play();
-    this.playing.push(audio);
+    this.playing.push({ def: audioDef, elem: audio });
+    console.log(`AUDIO: started music: ${Utils.truncate(audioDef.url, 100)}`);
+    console.log(audio.src);
   }
 
   replaceMusic(audioDef: PageAudioDef) {
     if (this.isMusicPlaying(audioDef)) return;
+    console.log(`AUDIO: replacing music`);
     this.stopAllMusic();
     this.startMusic(audioDef);
   }
@@ -25,8 +29,8 @@ export class McgeAudio {
   stopAllMusic() {
     for (let i = 0; i < this.playing.length; i++) {
       const p = this.playing[i];
-      p.pause();
-      p.remove();
+      p.elem.pause();
+      p.elem.remove();
     }
     this.playing = [];
   }
@@ -37,12 +41,12 @@ export class McgeAudio {
       const p = this.playing[i];
 
       const stop = (typeof toStop === "number" && i === toStop) ||
-        (typeof toStop === "string" && toStop === p.src) ||
-        (typeof toStop === "object" && toStop.url === p.src);
+        (typeof toStop === "string" && toStop === p.def.url) ||
+        (typeof toStop === "object" && toStop.url === p.def.url);
 
       if (stop) {
-        p.pause();
-        p.remove();
+        p.elem.pause();
+        p.elem.remove();
         this.playing = this.playing.splice(i, 1);
       }
     }
@@ -50,8 +54,9 @@ export class McgeAudio {
   }
 
   isMusicPlaying(audioDef: PageAudioDef): boolean {
-    const found = this.playing.find(p => p.src === audioDef.url);
-    return found !== undefined;
+    const found = this.playing.find(p => p.def.url === audioDef.url);
+    const isPlaying = found !== undefined;
+    return isPlaying;
   }
 
   playAudio(audioDef: PageAudioDef) {

@@ -1,5 +1,5 @@
-import { DeepPartial, GameSettings, Mcge, PageLayoutSettings } from "../../engine";
-import { AUDIO, AUDIO_URL } from "./assets";
+import { DeepPartial, GameSettings, Mcge } from "../../engine";
+import { AUDIO } from "./assets";
 import { theme } from "./theme";
 
 export const settings: DeepPartial<GameSettings> = {
@@ -29,7 +29,7 @@ export const settings: DeepPartial<GameSettings> = {
   theme: theme,
 };
 
-export const pageLayout: { [key: string]: PageLayoutSettings } = {
+export const pageLayout = {
   /** Page layout settings for menus */
   menu: {
     content: {
@@ -72,4 +72,4 @@ export const pageLayout: { [key: string]: PageLayoutSettings } = {
       tint: false,
     },
   },
-};
+} as const;

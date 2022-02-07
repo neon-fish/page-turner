@@ -1,5 +1,5 @@
 import { Mcge, Page, Utils } from "../../engine";
-import { IMAGE_URL } from "./assets";
+import { AUDIO, IMAGE_URL } from "./assets";
 import { pageLayout } from "./settings";
 import { state } from "./state";
 
@@ -18,6 +18,16 @@ export const PAGE = {
 export const pages: Page[] = [
 
   {
+    // The page must be interacted with before browsers will play audio
+    content: ["Click to begin!"],
+    images: [
+      { slot: "bg", url: IMAGE_URL.introBg },
+    ],
+    hookStart: (mcge) => {
+      mcge.setLayout(pageLayout.conversation);
+    },
+  },
+  {
     id: PAGE.mainMenu,
     content: [
       "This demo shows how to create an adventure game with turn-based combat mechanics, similar to the Pokémon games.",
@@ -32,6 +42,7 @@ export const pages: Page[] = [
     images: [
       { slot: "bg", url: IMAGE_URL.introBg },
     ],
+    music: AUDIO.titleScreen,
     hookStart: (mcge) => {
       mcge.setLayout(pageLayout.menu);
     },
@@ -112,8 +123,9 @@ export const pages: Page[] = [
     content: [
       "First, what is your name?",
     ],
-    hookEnd: () => {
+    hookEnd: (mcge) => {
       const name = prompt("What is your name?", state.playerName);
+      mcge.audio.playAudio(AUDIO.sfxPressAB);
       state.playerName = name;
     },
   },
@@ -133,8 +145,9 @@ export const pages: Page[] = [
     content: [
       "…Erm, what is his name again?",
     ],
-    hookEnd: () => {
+    hookEnd: (mcge) => {
       const name = prompt("What was his name again?", state.rivalName);
+      mcge.audio.playAudio(AUDIO.sfxPressAB);
       state.rivalName = name;
     },
   },
