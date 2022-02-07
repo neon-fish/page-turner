@@ -38,6 +38,8 @@ export const pageLayout: { [key: string]: PageLayoutSettings } = {
       width: "min(60%, 400px)",
       left: "calc((100% - min(60%, 400px)) / 2)",
       instantPage: true,
+      tint: false,
+      blur: false,
     },
     choices: {
       width: "min(60%, 400px)",
@@ -45,6 +47,8 @@ export const pageLayout: { [key: string]: PageLayoutSettings } = {
       height: "50%",
       top: "50%",
       align: "start",
+      tint: false,
+      blur: false,
       // autoDisplay: true,
     },
   },
