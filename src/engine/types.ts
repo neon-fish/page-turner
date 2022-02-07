@@ -275,8 +275,9 @@ export interface Page {
   animEnd?: PageAnimation,
 
   /** Function called just after this page has become the current page. */
-  hookStart?: PageHook,
-  hookEnd?: PageHook,
+  onStart?: PageHook,
+  /** Function called just before this page will stop being the current page. */
+  onEnd?: PageHook,
 
   /**
    * The next page to display. One of:

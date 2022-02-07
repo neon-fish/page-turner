@@ -304,8 +304,8 @@ export class Mcge<TState extends object = {}> {
     }
 
     // Call the end hook if it is defined
-    if (this.currPage.hookEnd) {
-      const result = this.currPage.hookEnd(this);
+    if (this.currPage.onEnd) {
+      const result = this.currPage.onEnd(this);
       if (result && "redirect" in result) {
         this.gotoPage(result.redirect);
         return;
@@ -317,8 +317,8 @@ export class Mcge<TState extends object = {}> {
     this.currPage = PageUtils.pageWithAppliedDefaults(this.pages[this.currPageIndex]);
 
     // Call the start hook if it is defined
-    if (this.currPage.hookStart) {
-      const result = this.currPage.hookStart(this);
+    if (this.currPage.onStart) {
+      const result = this.currPage.onStart(this);
       if (result && "redirect" in result) {
         this.gotoPage(result.redirect);
         return;

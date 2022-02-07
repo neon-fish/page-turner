@@ -23,7 +23,7 @@ export const pages: Page[] = [
     images: [
       { slot: "bg", url: IMAGE_URL.introBg },
     ],
-    hookStart: (mcge) => {
+    onStart: (mcge) => {
       mcge.setLayout(pageLayout.conversation);
     },
   },
@@ -43,7 +43,7 @@ export const pages: Page[] = [
       { slot: "bg", url: IMAGE_URL.introBg },
     ],
     music: AUDIO.titleScreen,
-    hookStart: (mcge) => {
+    onStart: (mcge) => {
       mcge.setLayout(pageLayout.menu);
     },
   },
@@ -82,7 +82,7 @@ export const pages: Page[] = [
   {
     id: PAGE.setUpNewGame,
     content: [],
-    hookStart: (mcge: Mcge) => {
+    onStart: (mcge: Mcge) => {
 
       // set up game state
       // TODO
@@ -123,7 +123,7 @@ export const pages: Page[] = [
     content: [
       "First, what is your name?",
     ],
-    hookEnd: (mcge) => {
+    onEnd: (mcge) => {
       const name = prompt("What is your name?", state.playerName);
       mcge.audio.playAudio(AUDIO.sfxPressAB);
       state.playerName = name;
@@ -145,7 +145,7 @@ export const pages: Page[] = [
     content: [
       "…Erm, what is his name again?",
     ],
-    hookEnd: (mcge) => {
+    onEnd: (mcge) => {
       const name = prompt("What was his name again?", state.rivalName);
       mcge.audio.playAudio(AUDIO.sfxPressAB);
       state.rivalName = name;
