@@ -67,7 +67,7 @@ export const CurrentPage: m.Component<{
     return m("", {
       id: CURRENT_PAGE_ID,
       style: ``,
-      class: `no-select`,
+      class: `no-select page-${page.id}`,
       tabindex: 0,
       onclick: (ev: MouseEvent) => {
         const target = ev.target as HTMLElement;

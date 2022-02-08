@@ -10,7 +10,7 @@ export const PAGE = {
   mainMenu: Utils.id,
   setUpNewGame: Utils.id,
   loadGame: Utils.id,
-  gameSettings: Utils.id,
+  gameSettings: "game-settings",
   playerNameInput: Utils.id,
   rivalNameInput: Utils.id,
 };
@@ -42,7 +42,7 @@ export const pages: Page[] = [
     images: [
       { slot: "bg", url: IMAGE_URL.introBg },
     ],
-    music: AUDIO.titleScreen,
+    // music: AUDIO.titleScreen,
     onStart: (mcge) => {
       mcge.setLayout(pageLayout.menu);
     },
@@ -60,7 +60,8 @@ export const pages: Page[] = [
       { text: "[setting button]", next: PAGE.gameSettings },
       { text: "[setting button]", next: PAGE.gameSettings },
       { text: "[setting button]", next: PAGE.gameSettings },
-      { text: "Main Menu", next: PAGE.mainMenu },
+      { text: "[setting button]", next: PAGE.gameSettings },
+      { text: "Back", next: PAGE.mainMenu },
     ],
   },
 

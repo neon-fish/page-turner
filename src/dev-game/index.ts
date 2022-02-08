@@ -2,6 +2,7 @@ import { Mcge } from '../engine';
 import '../engine/styles.css';
 import { pages } from './3/pages';
 import { settings } from './3/settings';
+import "./3/styles.css";
 
 // Entry point into the app from index.html
 
