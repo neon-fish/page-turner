@@ -1,4 +1,4 @@
-import { Mcge } from "./mcge";
+import { PageTurner } from "./page-turner";
 import { ChoicesSettings, DeepPartial, GameSettings, NextPageDef, Page, PageChoice, PageImageDef, PageImageSlotSetting } from "./types";
 import { Utils } from "./utils";
 
@@ -92,11 +92,11 @@ export class PageUtils {
     return bgImage;
   }
 
-  static pageContent(mcge: Mcge, page: Page): string[] {
+  static pageContent(pt: PageTurner, page: Page): string[] {
     const textArr: string[] = [];
 
     const pageContent = (typeof page.content === "function"
-      ? page.content(mcge)
+      ? page.content(pt)
       : page.content) ?? []
 
     for (let i = 0; i < (pageContent ?? []).length; i++) {
@@ -105,7 +105,7 @@ export class PageUtils {
       const text = typeof c === "string"
         ? c
         : typeof c === "function"
-          ? c(mcge)
+          ? c(pt)
           : "?";
       textArr.push(text);
     }
@@ -113,22 +113,22 @@ export class PageUtils {
     return textArr;
   }
 
-  static pageChoices(mcge: Mcge, page: Page): PageChoice[] {
+  static pageChoices(pt: PageTurner, page: Page): PageChoice[] {
 
     if (!page.choices) return [];
 
     const choices = (typeof page.choices === "function")
-      ? page.choices(mcge)
+      ? page.choices(pt)
       : page.choices;
 
     return choices;
   }
 
-  static choiceText(mcge: Mcge, choice: PageChoice): string {
+  static choiceText(pt: PageTurner, choice: PageChoice): string {
     const text = typeof choice === "string"
       ? choice
       : typeof choice.text === "function"
-        ? choice.text(mcge)
+        ? choice.text(pt)
         : choice.text;
     return text;
   }
@@ -139,12 +139,12 @@ export class PageUtils {
    * @param nextPage The definition of the next page
    * @returns the index of the next page, or -1 if the target page was not found
    */
-  static targetPageIndex(mcge: Mcge, pages: Page[], nextPage?: NextPageDef): number {
+  static targetPageIndex(pt: PageTurner, pages: Page[], nextPage?: NextPageDef): number {
 
     if (nextPage === undefined) return -1;
 
     const target = typeof nextPage === "function"
-      ? nextPage(mcge)
+      ? nextPage(pt)
       : nextPage;
     if (target === undefined) return -1;
 

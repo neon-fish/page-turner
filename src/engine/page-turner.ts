@@ -1,18 +1,18 @@
 import m from "mithril";
-import { McgeAudio } from "./audio";
+import { PageTurnerAudio } from "./audio";
 import { CurrentPage, CURRENT_PAGE_ID } from "./components/CurrentPage";
-import { McgeImages } from "./images";
+import { PageTurnerImages } from "./images";
 import { PageUtils } from "./page-utils";
-import { McgeState } from "./state";
+import { PageTurnerState } from "./state";
 import { DEFAULT_THEME } from "./themes";
 import { DeepPartial, GameSettings, NextPageDef, Page, PageChoice, PageContent, PageHook, PageImageDef, PageLayoutSettings, Theme } from "./types";
 import { Utils } from "./utils";
 
 /**
- * Default values for all MCGE settings, overridden to settings provided in the constructor
+ * Default values for all PageTurner settings, overridden to settings provided in the constructor
  */
 export const DEFAULT_SETTINGS: GameSettings = {
-  containerEl: "#app",
+  containerEl: "#page-turner",
   startAt: 0,
   debug: false,
   content: {
@@ -42,7 +42,7 @@ export const DEFAULT_SETTINGS: GameSettings = {
   theme: DEFAULT_THEME,
 };
 
-export class Mcge<TState extends object = {}> {
+export class PageTurner<TState extends object = {}> {
 
   settings: GameSettings;
   get debug() { return this.settings.debug; }
@@ -80,10 +80,10 @@ export class Mcge<TState extends object = {}> {
   /** The list of un-held images for the current page */
   currPageImages: PageImageDef[] = [];
 
-  audio: McgeAudio = new McgeAudio();
-  images: McgeImages = new McgeImages();
+  audio: PageTurnerAudio = new PageTurnerAudio();
+  images: PageTurnerImages = new PageTurnerImages();
 
-  state: McgeState<TState>;
+  state: PageTurnerState<TState>;
 
   constructor(params: {
     settings: DeepPartial<GameSettings>,
@@ -93,11 +93,11 @@ export class Mcge<TState extends object = {}> {
 
     this.settings = PageUtils.patchGameSettings(DEFAULT_SETTINGS, params.settings);
     this.currPageSettings = Utils.dereference(this.settings);
-    this.debug && console.log("MCGE constructor, settings:", this.settings);
+    this.debug && console.log("PageTurner constructor, settings:", this.settings);
 
     const initialState: TState = params.state ?? {};
-    this.state = new McgeState<TState>({ initialGameState: initialState });
-    this.debug && console.log("MCGE constructor, state:", this.state);
+    this.state = new PageTurnerState<TState>({ initialGameState: initialState });
+    this.debug && console.log("PageTurner constructor, state:", this.state);
 
     this.pages = params.pages;
 
@@ -127,7 +127,7 @@ export class Mcge<TState extends object = {}> {
         }, [
           m(CurrentPage, {
 
-            mcge: this,
+            pt: this,
             settings: this.settings,
             page: this.currPage,
             content: this.currPageContent,
@@ -212,20 +212,20 @@ export class Mcge<TState extends object = {}> {
     // Ensure all theme values have valid values
     const theme = Object.assign({}, DEFAULT_THEME, this.settings.theme);
 
-    this.setCssVariable("--mcge-content-text-colour", theme.contentColourText);
-    this.setCssVariable("--mcge-content-shadow-colour", theme.contentColourShadow);
-    this.setCssVariable("--mcge-content-gap", theme.contentGap);
-    this.setCssVariable("--mcge-content-border-radius", theme.contentBorderRadius);
+    this.setCssVariable("--pt-content-text-colour", theme.contentColourText);
+    this.setCssVariable("--pt-content-shadow-colour", theme.contentColourShadow);
+    this.setCssVariable("--pt-content-gap", theme.contentGap);
+    this.setCssVariable("--pt-content-border-radius", theme.contentBorderRadius);
 
-    this.setCssVariable("--mcge-choice-colour-fg", theme.choiceColourFg);
-    this.setCssVariable("--mcge-choice-colour-bg", theme.choiceColourBg);
-    this.setCssVariable("--mcge-choice-colour-border", theme.choiceColourBorder);
-    this.setCssVariable("--mcge-choice-colour-highlight", theme.choiceColourHighlight);
-    this.setCssVariable("--mcge-choice-gap", theme.choiceGap);
-    this.setCssVariable("--mcge-choice-border-radius", theme.choiceBorderRadius);
+    this.setCssVariable("--pt-choice-colour-fg", theme.choiceColourFg);
+    this.setCssVariable("--pt-choice-colour-bg", theme.choiceColourBg);
+    this.setCssVariable("--pt-choice-colour-border", theme.choiceColourBorder);
+    this.setCssVariable("--pt-choice-colour-highlight", theme.choiceColourHighlight);
+    this.setCssVariable("--pt-choice-gap", theme.choiceGap);
+    this.setCssVariable("--pt-choice-border-radius", theme.choiceBorderRadius);
 
-    this.setCssVariable("--mcge-scroll-fg", theme.scrollColourFg);
-    this.setCssVariable("--mcge-scroll-bg", theme.scrollColourBg);
+    this.setCssVariable("--pt-scroll-fg", theme.scrollColourFg);
+    this.setCssVariable("--pt-scroll-bg", theme.scrollColourBg);
   }
 
   private setCssVariable(variable: string, value: string) {

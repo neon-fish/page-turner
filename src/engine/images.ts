@@ -1,6 +1,6 @@
 import { PageImageDef, PageImageSlot, PageImageSlotSetting } from "./types";
 
-export class McgeImages {
+export class PageTurnerImages {
 
   private images: PageImageDef[] = [];
 

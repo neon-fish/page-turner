@@ -2,7 +2,7 @@ import { DeepPartial, GameSettings } from "../../engine";
 import { theme } from "./theme";
 
 export const settings: DeepPartial<GameSettings> = {
-  containerEl: "#mcge",
+  containerEl: "#page-turner",
   debug: true,
   content: {
     top: "5%",
@@ -20,8 +20,8 @@ export const settings: DeepPartial<GameSettings> = {
     height: "min(35%, 250px)",
     // autoDisplay: false,
   },
-  images: {
-    // defaultBgImage: IMAGE_URL.cyberpunkStreet,
-  },
+  // images: {
+  //   // defaultBgImage: IMAGE_URL.cyberpunkStreet,
+  // },
   theme: theme,
 };

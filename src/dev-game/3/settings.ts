@@ -1,9 +1,9 @@
-import { DeepPartial, GameSettings, Mcge } from "../../engine";
+import { DeepPartial, GameSettings, PageTurner } from "../../engine";
 import { AUDIO } from "./assets";
 import { theme } from "./theme";
 
 export const settings: DeepPartial<GameSettings> = {
-  containerEl: "#mcge",
+  containerEl: "#page-turner",
   debug: true,
   content: {
     // top: "5%",
@@ -21,7 +21,7 @@ export const settings: DeepPartial<GameSettings> = {
     // top: "calc(100% - min(35%, 250px))",
     // height: "min(35%, 250px)",
     // autoDisplay: false,
-    onSelectDefault: (mcge: Mcge) => mcge.audio.playAudio(AUDIO.sfxPressAB),
+    onSelectDefault: (pt: PageTurner) => pt.audio.playAudio(AUDIO.sfxPressAB),
   },
   // images: {
   //   // defaultBgImage: IMAGE_URL.cyberpunkStreet,

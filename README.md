@@ -1,19 +1,19 @@
 
-# MCGE - Multiple Choice Game Engine
+# PageTurner
 
-[![npm version](https://badge.fury.io/js/mcge.svg)](https://badge.fury.io/js/mcge)
+[![npm version](https://badge.fury.io/js/page-turner.svg)](https://badge.fury.io/js/page-turner)
 
 An engine to build web-based games or stories where the primary interaction method is a multiple-choice selection.
 
 ## What is it?
 
-MCGE is a simple engine to build web-based games or stories where the main way the player interacts is using multiple-choice selections. While this is similar to [text adventures](https://en.wikipedia.org/wiki/Interactive_fiction) or [visual novels](https://en.wikipedia.org/wiki/Visual_novel), MCGE aims to provide authors with the ability to easily define custom logic to run in response to player choices, resulting in a complex graph of pages rather than a tree.
+PageTurner is a simple engine to build web-based games or stories where the main way the player interacts is using multiple-choice selections. While this is similar to [text adventures](https://en.wikipedia.org/wiki/Interactive_fiction) or [visual novels](https://en.wikipedia.org/wiki/Visual_novel), PageTurner aims to provide authors with the ability to easily define custom logic to run in response to player choices, resulting in a complex graph of pages rather than a tree.
 
 It is not intended to have all visual the bells and whistles one could imagine. It intentionally provides few built-in primitives and options to encourage constraint-based design and interactivity via the page choices.
 
 ## Why?
 
-The design of MCGE is driven by the question:
+The design of PageTurner is driven by the question:
 
 > What sort of games could you make if everything were a page?
 
@@ -25,11 +25,11 @@ A "page" in this context is a single page in the "story book", containing:
 
 ## Basic Usage
 
-The `MCGE` class is the entry point into the engine. Both Javascript and Typescript are supported.
+The `PageTurner` class is the entry point into the engine. Both Javascript and Typescript are supported.
 
 See the following template projects to get up and running quickly:
-- [Javascript template](https://github.com/neon-fish/mcge-js-template)
-- [Typescript template](https://github.com/neon-fish/mcge-ts-template)
+- [Javascript template](https://github.com/neon-fish/page-turner-js-template)
+- [Typescript template](https://github.com/neon-fish/page-turner-ts-template)
 
 A basic setup might look like this:
 
@@ -37,7 +37,7 @@ A basic setup might look like this:
 
 ```html
 <body>
-  <div id="mcge" style="width: 800px; height: 600px;"></div>
+  <div id="page-turner" style="width: 800px; height: 600px;"></div>
   <!-- This script reference will change depending on your build system and project structure -->
   <script type="module" src="/src/index.ts"></script>
 </body>
@@ -46,13 +46,13 @@ A basic setup might look like this:
 > src/index.ts
 
 ```ts
-import { MCGE } from 'mcge';
+import { PageTurner } from 'page-turner';
 import { pages } from './pages';
 
-const game = new MCGE({
-  settings: {             // All these settings come with default values, but can be overridden here
-    containerEl: "#mcge", // A selector for the element to contain the MCGE game
-    content: {            // These percentages are in terms of the container element's dimensions
+const game = new PageTurner({
+  settings: {                    // All these settings come with default values, but can be overridden here
+    containerEl: "#page-turner", // A selector for the element to contain the PageTurner game
+    content: {                   // These percentages are in terms of the container element's dimensions
       height: "40%",
       top: "10%",
     },
@@ -71,7 +71,7 @@ const game = new MCGE({
 > src/pages.ts
 
 ```ts
-import { Page, Utils } from "mcge";
+import { Page, Utils } from "page-turner";
 
 /** Define IDs for pages so they can be easily targetted */
 export const PAGE = {
@@ -102,7 +102,7 @@ export const pages: Page[] = [
     ],
     choices: [
       // Arbitrary functions can be executed in response to selecting a choice
-      { text: "OK! Lets go!", onSelect: () => window.location.href = "https://github.com/neon-fish/mcge" },
+      { text: "OK! Lets go!", onSelect: () => window.location.href = "https://github.com/neon-fish/page-turner" },
       // If no next page is specified, the choice uses the page's "next page" definition
       { text: "Not just yet." },
     ],
@@ -149,6 +149,6 @@ export const pages: Page[] = [
 
 ## Deployment
 
-MCGE is available as an NPM package, available [here]().
+PageTurner is available as an NPM package, available [here]().
 
 To update the package, run `npm publish`

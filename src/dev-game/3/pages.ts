@@ -1,4 +1,4 @@
-import { Mcge, Page, Utils } from "../../engine";
+import { PageTurner, Page, Utils } from "../../engine";
 import { AUDIO, IMAGE_URL } from "./assets";
 import { pageLayout } from "./settings";
 import { state } from "./state";
@@ -23,8 +23,8 @@ export const pages: Page[] = [
     images: [
       { slot: "bg", url: IMAGE_URL.introBg },
     ],
-    onStart: (mcge) => {
-      mcge.setLayout(pageLayout.conversation);
+    onStart: (pt) => {
+      pt.setLayout(pageLayout.conversation);
     },
   },
   {
@@ -43,8 +43,8 @@ export const pages: Page[] = [
       { slot: "bg", url: IMAGE_URL.introBg },
     ],
     // music: AUDIO.titleScreen,
-    onStart: (mcge) => {
-      mcge.setLayout(pageLayout.menu);
+    onStart: (pt) => {
+      pt.setLayout(pageLayout.menu);
     },
   },
 
@@ -83,16 +83,16 @@ export const pages: Page[] = [
   {
     id: PAGE.setUpNewGame,
     content: [],
-    onStart: (mcge: Mcge) => {
+    onStart: (pt: PageTurner) => {
 
       // set up game state
       // TODO
 
       // Set conversation layout
-      mcge.setLayout(pageLayout.conversation);
+      pt.setLayout(pageLayout.conversation);
 
       // Immediately advance pages
-      mcge.gotoNextPage();
+      pt.gotoNextPage();
     },
   },
 
@@ -124,9 +124,9 @@ export const pages: Page[] = [
     content: [
       "First, what is your name?",
     ],
-    onEnd: (mcge) => {
+    onEnd: (pt) => {
       const name = prompt("What is your name?", state.playerName);
-      mcge.audio.playAudio(AUDIO.sfxPressAB);
+      pt.audio.playAudio(AUDIO.sfxPressAB);
       state.playerName = name;
     },
   },
@@ -146,9 +146,9 @@ export const pages: Page[] = [
     content: [
       "…Erm, what is his name again?",
     ],
-    onEnd: (mcge) => {
+    onEnd: (pt) => {
       const name = prompt("What was his name again?", state.rivalName);
-      mcge.audio.playAudio(AUDIO.sfxPressAB);
+      pt.audio.playAudio(AUDIO.sfxPressAB);
       state.rivalName = name;
     },
   },

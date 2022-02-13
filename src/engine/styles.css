@@ -20,7 +20,7 @@ button {
   margin: 0;
   padding: 0;
 }
-#mcge-page {
+#pt-page {
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   width: 100%;
   height: 100%;
@@ -32,70 +32,70 @@ button {
 
 /* Content */
 
-#mcge-page-content {
+#pt-page-content {
   padding: 1rem;
   position: absolute;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
   white-space: pre-wrap;
-  color: var(--mcge-content-text-colour, white);
-  text-shadow: var(--mcge-content-shadow-colour, black) 0px 0px 4px, var(--mcge-content-shadow-colour, black) 0px 0px 4px;
-  border-radius: var(--mcge-content-border-radius, 0);
+  color: var(--pt-content-text-colour, white);
+  text-shadow: var(--pt-content-shadow-colour, black) 0px 0px 4px, var(--pt-content-shadow-colour, black) 0px 0px 4px;
+  border-radius: var(--pt-content-border-radius, 0);
 }
-#mcge-page-content > *:not(:first-child) {
-  margin-top: var(--mcge-content-gap, 0.5rem);
+#pt-page-content > *:not(:first-child) {
+  margin-top: var(--pt-content-gap, 0.5rem);
 }
 
 /* Choices */
 
-#mcge-page-choices {
+#pt-page-choices {
   position: absolute;
   overflow-y: auto;
   padding: 1rem;
-  border-radius: var(--mcge-choice-border-radius, 0);
+  border-radius: var(--pt-choice-border-radius, 0);
 }
-#mcge-page-choices .choices-panel-internal {
+#pt-page-choices .choices-panel-internal {
   width: 100%;
   min-height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
 }
-#mcge-page-choices button:not(:first-child) {
-  margin-top: var(--mcge-choice-gap, 1rem);
+#pt-page-choices button:not(:first-child) {
+  margin-top: var(--pt-choice-gap, 1rem);
 }
-#mcge-page-choices button {
+#pt-page-choices button {
   padding: 0.25rem 0.5rem;
   text-align: left;
-  color: var(--mcge-choice-colour-fg, black);
-  background-color: var(--mcge-choice-colour-bg, white);
+  color: var(--pt-choice-colour-fg, black);
+  background-color: var(--pt-choice-colour-bg, white);
   border-width: 1px;
   border-style: solid;
-  border-color: var(--mcge-choice-colour-border, rgb(0 0 0 / 0.1));
+  border-color: var(--pt-choice-colour-border, rgb(0 0 0 / 0.1));
   border-radius: 0.25rem;
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
 }
-#mcge-page-choices button:hover, #mcge-page-choices button.highlight {
-  border-color: var(--mcge-choice-colour-highlight, #3b82f6);
-  box-shadow: 0 10px 15px -3px var(--mcge-choice-colour-highlight, #3b82f6), 0 4px 6px -4px var(--mcge-choice-colour-highlight, #3b82f6);
+#pt-page-choices button:hover, #pt-page-choices button.highlight {
+  border-color: var(--pt-choice-colour-highlight, #3b82f6);
+  box-shadow: 0 10px 15px -3px var(--pt-choice-colour-highlight, #3b82f6), 0 4px 6px -4px var(--pt-choice-colour-highlight, #3b82f6);
 }
 
 /* Common */
 
 .scroller {
-  scrollbar-color: var(--mcge-scroll-fg, #3b82f6) var(--mcge-scroll-bg, #cbd5e1);
+  scrollbar-color: var(--pt-scroll-fg, #3b82f6) var(--pt-scroll-bg, #cbd5e1);
 }
 .scroller::-webkit-scrollbar {
   width: 15px;
   height: 15px;
 }
 .scroller::-webkit-scrollbar-track  {
-  background-color: var(--mcge-scroll-bg, #cbd5e1);
+  background-color: var(--pt-scroll-bg, #cbd5e1);
 }
 .scroller::-webkit-scrollbar-thumb {
   height: 30px;
-  background-color: var(--mcge-scroll-fg, #3b82f6);
+  background-color: var(--pt-scroll-fg, #3b82f6);
 }
 
 .no-select {

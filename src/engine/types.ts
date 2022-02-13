@@ -1,4 +1,4 @@
-import { Mcge } from "./mcge";
+import { PageTurner } from "./page-turner";
 
 export type DeepPartial<T> = T extends object ? {
   [P in keyof T]?: DeepPartial<T[P]>;
@@ -130,7 +130,7 @@ export interface GameSettings {
 
 export type PageContent =
   | string
-  | ((mcge: Mcge) => string)
+  | ((pt: PageTurner) => string)
   // | { [speaker: string]: string }
   // | { [speaker: string]: () => string }
   ;
@@ -140,7 +140,7 @@ export type PageContent =
  */
 export type PageChoice = {
   /** The text to display in the choice */
-  text: string | ((mcge: Mcge) => string),
+  text: string | ((pt: PageTurner) => string),
   /** Call a hook on hovering over the choice */
   onHover?: PageHook,
   /** Call a hook after selecting the choice */
@@ -219,12 +219,12 @@ export type PageAnimation =
  * A function to be called at various points throughout the application,
  * to execute arbitrary logic at particular times
  */
-export type PageHook = (mcge: Mcge) => (void | { redirect: string });
+export type PageHook = (pt: PageTurner) => (void | { redirect: string });
 /**
  * An async function to be called at various points throughout the application,
  * to execute arbitrary logic at particular times
  */
-export type PageHookAsync = (mcge: Mcge) => PromiseLike<(void | { redirect: string })>;
+export type PageHookAsync = (pt: PageTurner) => PromiseLike<(void | { redirect: string })>;
 
 /**
  * A definition of the next page to display. One of:
@@ -237,7 +237,7 @@ export type NextPageDef =
   | number
   | string
   | Page
-  | ((mcge: Mcge) => number | string | Page)
+  | ((pt: PageTurner) => number | string | Page)
   ;
 
 export type PartialPage = Partial<Page>;
@@ -253,12 +253,12 @@ export interface Page {
   id?: string,
 
   /** The content to display in the page. The only required value. */
-  content: PageContent[] | ((mcge: Mcge) => PageContent[]),
+  content: PageContent[] | ((pt: PageTurner) => PageContent[]),
   /** Optionally override the game settings for the content panel for this page */
   contentSettings?: Partial<ContentSettings>,
 
   /** The choices to display in the page */
-  choices?: PageChoice[] | ((mcge: Mcge) => PageChoice[]),
+  choices?: PageChoice[] | ((pt: PageTurner) => PageChoice[]),
   /** Optionally override the default settings for the choices panel */
   choicesSettings?: Partial<ChoicesSettings>,
 

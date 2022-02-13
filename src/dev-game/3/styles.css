@@ -1,10 +1,10 @@
 
-.page-game-settings #mcge-page-choices .choices-panel-internal {
+.page-game-settings #page-turner-page-choices .choices-panel-internal {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
   min-height: unset;
 }
-.page-game-settings #mcge-page-choices .choices-panel-internal button {
+.page-game-settings #page-turner-page-choices .choices-panel-internal button {
   margin: 0;
 }

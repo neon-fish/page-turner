@@ -1,21 +1,21 @@
 import m from "mithril";
-import { Mcge } from "../mcge";
+import { PageTurner } from "../page-turner";
 import { PageUtils } from "../page-utils";
 import { ChoicesSettings, ContentSettings, GameSettings, Page, PageChoice, PageContent, PageImageDef } from "../types";
 import { PageImage } from "./PageImage";
 import { TypeText } from "./TypeText";
 import { TypeWord } from "./TypeWord";
 
-export const CURRENT_PAGE_ID = "mcge-page";
-const IMAGES_PANEL_ID = "mcge-page-images";
-const CONTENT_PANEL_ID = "mcge-page-content";
-const CHOICES_PANEL_ID = "mcge-page-choices";
+export const CURRENT_PAGE_ID = "pt-page";
+const IMAGES_PANEL_ID = "pt-page-images";
+const CONTENT_PANEL_ID = "pt-page-content";
+const CHOICES_PANEL_ID = "pt-page-choices";
 
 /**
  * The story page currently being displayed
  */
 export const CurrentPage: m.Component<{
-  mcge: Mcge,
+  pt: PageTurner,
   settings: GameSettings,
   page: Page,
   content: PageContent[],
@@ -44,7 +44,7 @@ export const CurrentPage: m.Component<{
   },
 
   view({ attrs }) {
-    const { mcge, settings, page, content, choices, contentLine, images } = attrs;
+    const { pt, settings, page, content, choices, contentLine, images } = attrs;
 
     // If the page has changed, reset state
     if (this.lastPage !== page) {
@@ -53,13 +53,13 @@ export const CurrentPage: m.Component<{
       // settings.debug && console.log(`Reset CurrentPage state`);
     }
 
-    const allContent = PageUtils.pageContent(mcge, page);
+    const allContent = PageUtils.pageContent(pt, page);
     const currContent = allContent[contentLine];
     const prevContent = allContent.slice(0, contentLine);
     const contentFinished = prevContent.length === allContent.length;
     // console.log(`Drawing content:`, allContent);
 
-    // const allChoices = PageUtils.pageChoices(mcge, page);
+    // const allChoices = PageUtils.pageChoices(pt, page);
 
     const contentSettings: ContentSettings = Object.assign({}, settings.content, page.contentSettings ?? {});
     const choicesSettings: ChoicesSettings = Object.assign({}, settings.choices, page.choicesSettings ?? {});
@@ -163,7 +163,7 @@ export const CurrentPage: m.Component<{
             style: `justify-content: ${PageUtils.choicePanelJustify(choicesSettings)};`,
           }, [
           (choices ?? []).map((c, i) => {
-            const text = PageUtils.choiceText(mcge, c);
+            const text = PageUtils.choiceText(pt, c);
             const isHighlighted = this.highlightChoiceIndex === i;
 
             return m("button", {

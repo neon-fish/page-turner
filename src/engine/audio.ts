@@ -1,7 +1,7 @@
 import { Utils } from ".";
 import { PageAudioDef } from "./types";
 
-export class McgeAudio {
+export class PageTurnerAudio {
 
   private playing: { def: PageAudioDef, elem: HTMLAudioElement }[] = [];
 

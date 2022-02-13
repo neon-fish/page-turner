@@ -24,10 +24,10 @@ export const pages: Page[] = [
   Welcome Captain.
   We continue on our previous heading, we will arrive in approximately 3 days.
   Nothing to report.
-  `, {
+  `, [], {
     id: PAGE.start,
     images: [
-      { pos: "bg", url: IMAGE_URL.bridge },
+      { slot: "bg", url: IMAGE_URL.bridge },
     ],
   }),
 
@@ -49,7 +49,7 @@ export const pages: Page[] = [
   {
     id: PAGE.orderDest,
     content: [
-      (mcge) => `We are heading towards ${state.travelDest}.`,
+      (pt) => `We are heading towards ${state.travelDest}.`,
       () => `We will arrive in ${"3 days, 17 hours"}.`,
     ],
     choices: [
@@ -96,7 +96,7 @@ export const pages: Page[] = [
     next: PAGE.orders,
   },
   {
-    hookStart: () => {
+    onStart: () => {
       // Ensure cargo is selected
       if (state.inspectCargo === undefined) return { redirect: PAGE.orderCargo };
     },

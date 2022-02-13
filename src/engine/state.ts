@@ -1,7 +1,7 @@
 
-const DEFAULT_LOCAL_STORAGE_KEY = "mcge-state";
+const DEFAULT_LOCAL_STORAGE_KEY = "pt-state";
 
-export class McgeState<GameState extends object = {}> {
+export class PageTurnerState<GameState extends object = {}> {
 
   private _engine = {};
 
