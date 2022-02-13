@@ -374,7 +374,7 @@ export class PageTurner<TState extends object = {}> {
     }
 
     const r = choice.onSelect?.(this);
-    if (choice.next) {
+    if (choice.next !== undefined) {
       this.gotoPage(choice.next);
     } else {
       this.gotoNextPage();
