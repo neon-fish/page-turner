@@ -79,7 +79,7 @@ export const PAGE = {
 export const pages: Page[] = [
   {
     id: PAGE.START,
-    // By default content lines are displayed one after the other
+    // By default, content lines are displayed one after the other
     content: [
       "Howdy! (click to continue)",
       "These lines of content appear one after the other.",
@@ -151,6 +151,6 @@ export const pages: Page[] = [
 
 ## Deployment
 
-PageTurner is available as an NPM package, available [here]().
+PageTurner is available as an NPM package, available [here](https://www.npmjs.com/package/@neonfish/page-turner).
 
-To update the package, run `npm publish`
+To update the package, update the version in `package.json` then run `npm run release`

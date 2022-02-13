@@ -9,7 +9,7 @@ export const PAGE = {
 export const pages: Page[] = [
   {
     id: PAGE.START,
-    // By default content lines are displayed one after the other
+    // By default, content lines are displayed one after the other
     content: [
       "Howdy! (click to continue)",
       "These lines of content appear one after the other.",
