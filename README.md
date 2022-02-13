@@ -1,7 +1,7 @@
 
 # PageTurner
 
-[![npm version](https://badge.fury.io/js/page-turner.svg)](https://badge.fury.io/js/page-turner)
+[![npm version](https://badge.fury.io/js/@neonfish%2Fpage-turner.svg)](https://badge.fury.io/js/@neonfish%2Fpage-turner)
 
 An engine to build web-based games or stories where the primary interaction method is a multiple-choice selection.
 
