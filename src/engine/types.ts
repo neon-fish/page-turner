@@ -219,12 +219,12 @@ export type PageAnimation =
  * A function to be called at various points throughout the application,
  * to execute arbitrary logic at particular times
  */
-export type PageHook = (pt: PageTurner) => (void | { redirect: string });
+export type PageHook = (pt: PageTurner) => (void | { redirect: string } | any);
 /**
  * An async function to be called at various points throughout the application,
  * to execute arbitrary logic at particular times
  */
-export type PageHookAsync = (pt: PageTurner) => PromiseLike<(void | { redirect: string })>;
+export type PageHookAsync = (pt: PageTurner) => PromiseLike<(void | { redirect: string } | any)>;
 
 /**
  * A definition of the next page to display. One of:

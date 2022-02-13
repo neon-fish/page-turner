@@ -46,7 +46,7 @@ A basic setup might look like this:
 > src/index.ts
 
 ```ts
-import { PageTurner } from 'page-turner';
+import { PageTurner } from '@neonfish/page-turner';
 import { pages } from './pages';
 
 const game = new PageTurner({
@@ -60,18 +60,15 @@ const game = new PageTurner({
       height: "30%",
       top: "60%",
     },
-    images: {             // Background images defined within pages will override the default
-      defaultBgImage: "https://images.pexels.com/photos/548084/pexels-photo-548084.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-    },
   },
-  pages: pages,           // The list of pages defining the story
+  pages: pages, // The list of pages defining the story
 });
 ```
 
 > src/pages.ts
 
 ```ts
-import { Page, Utils } from "page-turner";
+import { Page, Utils } from "@neonfish/page-turner";
 
 /** Define IDs for pages so they can be easily targetted */
 export const PAGE = {
@@ -94,6 +91,11 @@ export const pages: Page[] = [
       // Define a next page in a choice to jump to that page if the choice is clicked
       { text: "I'm not impressed.", next: PAGE.BAD },
     ],
+    // Define a background image. By default, all images are "held" between pages,
+    // so they do not need to be re-specified on following pages
+    images: [
+      { slot: "bg", url: "https://images.pexels.com/photos/548084/pexels-photo-548084.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" },
+    ],
   },
   {
     content: [
@@ -115,11 +117,11 @@ export const pages: Page[] = [
       "Are you sure I can't change your mind?",
     ],
     choices: [
-      { "No. I'd rather watch YouTube.", onSelect: () => window.location.href = "https://youtu.be/dQw4w9WgXcQ" },
-      { "I prefer Ren'Py.", onSelect: () => window.location.href = "https://www.renpy.org/" },
+      { text: "No. I'd rather watch YouTube.", onSelect: () => window.location.href = "https://youtu.be/dQw4w9WgXcQ" },
+      { text: "I prefer Ren'Py.", onSelect: () => window.location.href = "https://www.renpy.org/" },
       // No next page is specified, and the page has no next page either.
       // However, the page list wraps round, so the "next" page after the last page is the first page.
-      { "Well, maybe..." },
+      { text: "Well, maybe..." },
     ],
   },
 ];

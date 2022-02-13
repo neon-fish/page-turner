@@ -88,14 +88,14 @@ export class PageTurner<TState extends object = {}> {
   constructor(params: {
     settings: DeepPartial<GameSettings>,
     pages: Page[],
-    state: TState,
+    state?: TState,
   }) {
 
     this.settings = PageUtils.patchGameSettings(DEFAULT_SETTINGS, params.settings);
     this.currPageSettings = Utils.dereference(this.settings);
     this.debug && console.log("PageTurner constructor, settings:", this.settings);
 
-    const initialState: TState = params.state ?? {};
+    const initialState: TState = params.state ?? {} as TState;
     this.state = new PageTurnerState<TState>({ initialGameState: initialState });
     this.debug && console.log("PageTurner constructor, state:", this.state);
 
