@@ -4,6 +4,7 @@
   "description": "",
   "author": "Ed Johnson, Neon Fish Software Ltd.",
   "license": "MIT",
+  "private": false,
   "main": "dist/index.js",
   "scripts": {
     "dev": "vite",
